@@ -1,24 +1,439 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thanh Hóa Land AI</title>
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); color: #fff; min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 20px; }
-        .container { background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 20px; padding: 40px 30px; max-width: 600px; box-shadow: 0 15px 35px rgba(0,0,0,0.4); }
-        h1 { font-size: 2.2rem; margin-bottom: 15px; color: #4facfe; }
-        p { font-size: 1.1rem; line-height: 1.6; opacity: 0.9; margin-bottom: 25px; }
-        .badge { display: inline-block; background: #00f2fe; color: #000; padding: 8px 16px; border-radius: 50px; font-weight: bold; font-size: 0.9rem; }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>ThanhHoa Land AI - Trợ Lý Ảo Pháp Lý Đất Đai</title>
+    <meta name="theme-color" content="#06080f">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="description" content="Hệ thống Trợ lý AI Pháp lý 1-1 & Tự động hóa Hồ sơ Đất đai tỉnh Thanh Hóa">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <span class="badge">🌐 thanhhoalandai.qd.je</span>
-        <h1 style="margin-top: 20px;">Chào Mừng Đến Với Thanh Hóa Land AI</h1>
-        <p>Hệ thống website đã được triển khai thành công trên nền tảng GitHub Pages với tên miền miễn phí vĩnh viễn!</p>
+    <!-- Animated Background -->
+    <div class="bg-grid"></div>
+    <div class="bg-glow bg-glow-1"></div>
+    <div class="bg-glow bg-glow-2"></div>
+
+    <div class="app-container">
+
+        <!-- ========== HEADER ========== -->
+        <header class="app-header" id="appHeader">
+            <div class="header-left">
+                <div class="gov-emblem">
+                    <i class="fa-solid fa-landmark"></i>
+                </div>
+                <div class="header-title">
+                    <div class="title-row">
+                        <h1>THANH HOA LAND AI</h1>
+                        <span class="badge-version">v2026</span>
+                        <span class="badge-ai">AI</span>
+                    </div>
+                    <p class="header-subtitle">Trợ lý AI Pháp lý Đất đai & Tự động hóa Hồ sơ - Tỉnh Thanh Hóa</p>
+                </div>
+                <!-- Mobile-expand: status chips shown inside header on small screens -->
+                <div class="header-status-mobile" id="headerStatusMobile">
+                    <span class="mobile-status-dot"></span>
+                    <span>Online</span>
+                    <span class="mobile-sep">•</span>
+                    <span>294 VBQPPL</span>
+                </div>
+            </div>
+            <div class="header-right" id="headerRight">
+                <div class="status-chip online">
+                    <span class="status-dot"></span>
+                    <span>HỆ THỐNG ONLINE</span>
+                </div>
+                <div class="status-chip data">
+                    <i class="fa-solid fa-book-bookmark"></i>
+                    <span>CSDL Luật đất đai 2024, NĐ, TT, QĐ mới nhất</span>
+                </div>
+                <div class="status-chip db">
+                    <i class="fa-solid fa-database"></i>
+                    <span>294 VBQPPL & TTHC</span>
+                </div>
+                <!-- Desktop notice -->
+                <div class="header-notice-desktop">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <span>Lưu ý: AI hỗ trợ, không thay thế cơ quan thẩm quyền</span>
+                </div>
+            </div>
+            <!-- Mobile menu toggle -->
+            <button class="mobile-menu-btn" id="mobileMenuBtn" onclick="toggleMobileMenu()">
+                <i class="fa-solid fa-ellipsis-vertical"></i>
+            </button>
+        </header>
+
+        <!-- ========== NAVIGATION ========== -->
+        <nav class="nav-tabs">
+            <button class="nav-tab active" data-tab="tab-chat" onclick="switchTab('tab-chat')">
+                <div class="tab-icon"><i class="fa-solid fa-comments"></i></div>
+                <div class="tab-text">
+                    <span class="tab-label">Phân hệ 1</span>
+                    <span class="tab-desc">Trợ lý AI Tư vấn Pháp lý 1-1</span>
+                </div>
+            </button>
+            <button class="nav-tab" data-tab="tab-ocr" onclick="switchTab('tab-ocr')">
+                <div class="tab-icon"><i class="fa-solid fa-file-contract"></i></div>
+                <div class="tab-text">
+                    <span class="tab-label">Phân hệ 2</span>
+                    <span class="tab-desc">Quét Hồ Sơ & Soạn Đơn Chuẩn (Obsidian Vault)</span>
+                </div>
+            </button>
+        </nav>
+
+        <!-- ========== MAIN CONTENT ========== -->
+        <main class="main-content">
+
+            <!-- ===== TAB 1: AI CHAT ===== -->
+            <section id="tab-chat" class="tab-content active">
+                <div class="chat-layout">
+
+                    <!-- Sidebar (desktop: left panel | mobile: toggleable drawer) -->
+                    <aside class="chat-sidebar" id="chatSidebar">
+                        <div class="sidebar-section">
+                            <div class="sidebar-header">
+                                <div class="sidebar-icon"><i class="fa-solid fa-gavel"></i></div>
+                                <div>
+                                    <h3>Chủ Đề Hỏi Đáp</h3>
+                                    <p>Truy xuất 1-1 từ CSDL Luật đất đai 2024, NĐ, TT, QĐ mới nhất</p>
+                                </div>
+                            </div>
+                            <div class="topic-list">
+                                <button class="topic-card" onclick="sendSampleQuestion('Tôi muốn tách đất rừng sản xuất tại Thanh Hóa cần những điều kiện gì?')">
+                                    <div class="topic-icon"><i class="fa-solid fa-tree"></i></div>
+                                    <div class="topic-text">Điều kiện tách đất rừng sản xuất (≥ 3.000 m²)</div>
+                                </button>
+                                <button class="topic-card" onclick="sendSampleQuestion('Diện tích tối thiểu để được phép tách thửa đất ở tại nông thôn là bao nhiêu m²?')">
+                                    <div class="topic-icon"><i class="fa-solid fa-scissors"></i></div>
+                                    <div class="topic-text">Hạn mức tách đất ở nông thôn (≥ 50 m²)</div>
+                                </button>
+                                <button class="topic-card" onclick="sendSampleQuestion('Sang tên Sổ đỏ cần mẫu đơn gì và hồ sơ gồm những giấy tờ nào?')">
+                                    <div class="topic-icon"><i class="fa-solid fa-file-signature"></i></div>
+                                    <div class="topic-text">Sang tên / Chuyển nhượng Sổ đỏ (Mẫu 09/ĐK)</div>
+                                </button>
+                                <button class="topic-card" onclick="sendSampleQuestion('Hồ sơ xin cấp Giấy chứng nhận quyền sử dụng đất lần đầu gồm những gì?')">
+                                    <div class="topic-icon"><i class="fa-solid fa-certificate"></i></div>
+                                    <div class="topic-text">Cấp Sổ đỏ lần đầu (Mẫu 04a/ĐK)</div>
+                                </button>
+                                <button class="topic-card" onclick="sendSampleQuestion('Khi làm thủ tục chuyển nhượng đất đai phải nộp thuế TNCN và lệ phí trước bạ bao nhiêu?')">
+                                    <div class="topic-icon"><i class="fa-solid fa-calculator"></i></div>
+                                    <div class="topic-text">Tính Thuế TNCN & Lệ phí trước bạ</div>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-card-header">
+                                <i class="fa-solid fa-scale-balanced"></i>
+                                <span>CSDL Tri thức Đất đai</span>
+                            </div>
+                            <ul class="info-list">
+                                <li>
+                                    <a href="https://notebooklm.google.com/notebook/5234532d-25d7-4f04-a664-2db536f22cdf" target="_blank">
+                                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                        Trợ lý Pháp lý Thanh Hoa Land AI
+                                    </a>
+                                </li>
+                                <li><i class="fa-solid fa-check-circle"></i> 294 VBQPPL & 185 Địa danh</li>
+                                <li><i class="fa-solid fa-check-circle"></i> 100% Căn cứ - Zero Hallucination</li>
+                                <li><i class="fa-solid fa-check-circle"></i> Bộ nhớ phản biện AI Active</li>
+                            </ul>
+                        </div>
+                        <!-- Mobile: close drawer button -->
+                        <button class="sidebar-close-btn" onclick="toggleSidebar()">
+                            <i class="fa-solid fa-xmark"></i> Đóng
+                        </button>
+                    </aside>
+
+                    <!-- Chat Main -->
+                    <div class="chat-main">
+                        <div class="chat-topbar">
+                            <div class="bot-info">
+                                <div class="bot-avatar">
+                                    <i class="fa-solid fa-robot"></i>
+                                </div>
+                                <div class="bot-details">
+                                    <h4>Trợ lý ảo Pháp luật Đất đai</h4>
+                                    <div class="bot-status">
+                                        <span class="online-dot"></span>
+                                        <span>Sẵn sàng giải đáp 1-1</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="topbar-actions">
+                                <!-- Mobile: toggle sidebar -->
+                                <button class="btn-icon btn-sidebar-toggle" id="btnToggleSidebar" onclick="toggleSidebar()" title="Chủ đề">
+                                    <i class="fa-solid fa-bars"></i>
+                                </button>
+                                <button class="btn-icon btn-danger" onclick="clearChat()" title="Xóa hội thoại">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="chat-messages" id="chatMessages">
+                            <div class="message bot">
+                                <div class="msg-avatar"><i class="fa-solid fa-robot"></i></div>
+                                <div class="msg-bubble">
+                                    <div class="msg-title">Xin chào! Tôi là <strong>Trợ lý Pháp lý đất đai AI ThanhHoa Land AI</strong></div>
+                                    <p class="msg-subtitle">Phiên bản chính thức 2026</p>
+                                    <p>Tôi sẵn sàng tư vấn chính xác các câu hỏi liên quan đất đai cũng như thủ tục hành chính liên quan theo <strong>Luật Đất đai 2024</strong>, <strong>các văn bản pháp luật hiện hành...</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="chat-input">
+                            <div class="input-container">
+                                <i class="fa-solid fa-message input-icon"></i>
+                                <input type="text" id="userInput" placeholder="Nhập thắc mắc về đất đai ..." onkeypress="handleKeyPress(event)" autocomplete="off">
+                                <button class="btn-send" onclick="sendMessage()">
+                                    <i class="fa-solid fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 2: OCR SCAN (NÚT NHẬP MẶT 1, MẶT 2 & XUẤT FILE WORD) -->
+            <section id="tab-ocr" class="tab-content">
+                <div class="ocr-layout">
+                    <!-- Left: Upload & Blank Data Extraction Panel -->
+                    <div class="ocr-sidebar">
+                        
+                        <!-- 1. KHU VỰC QUÉT CCCD 2 MẶT -->
+                        <div class="section-card cccd-card">
+                            <div class="group-header">
+                                <i class="fa-solid fa-id-card"></i>
+                                <div>
+                                    <h3>1. QUÉT THẺ CCCD (2 MẶT RIÊNG BIỆT)</h3>
+                                    <span class="group-subtitle">Trích xuất chuẩn cấu trúc Căn cước công dân (front_side & back_side)</span>
+                                </div>
+                            </div>
+
+                            <div class="split-upload-row">
+                                <div class="upload-box-split" id="boxCccdFront">
+                                    <i class="fa-solid fa-id-card"></i>
+                                    <span>Mặt 1 (Mặt Trước)</span>
+                                    <button type="button" class="btn-select-side" onclick="document.getElementById('fileCccdFront').click()">
+                                        <i class="fa-solid fa-cloud-arrow-up"></i> Nhập Mặt 1
+                                    </button>
+                                    <small id="statusCccdFront">Chưa chọn ảnh</small>
+                                    <div id="thumbCccdFront"></div>
+                                    <input type="file" id="fileCccdFront" accept="image/*,.pdf" style="display:none;" onchange="handleFileSelectedSide(event, 'cccd', 'front')">
+                                </div>
+
+                                <div class="upload-box-split" id="boxCccdBack">
+                                    <i class="fa-solid fa-credit-card"></i>
+                                    <span>Mặt 2 (Mặt Sau)</span>
+                                    <button type="button" class="btn-select-side" onclick="document.getElementById('fileCccdBack').click()">
+                                        <i class="fa-solid fa-cloud-arrow-up"></i> Nhập Mặt 2
+                                    </button>
+                                    <small id="statusCccdBack">Chưa chọn ảnh</small>
+                                    <div id="thumbCccdBack"></div>
+                                    <input type="file" id="fileCccdBack" accept="image/*,.pdf" style="display:none;" onchange="handleFileSelectedSide(event, 'cccd', 'back')">
+                                </div>
+                            </div>
+
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label>Số CCCD (id_number)</label>
+                                    <input type="text" id="cccd_so" placeholder="Để trống..." oninput="updateLiveA4Form()">
+                                </div>
+                                <div class="form-group">
+                                    <label>Họ và tên (full_name)</label>
+                                    <input type="text" id="cccd_hoten" placeholder="Để trống..." oninput="updateLiveA4Form()">
+                                </div>
+                                <div class="form-group">
+                                    <label>Ngày sinh (date_of_birth)</label>
+                                    <input type="text" id="cccd_ngaysinh" placeholder="../../...." oninput="updateLiveA4Form()">
+                                </div>
+                                <div class="form-group">
+                                    <label>Cấp ngày (date_of_issue)</label>
+                                    <input type="text" id="cccd_ngaycap" placeholder="../../...." oninput="updateLiveA4Form()">
+                                </div>
+                                <div class="form-group">
+                                    <label>Giới tính (sex)</label>
+                                    <input type="text" id="cccd_gioitinh" placeholder="Để trống..." oninput="updateLiveA4Form()">
+                                </div>
+                                <div class="form-group full-width">
+                                    <label>Quê quán (place_of_origin)</label>
+                                    <input type="text" id="cccd_quequan" placeholder="Để trống..." oninput="updateLiveA4Form()">
+                                </div>
+                                <div class="form-group full-width">
+                                    <label>Nơi thường trú (place_of_residence)</label>
+                                    <input type="text" id="cccd_thuongtru" placeholder="Để trống..." oninput="updateLiveA4Form()">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 2. KHU VỰC QUÉT GIẤY CHỨNG NHẬN (SỔ ĐỎ) 2 MẶT -->
+                        <div class="section-card land-card">
+                            <div class="group-header">
+                                <i class="fa-solid fa-book-atlas"></i>
+                                <div>
+                                    <h3>2. QUÉT GIẤY CHỨNG NHẬN / SỔ ĐỎ (2 MẶT)</h3>
+                                    <span class="group-subtitle">Trích xuất chuẩn cấu trúc Giấy chứng nhận quyền sử dụng đất</span>
+                                </div>
+                            </div>
+
+                            <div class="split-upload-row">
+                                <div class="upload-box-split" id="boxLandFront">
+                                    <i class="fa-solid fa-book"></i>
+                                    <span>Mặt 1 (Trang Bìa)</span>
+                                    <button type="button" class="btn-select-side" onclick="document.getElementById('fileLandFront').click()">
+                                        <i class="fa-solid fa-cloud-arrow-up"></i> Nhập Mặt 1
+                                    </button>
+                                    <small id="statusLandFront">Chưa chọn ảnh</small>
+                                    <div id="thumbLandFront"></div>
+                                    <input type="file" id="fileLandFront" accept="image/*,.pdf" style="display:none;" onchange="handleFileSelectedSide(event, 'land', 'front')">
+                                </div>
+
+                                <div class="upload-box-split" id="boxLandBack">
+                                    <i class="fa-solid fa-map-location-dot"></i>
+                                    <span>Mặt 2 (Thửa Đất & Sơ Đồ)</span>
+                                    <button type="button" class="btn-select-side" onclick="document.getElementById('fileLandBack').click()">
+                                        <i class="fa-solid fa-cloud-arrow-up"></i> Nhập Mặt 2
+                                    </button>
+                                    <small id="statusLandBack">Chưa chọn ảnh</small>
+                                    <div id="thumbLandBack"></div>
+                                    <input type="file" id="fileLandBack" accept="image/*,.pdf" style="display:none;" onchange="handleFileSelectedSide(event, 'land', 'back')">
+                                </div>
+                            </div>
+
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label>Số phát hành GCN (certificate_serial_number)</label>
+                                    <input type="text" id="land_sophathanh" placeholder="Để trống..." oninput="updateLiveA4Form()">
+                                </div>
+                                <div class="form-group">
+                                    <label>Số vào sổ (registration_book_number)</label>
+                                    <input type="text" id="land_sovaoso" placeholder="Để trống..." oninput="updateLiveA4Form()">
+                                </div>
+                                <div class="form-group">
+                                    <label>Ngày cấp GCN (date_of_issue)</label>
+                                    <input type="text" id="land_ngaycap" placeholder="../../...." oninput="updateLiveA4Form()">
+                                </div>
+                                <div class="form-group">
+                                    <label>Nơi cấp GCN (place_of_issue)</label>
+                                    <input type="text" id="land_noicap" placeholder="Chi nhánh VPĐKĐĐ..." oninput="updateLiveA4Form()">
+                                </div>
+                                <div class="form-group full-width">
+                                    <label>Tên chủ sử dụng (owner_name)</label>
+                                    <input type="text" id="land_chu" placeholder="Để trống..." oninput="updateLiveA4Form()">
+                                </div>
+                                <div class="form-group">
+                                    <label>Thửa đất số (parcel_number)</label>
+                                    <input type="text" id="land_thua" placeholder="Để trống..." oninput="updateLiveA4Form()">
+                                </div>
+                                <div class="form-group">
+                                    <label>Tờ bản đồ số (map_sheet_number)</label>
+                                    <input type="text" id="land_tobando" placeholder="Để trống..." oninput="updateLiveA4Form()">
+                                </div>
+                                <div class="form-group full-width">
+                                    <label>Địa chỉ thửa đất (parcel_address)</label>
+                                    <input type="text" id="land_diachi" placeholder="Để trống..." oninput="updateLiveA4Form()">
+                                </div>
+                                <div class="form-group">
+                                    <label>Diện tích m² (area_number)</label>
+                                    <input type="text" id="land_dientich" placeholder="Để trống..." oninput="updateLiveA4Form()">
+                                </div>
+                                <div class="form-group">
+                                    <label>Thời hạn sử dụng (time_of_use)</label>
+                                    <input type="text" id="land_thoihan" placeholder="Lâu dài..." oninput="updateLiveA4Form()">
+                                </div>
+                                <div class="form-group full-width">
+                                    <label>Mục đích sử dụng đất (purpose_of_use)</label>
+                                    <input type="text" id="land_mucdich" placeholder="Để trống..." oninput="updateLiveA4Form()">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Right: Live Editable Blank Form A4 Paper & Export Buttons -->
+                    <div class="ocr-main">
+                        <div class="scanner-animation" id="scannerAnimation">
+                            <p><i class="fa-solid fa-spinner fa-spin"></i> 🔎 Đang bóc tách dữ liệu chuẩn cấu trúc & cập nhật đơn bên cạnh...</p>
+                        </div>
+
+                        <div class="section-card action-card">
+                            <div class="group-header" style="justify-content:space-between;">
+                                <div style="display:flex; align-items:center; gap:10px;">
+                                    <i class="fa-solid fa-file-pen" style="color:#38bdf8; font-size:22px;"></i>
+                                    <div>
+                                        <h3>MẪU ĐƠN CHUẨN QUYẾT ĐỊNH SỐ 2604/QĐ-VP TỈNH THANH HÓA</h3>
+                                        <span class="group-subtitle">Trích xuất đúng 100% phom mẫu chuẩn Phụ lục IV - Quyết định 2604/QĐ-VP ngày 27/7/2026</span>
+                                    </div>
+                                </div>
+                                <div style="display:flex; gap:10px;">
+                                    <select id="selectFormType" onchange="updateLiveA4Form()" style="background:#0f172a; color:#fff; border:1px solid rgba(255,255,255,0.2); padding:8px 12px; border-radius:6px; font-size:13px; max-width:440px;">
+                                        <option value="mau_25_qd2604">Mẫu số 25 - Đơn đăng ký đất đai, tài sản gắn liền với đất (QĐ 2604/QĐ-VP)</option>
+                                        <option value="mau_29_qd2604">Mẫu số 29 - Đơn đăng ký biến động đất đai, tài sản gắn liền với đất (QĐ 2604/QĐ-VP)</option>
+                                        <option value="mau_35_qd2604">Mẫu số 35 - Đơn đề nghị Tách thửa đất, Hợp thửa đất (QĐ 2604/QĐ-VP)</option>
+                                        <option value="mau_09_qd2604">Mẫu số 9 - Đơn đề nghị giao đất, cho thuê đất, giao/cho thuê rừng (QĐ 2604/QĐ-VP)</option>
+                                        <option value="mau_09a_qd2604">Mẫu số 9a - Đơn đề nghị chuyển mục đích sử dụng đất (QĐ 2604/QĐ-VP)</option>
+                                        <option value="mau_16_qd2604">Mẫu số 16 - Đơn đề nghị chuyển hình thức sử dụng đất (QĐ 2604/QĐ-VP)</option>
+                                        <option value="mau_23_qd2604">Mẫu số 23 - Đơn đề nghị điều chỉnh quyết định giao/thuê/chuyển mục đích đất (QĐ 2604/QĐ-VP)</option>
+                                        <option value="mau_17_qd2604">Mẫu số 17 - Đơn đề nghị gia hạn sử dụng đất (QĐ 2604/QĐ-VP)</option>
+                                        <option value="mau_33_qd2604">Mẫu số 33 - Đơn đề nghị sử dụng đất kết hợp đa mục đích (QĐ 2604/QĐ-VP)</option>
+                                        <option value="tk_le_phi_truoc_ba">Tờ khai Lệ phí trước bạ nhà, đất (Chuẩn QĐ 2604 & Bộ Tài chính)</option>
+                                        <option value="tk_thue_tncn">Tờ khai Thuế Thu nhập cá nhân chuyển nhượng BĐS (QĐ 2604 / BTC)</option>
+                                        <option value="tk_phi_nong_nghiep">Tờ khai Thuế sử dụng đất phi nông nghiệp (QĐ 2604 / BTC)</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="action-buttons" style="margin-top:12px;">
+                                <button class="btn-word" onclick="exportToWord()">
+                                    <i class="fa-solid fa-file-word"></i> Xuất Hồ Sơ Ra Bản Word (.docx)
+                                </button>
+                                <button class="btn-primary" onclick="generateFormA4()">
+                                    <i class="fa-solid fa-qrcode"></i> Tạo Mã QR & In Đơn A4
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Side-by-Side Live Editable Blank A4 Document -->
+                        <div class="section-card output-card" style="flex:1; display:flex; flex-direction:column;">
+                            <div class="group-header" style="justify-content:space-between; margin-bottom:10px;">
+                                <span style="font-size:12px; color:#38bdf8; font-weight:600;"><i class="fa-solid fa-pen-to-square"></i> Văn bản mẫu đơn A4 nguyên bản Obsidian Vault (Giữ nguyên phom mẫu) - Gõ/sửa trực tiếp:</span>
+                                <div id="qrcode"></div>
+                            </div>
+
+                            <textarea id="formOutputText" class="editable-a4-paper" spellcheck="false"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
     </div>
+
+    <!-- SUB-WINDOW FLOATING MODAL IMAGE VIEWER -->
+    <div id="imageViewerModal" class="viewer-modal">
+        <div class="viewer-window" id="viewerWindow">
+            <div class="viewer-header" id="viewerHeader">
+                <span class="viewer-title"><i class="fa-solid fa-magnifying-glass-plus"></i> Cửa Sổ Phụ Đối Soát Thông Tin Tài Liệu (Kéo rê & Phóng to)</span>
+                <div class="viewer-controls">
+                    <button class="v-btn" onclick="zoomImage(1.2)" title="Phóng to"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+                    <button class="v-btn" onclick="zoomImage(0.8)" title="Thu nhỏ"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
+                    <button class="v-btn" onclick="resetImageZoom()" title="Đặt lại"><i class="fa-solid fa-rotate-left"></i></button>
+                    <button class="v-btn close-btn" onclick="closeImageViewer()" title="Đóng cửa sổ"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+            </div>
+            <div class="viewer-body" id="viewerBody">
+                <img id="viewerImage" src="" alt="Ảnh tài liệu đối soát" draggable="false">
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
 </body>
 </html>
