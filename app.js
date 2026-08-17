@@ -4,6 +4,32 @@
 // ============================================================
 console.log('✅ ThanhHoa Land AI v2026 loaded');
 
+// ── Backend API Configuration ──
+const DEFAULT_BACKEND_URL = 'https://swab-underwear-theatrics.ngrok-free.dev';
+
+function getApiBaseUrl() {
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+        return '';
+    }
+    let saved = localStorage.getItem('thanhhoa_ai_api_url');
+    if (!saved) {
+        saved = DEFAULT_BACKEND_URL;
+        localStorage.setItem('thanhhoa_ai_api_url', saved);
+    }
+    return saved.replace(/\/+$/, '');
+}
+
+function configureApiBackendUrl() {
+    const current = getApiBaseUrl() || DEFAULT_BACKEND_URL;
+    const newUrl = prompt("🔧 Nhập đường link Ngrok hoặc máy chủ AI Backend (server.py) của bạn:\n(Ví dụ: https://swab-underwear-theatrics.ngrok-free.dev)", current);
+    if (newUrl !== null && newUrl.trim() !== "") {
+        const cleanUrl = newUrl.trim().replace(/\/+$/, '');
+        localStorage.setItem('thanhhoa_ai_api_url', cleanUrl);
+        alert("✅ Đã cập nhật máy chủ AI thành công:\n" + cleanUrl);
+        location.reload();
+    }
+}
+
 // ── Global State ──
 const loadedThumbnails = {
     cccd: { front: null, back: null },
@@ -191,9 +217,13 @@ async function sendMessage() {
     if (isMobile()) inputEl.blur();
 
     try {
-        const response = await fetch('/api/chat', {
+        const apiUrl = getApiBaseUrl() + '/api/chat';
+        const response = await fetch(apiUrl, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+                'Content-Type': 'application/json',
+                'ngrok-skip-browser-warning': 'true'
+            },
             body: JSON.stringify({ question })
         });
         const data = await response.json();
@@ -251,8 +281,12 @@ async function handleFileSelectedSide(event, docType, side) {
     formData.append('file', file);
 
     try {
-        const response = await fetch('/api/ocr/scan', {
+        const apiUrl = getApiBaseUrl() + '/api/ocr/scan';
+        const response = await fetch(apiUrl, {
             method: 'POST',
+            headers: {
+                'ngrok-skip-browser-warning': 'true'
+            },
             body: formData
         });
         const result = await response.json();
@@ -853,9 +887,13 @@ async function exportToWord() {
     const formType = document.getElementById('selectFormType')?.value || 'Don_Dat_Dai';
 
     try {
-        const response = await fetch('/api/export/docx', {
+        const apiUrl = getApiBaseUrl() + '/api/export/docx';
+        const response = await fetch(apiUrl, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+                'Content-Type': 'application/json',
+                'ngrok-skip-browser-warning': 'true'
+            },
             body: JSON.stringify({
                 title: `${formType}_${cccdHoten.replace(/\s+/g, '_')}`,
                 content: formOutputText
@@ -953,4 +991,18 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     updateLiveA4Form();
+
+    // Enable API Backend config on chip click
+    const onlineChip = document.querySelector('.status-chip.online');
+    if (onlineChip) {
+        onlineChip.style.cursor = 'pointer';
+        onlineChip.title = 'Nhấp để đổi địa chỉ máy chủ Ngrok / AI Backend';
+        onlineChip.addEventListener('click', configureApiBackendUrl);
+    }
+    const mobileStatus = document.getElementById('headerStatusMobile');
+    if (mobileStatus) {
+        mobileStatus.style.cursor = 'pointer';
+        mobileStatus.title = 'Nhấp để đổi địa chỉ máy chủ Ngrok / AI Backend';
+        mobileStatus.addEventListener('click', configureApiBackendUrl);
+    }
 });
