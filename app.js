@@ -5,10 +5,19 @@
 console.log('✅ ThanhHoa Land AI v2026 loaded');
 
 // ── Dynamic Backend API Configuration (Hỗ trợ chạy mượt cả trên Local & GitHub Pages) ──
-const DEFAULT_TUNNEL_URL = 'https://transparency-bookstore-beef-poor.trycloudflare.com';
-const SAVED_BACKEND_URL = localStorage.getItem('thanhhoa_ai_backend_url');
-const ACTIVE_TUNNEL_URL = (SAVED_BACKEND_URL && SAVED_BACKEND_URL.startsWith('http')) ? SAVED_BACKEND_URL : DEFAULT_TUNNEL_URL;
-const API_BASE = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? '' : ACTIVE_TUNNEL_URL;
+let SAVED_BACKEND_URL = localStorage.getItem('thanhhoa_ai_backend_url') || '';
+let API_BASE = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? '' : SAVED_BACKEND_URL;
+
+function configureBackendUrl() {
+    const current = localStorage.getItem('thanhhoa_ai_backend_url') || '';
+    const newUrl = prompt('🔗 Nhập đường link kết nối Máy chủ AI Backend (Cloudflare Tunnel hoặc Ngrok của bạn):', current);
+    if (newUrl !== null) {
+        const cleanUrl = newUrl.trim().replace(/\/+$/, '');
+        localStorage.setItem('thanhhoa_ai_backend_url', cleanUrl);
+        alert(cleanUrl ? `✅ Đã lưu Máy chủ AI: ${cleanUrl}\nTrang sẽ tự động tải lại!` : 'ℹ️ Đã xóa máy chủ cấu hình. Trang sẽ dùng máy chủ mặc định!');
+        window.location.reload();
+    }
+}
 
 // ── Global State ──
 const loadedThumbnails = {
