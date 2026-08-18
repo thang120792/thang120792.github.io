@@ -84,29 +84,65 @@ def chat():
                 })
 
         # 2. Nếu không khớp trực tiếp, gọi Gemini AI với Grounded System Prompt
-        if GEMINI_CLIENT:
+        sys_prompt = (
+            "Bạn là Trợ lý ảo ThanhHoa Land AI (v2026) - Chuyên gia tư vấn pháp lý đất đai và TTHC tại tỉnh Thanh Hóa.\n"
+            "BẮT BUỘC TUÂN THỦ NGUYÊN TẮC PHÁP LÝ CHÍNH XÁC:\n"
+            "1. Áp dụng Luật Đất đai 2024 (số 31/2024/QH15), Nghị định 101/2024/NĐ-CP, Nghị định 49/2026/NĐ-CP, Quyết định 18/2026/QĐ-UBND và Quyết định 2604/QĐ-VP của Thanh Hóa.\n"
+            "2. Tuyệt đối KHÔNG trích dẫn luật cũ hết hiệu lực (Luật 2013, NĐ 43/2014).\n"
+            "3. Diện tích tách thửa tối thiểu Thanh Hóa: Đô thị >= 40m2 (mặt tiền >= 3m); Nông thôn >= 50m2 (mặt tiền >= 4m); Rừng sản xuất >= 3.000m2.\n"
+            "4. Mẫu đơn: Cấp lần đầu (Mẫu 25), Sang tên/biến động (Mẫu 29), Tách/Hợp thửa (Mẫu 35 kèm bản vẽ Mẫu 34), Thuế (Mẫu 01/LPTB và Mẫu 03/BĐS-TNCN).\n"
+            "5. Thẩm quyền: Cấp lần đầu thuộc Chủ tịch UBND cấp xã; Cấp đổi, Sang tên thuộc Chi nhánh Văn phòng ĐKĐĐ.\n"
+            "Trả lời rõ ràng, mạch lạc, có căn cứ điều khoản cụ thể."
+        )
+
+        if GEMINI_API_KEY:
+            # Ưu tiên 1: Dùng google.genai Client
+            if GEMINI_CLIENT:
+                try:
+                    resp = GEMINI_CLIENT.models.generate_content(
+                        model="gemini-2.5-flash",
+                        contents=f"{sys_prompt}\n\nCâu hỏi của người dân: {question}"
+                    )
+                    if resp and resp.text:
+                        return jsonify({
+                            "answer": resp.text,
+                            "source": "Google Gemini AI (Vercel Serverless Grounded)"
+                        })
+                except Exception as client_err:
+                    print(f"⚠️ GenAI SDK error: {client_err}. Trying REST API fallback...")
+
+            # Ưu tiên 2: Gọi trực tiếp Google REST API (Không phụ thuộc SDK)
             try:
-                sys_prompt = (
-                    "Bạn là Trợ lý ảo ThanhHoa Land AI (v2026) - Chuyên gia tư vấn pháp lý đất đai và TTHC tại tỉnh Thanh Hóa.\n"
-                    "BẮT BUỘC TUÂN THỦ NGUYÊN TẮC PHÁP LÝ CHÍNH XÁC:\n"
-                    "1. Áp dụng Luật Đất đai 2024 (số 31/2024/QH15), Nghị định 101/2024/NĐ-CP, Nghị định 49/2026/NĐ-CP, Quyết định 18/2026/QĐ-UBND và Quyết định 2604/QĐ-VP của Thanh Hóa.\n"
-                    "2. Tuyệt đối KHÔNG trích dẫn luật cũ hết hiệu lực (Luật 2013, NĐ 43/2014).\n"
-                    "3. Diện tích tách thửa tối thiểu Thanh Hóa: Đô thị >= 40m2 (mặt tiền >= 3m); Nông thôn >= 50m2 (mặt tiền >= 4m); Rừng sản xuất >= 3.000m2.\n"
-                    "4. Mẫu đơn: Cấp lần đầu (Mẫu 25), Sang tên/biến động (Mẫu 29), Tách/Hợp thửa (Mẫu 35 kèm bản vẽ Mẫu 34), Thuế (Mẫu 01/LPTB và Mẫu 03/BĐS-TNCN).\n"
-                    "5. Thẩm quyền: Cấp lần đầu thuộc Chủ tịch UBND cấp xã; Cấp đổi, Sang tên thuộc Chi nhánh Văn phòng ĐKĐĐ.\n"
-                    "Trả lời rõ ràng, mạch lạc, có căn cứ điều khoản cụ thể."
+                import urllib.request
+                url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={GEMINI_API_KEY}"
+                payload = {
+                    "contents": [{
+                        "role": "user",
+                        "parts": [{"text": f"{sys_prompt}\n\n====================\nCÂU HỎI: {question}"}]
+                    }],
+                    "generationConfig": {
+                        "temperature": 0.1,
+                        "maxOutputTokens": 2500
+                    }
+                }
+                req = urllib.request.Request(
+                    url,
+                    data=json.dumps(payload).encode('utf-8'),
+                    headers={'Content-Type': 'application/json'}
                 )
-                resp = GEMINI_CLIENT.models.generate_content(
-                    model="gemini-2.5-flash",
-                    contents=f"{sys_prompt}\n\nCâu hỏi của người dân: {question}"
-                )
+                with urllib.request.urlopen(req, timeout=25) as response:
+                    res_data = json.loads(response.read().decode('utf-8'))
+                    candidates = res_data.get('candidates', [])
+                    if candidates and 'content' in candidates[0]:
+                        parts = candidates[0]['content'].get('parts', [])
+                        if parts and 'text' in parts[0]:
+                            return jsonify({
+                                "answer": parts[0]['text'],
+                                "source": "Google Gemini AI (Vercel REST Engine)"
+                            })
+            except Exception as rest_err:
                 return jsonify({
-                    "answer": resp.text,
-                    "source": "Google Gemini AI (Vercel Serverless Grounded)"
-                })
-            except Exception as ai_err:
-                return jsonify({
-                    "answer": f"Lỗi xử lý AI: {str(ai_err)}",
+                    "answer": f"Lỗi kết nối Gemini: {str(rest_err)}",
                     "source": "AI Error"
                 }), 500
 
