@@ -10,11 +10,11 @@ console.log('✅ ThanhHoa Land AI v2026 - Toàn bộ Bộ nhớ Skill & CSDL Ph�
 // ============================================================
 const GEMINI_CONFIG = {
     defaultKeys: [
-        'AQ.Ab8RN6JrZoDOoJYfBznhSQWpB6Lv9v93RwFPUtIr_Z7lFjqjVA',
-        'AQ.Ab8RN6IzFDhmj0qZOJqlmdqYixwYUkBhxJc9ftlyJ9b1vnKbOQ'
+        'AQ.Ab8RN6KU3Y7BNxbOEkHMDnMH4mMLzf0E2LQad6LCsWfJlLuzAw',
+        'AQ.Ab8RN6JrZoDOoJYfBznhSQWpB6Lv9v93RwFPUtIr_Z7lFjqjVA'
     ],
-    defaultModel: 'gemini-2.0-flash',
-    supportedModels: ['gemini-2.0-flash', 'gemini-1.5-flash', 'gemini-1.5-pro', 'gemini-2.0-pro-exp-02-05']
+    defaultModel: 'gemini-2.5-flash',
+    supportedModels: ['gemini-2.5-flash', 'gemini-3.6-flash', 'gemini-2.0-flash', 'gemini-1.5-flash']
 };
 
 function getEffectiveApiKey() {
@@ -28,8 +28,8 @@ function getEffectiveApiKey() {
 
 function getEffectiveModel() {
     let m = localStorage.getItem('thanhhoa_land_ai_model');
-    if (!m || m.includes('2.5') || m.includes('3.6') || m.includes('3.5')) {
-        m = 'gemini-2.0-flash';
+    if (!m || m.includes('1.5') || m.includes('2.0')) {
+        m = 'gemini-2.5-flash';
         localStorage.setItem('thanhhoa_land_ai_model', m);
     }
     return m;
@@ -37,8 +37,8 @@ function getEffectiveModel() {
 
 function getEffectiveOcrModel() {
     let m = localStorage.getItem('thanhhoa_land_ai_ocr_model');
-    if (!m || m.includes('2.5') || m.includes('3.6') || m.includes('3.5')) {
-        m = 'gemini-2.0-flash';
+    if (!m || m.includes('1.5') || m.includes('2.0')) {
+        m = 'gemini-2.5-flash';
         localStorage.setItem('thanhhoa_land_ai_ocr_model', m);
     }
     return m;
@@ -583,7 +583,7 @@ async function callGeminiDirectApi(promptText, systemInstruction, imageParts = [
 
     const requestedModel = modelOverride || getEffectiveModel();
     const candidateModels = [requestedModel];
-    for (const m of ['gemini-2.0-flash', 'gemini-1.5-flash', 'gemini-1.5-pro']) {
+    for (const m of ['gemini-2.5-flash', 'gemini-3.6-flash', 'gemini-2.0-flash']) {
         if (!candidateModels.includes(m)) candidateModels.push(m);
     }
 
@@ -601,13 +601,18 @@ async function callGeminiDirectApi(promptText, systemInstruction, imageParts = [
         }
     }
 
-    userParts.push({ text: promptText });
+    let fullPrompt = promptText;
+    if (systemInstruction) {
+        fullPrompt = `${systemInstruction}\n\n===============================================================\nCÂU HỎI THỰC TẾ CỦA NGƯỜI DÂN:\n"${promptText}"`;
+    }
+
+    userParts.push({ text: fullPrompt });
     contents.push({ role: 'user', parts: userParts });
 
     const genConfig = {
-        temperature: isJson ? 0.1 : 0.2,
-        topK: 40,
-        topP: 0.95,
+        temperature: 0.0, // 0.0 = Deterministic precision, eliminates hallucinations
+        topK: 1,
+        topP: 0.1,
         maxOutputTokens: 2500
     };
 
