@@ -4,6 +4,12 @@
 // ============================================================
 console.log('✅ ThanhHoa Land AI v2026 loaded');
 
+// ── Dynamic Backend API Configuration (Hỗ trợ chạy mượt cả trên Local & GitHub Pages) ──
+const DEFAULT_TUNNEL_URL = 'https://transparency-bookstore-beef-poor.trycloudflare.com';
+const SAVED_BACKEND_URL = localStorage.getItem('thanhhoa_ai_backend_url');
+const ACTIVE_TUNNEL_URL = (SAVED_BACKEND_URL && SAVED_BACKEND_URL.startsWith('http')) ? SAVED_BACKEND_URL : DEFAULT_TUNNEL_URL;
+const API_BASE = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? '' : ACTIVE_TUNNEL_URL;
+
 // ── Global State ──
 const loadedThumbnails = {
     cccd: { front: null, back: null },
@@ -191,11 +197,15 @@ async function sendMessage() {
     if (isMobile()) inputEl.blur();
 
     try {
-        const response = await fetch('/api/chat', {
+        const response = await fetch(`${API_BASE}/api/chat`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ question })
         });
+        
+        if (!response.ok) {
+            throw new Error(`Máy chủ AI Backend đang khởi động hoặc chưa bật (HTTP ${response.status}). Vui lòng mở file 2_CHAY_UNG_DUNG.bat trên máy tính!`);
+        }
         const data = await response.json();
 
         chatContainer.removeChild(typingDiv);
@@ -219,7 +229,7 @@ async function sendMessage() {
         errorMsg.className = 'message bot';
         errorMsg.innerHTML = `
             <div class="msg-avatar"><i class="fa-solid fa-robot"></i></div>
-            <div class="msg-bubble"><p style="color:var(--red);">Lỗi kết nối: ${err.message}</p></div>
+            <div class="msg-bubble"><p style="color:var(--red);"><i class="fa-solid fa-triangle-exclamation"></i> <strong>Lỗi kết nối:</strong> ${err.message}</p></div>
         `;
         chatContainer.appendChild(errorMsg);
         chatContainer.scrollTop = chatContainer.scrollHeight;
@@ -252,7 +262,7 @@ async function handleFileSelectedSide(event, docType, side) {
     formData.append('file', file);
 
     try {
-        const response = await fetch('/api/ocr/scan', {
+        const response = await fetch(`${API_BASE}/api/ocr/scan`, {
             method: 'POST',
             body: formData
         });
@@ -854,7 +864,7 @@ async function exportToWord() {
     const formType = document.getElementById('selectFormType')?.value || 'Don_Dat_Dai';
 
     try {
-        const response = await fetch('/api/export/docx', {
+        const response = await fetch(`${API_BASE}/api/export/docx`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
