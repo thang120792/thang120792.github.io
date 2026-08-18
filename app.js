@@ -13,8 +13,8 @@ const GEMINI_CONFIG = {
         'AQ.Ab8RN6JrZoDOoJYfBznhSQWpB6Lv9v93RwFPUtIr_Z7lFjqjVA',
         'AQ.Ab8RN6IzFDhmj0qZOJqlmdqYixwYUkBhxJc9ftlyJ9b1vnKbOQ'
     ],
-    defaultModel: 'gemini-2.5-flash',
-    supportedModels: ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash', 'gemini-1.5-pro']
+    defaultModel: 'gemini-2.0-flash',
+    supportedModels: ['gemini-2.0-flash', 'gemini-1.5-flash', 'gemini-1.5-pro', 'gemini-2.0-pro-exp-02-05']
 };
 
 function getEffectiveApiKey() {
@@ -27,11 +27,21 @@ function getEffectiveApiKey() {
 }
 
 function getEffectiveModel() {
-    return localStorage.getItem('thanhhoa_land_ai_model') || GEMINI_CONFIG.defaultModel;
+    let m = localStorage.getItem('thanhhoa_land_ai_model');
+    if (!m || m.includes('2.5') || m.includes('3.6') || m.includes('3.5')) {
+        m = 'gemini-2.0-flash';
+        localStorage.setItem('thanhhoa_land_ai_model', m);
+    }
+    return m;
 }
 
 function getEffectiveOcrModel() {
-    return localStorage.getItem('thanhhoa_land_ai_ocr_model') || 'gemini-2.5-flash';
+    let m = localStorage.getItem('thanhhoa_land_ai_ocr_model');
+    if (!m || m.includes('2.5') || m.includes('3.6') || m.includes('3.5')) {
+        m = 'gemini-2.0-flash';
+        localStorage.setItem('thanhhoa_land_ai_ocr_model', m);
+    }
+    return m;
 }
 
 function changeOcrModel(modelName) {
@@ -46,93 +56,105 @@ function getEffectiveEngineMode() {
 // ============================================================
 // 2. BỘ NHỚ PHÁP LÝ CHUẨN XÁC 100% (GROUND TRUTH FACTS TEXT)
 // ============================================================
-const GROUND_TRUTH_FACTS_TEXT = `[BẢNG CĂN CỨ PHÁP LÝ ĐẤT ĐAI THANH HÓA 100% CHUẨN XÁC]
+const GROUND_TRUTH_FACTS_TEXT = `[BẢNG CĂN CỨ PHÁP LÝ ĐẤT ĐAI THANH HÓA 100% CHUẨN XÁC - ĐƯỢC HUẤN LUYỆN TỪ OBSIDIAN VAULT]
 1. TÁCH THỬA ĐẤT (CĂN CỨ: ĐIỀU 220 LUẬT ĐẤT ĐAI 2024 SỐ 31/2024/QH15 & QUYẾT ĐỊNH 18/2026/QĐ-UBND THANH HÓA):
-   - Đất ở nông thôn (xã): Diện tích tối thiểu >= 50 m², chiều rộng mặt tiền >= 4.0 m. (Riêng xã Nghi Sơn, Ngư Lộc, Quảng Nham: >= 30 m²).
-   - Đất ở đô thị (phường/thị trấn): Diện tích tối thiểu >= 40 m², chiều rộng mặt tiền >= 3.0 m. (Riêng P. Hải Thanh - TX Nghi Sơn: >= 30 m²).
-   - Đất rừng sản xuất & Đất rừng phòng hộ: Diện tích tối thiểu >= 3.000 m² (0.3 ha).
-   - Đất trồng cây hàng năm, đất trồng cây lâu năm, đất nuôi trồng thủy sản (nông nghiệp): Diện tích tối thiểu >= 500 m².
-   - Điều kiện chung: Sổ đỏ bản gốc, còn thời hạn sử dụng, không tranh chấp/kê biên và có lối đi kết nối đường công cộng.
-   - Thời gian giải quyết tách thửa: Không quá 15 ngày làm việc.
+   - Đất ở nông thôn (xã): Diện tích tối thiểu >= 50 m², chiều rộng mặt tiền >= 4.0 m, chiều sâu >= 4.0 m. (Riêng xã Nghi Sơn, Ngư Lộc, Quảng Nham: >= 30 m²).
+   - Đất ở đô thị (phường/thị trấn): Diện tích tối thiểu >= 40 m², chiều rộng mặt tiền >= 3.0 m, chiều sâu >= 3.0 m. (Riêng P. Hải Thanh - TX Nghi Sơn: >= 30 m²).
+   - Đất rừng sản xuất & Đất rừng phòng hộ: Diện tích tối thiểu >= 3.000 m² (0.3 ha). Rừng đặc dụng không được chia tách.
+   - Đất trồng cây hàng năm, đất trồng cây lâu năm, đất nuôi trồng thủy sản (nông nghiệp): Diện tích tối thiểu >= 500 m² (đô thị), >= 1.000 m² (đồng bằng), >= 1.500 m² (miền núi).
+   - Điều kiện chung: Có Giấy chứng nhận bản gốc, còn thời hạn sử dụng, không tranh chấp, không kê biên, có lối đi kết nối đường công cộng.
+   - Thời gian giải quyết: Không quá 15 ngày làm việc.
 
 2. SANG TÊN / CHUYỂN NHƯỢNG SỔ ĐỎ (CĂN CỨ: NGHỊ ĐỊNH 101/2024/NĐ-CP & ĐIỀU 45 LUẬT ĐẤT ĐAI 2024):
-   - Hồ sơ gồm: Bản gốc Sổ đỏ + Hợp đồng chuyển nhượng công chứng + Bản sao CCCD 2 bên + Đơn đăng ký biến động Mẫu 09/ĐK (hoặc Mẫu 29 - QĐ 2604).
+   - Hồ sơ gồm: Bản gốc Sổ đỏ + Hợp đồng chuyển nhượng/tặng cho công chứng + Bản sao CCCD 2 bên + Đơn đăng ký biến động Mẫu 09/ĐK (hoặc Mẫu 29 - QĐ 2604).
    - Nơi nộp: Bộ phận Một cửa - Chi nhánh Văn phòng Đăng ký đất đai địa phương.
-   - Thời hạn đăng ký: Trong vòng 30 ngày kể từ ngày công chứng hợp đồng.
+   - Thời hạn đăng ký: Trong vòng 30 ngày kể từ ngày ký công chứng hợp đồng.
    - Thời gian giải quyết: Không quá 10 ngày làm việc (xã đồng bằng) hoặc không quá 20 ngày làm việc (xã miền núi).
 
 3. CẤP GIẤY CHỨNG NHẬN (SỔ ĐỎ) LẦN ĐẦU (CĂN CỨ: ĐIỀU 137, 138, 139, 140 LUẬT ĐẤT ĐAI 2024 & NGHỊ ĐỊNH 101/2024/NĐ-CP):
-   - Hồ sơ gồm: Đơn đăng ký cấp GCN Mẫu số 25 (hoặc Mẫu 04/ĐK) + Giấy tờ về quyền sử dụng đất (nếu có) + Bản sao CCCD/VNeID.
+   - Hồ sơ gồm: Đơn đăng ký cấp GCN Mẫu số 25 (hoặc Mẫu 04/ĐK) + Giấy tờ về quyền sử dụng đất (nếu có) + Bản sao CCCD/VNeID mức 2.
+   - Phân cấp thẩm quyền: Thẩm quyền ký cấp GCN lần đầu thuộc về CHỦ TỊCH UY BAN NHÂN DÂN CẤP XÃ (bỏ thẩm quyền cấp huyện sau sáp nhập).
    - Thời gian giải quyết: Không quá 13 ngày làm việc (xã đồng bằng) hoặc 23 ngày làm việc (xã miền núi).
 
-4. THẨM QUYỀN KÝ CẤP GIẤY CHỨNG NHẬN VÀ BIỂU MẪU ĐẦU VÀO Ở BƯỚC 4:
+4. PHÂN CẤP THẨM QUYỀN KÝ CẤP GIẤY CHỨNG NHẬN VÀ BIỂU MẪU ĐẦU VÀO Ở BƯỚC 4:
    - Ký CẤP ĐỔI và ĐĂNG KÝ BIẾN ĐỘNG (Bước 4): Do CHI NHÁNH VĂN PHÒNG ĐĂNG KÝ ĐẤT ĐAI cấp huyện chịu trách nhiệm ký. Đơn áp dụng: Mẫu số 29 (hoặc Mẫu 11/ĐK) + Bản vẽ Mẫu số 34.
-   - Ký CẤP LẠI (do bị mất) và CẤP GIẤY CHỨNG NHẬN LẦN ĐẦU (Bước 4): Do CHỦ TỊCH UY BAN NHÂN DÂN CẤP XÃ chịu trách nhiệm ký (sau khi niêm yết công khai tại UBND xã). Bỏ thẩm quyền UBND cấp huyện sau sáp nhập. Đơn áp dụng: Mẫu số 25 (cấp lần đầu) hoặc Mẫu số 29 (cấp lại GCN bị mất).
+   - Ký CẤP LẠI (do bị mất) và CẤP GIẤY CHỨNG NHẬN LẦN ĐẦU (Bước 4): Do CHỦ TỊCH UY BAN NHÂN DÂN CẤP XÃ chịu trách nhiệm ký (sau khi niêm yết 10 ngày tại UBND xã). Đơn áp dụng: Mẫu số 25 (cấp lần đầu) hoặc Mẫu số 29 (cấp lại GCN bị mất).
    - SOP Bắt buộc Bước 4: Chỉ được trao GCN gốc cho người dân sau khi đối chiếu và lưu giữ bản sao Biên lai nộp tiền sử dụng đất, Lệ phí trước bạ.
 
-5. HƯỚNG DẪN THÁO GỠ VƯỚNG MẮC THI HÀNH LUẬT ĐẤT ĐAI (CV 1153/BNNMT-QLĐĐ, NQ 254/2025/QH15 & NĐ 49/2026/NĐ-CP):
-   - Phân định rõ thẩm quyền cấp GCN lần đầu: UBND cấp xã (công nhận QSDĐ, xác định lại diện tích đất ở), Văn phòng Đăng ký đất đai và Cơ quan quản lý đất đai cấp tỉnh.
-   - Đơn giản hóa thủ tục hành chính liên thông trên Cổng Dịch vụ công điện tử.
-
-6. CSDL SÁP NHẬP ĐỊA DANH HUYỆN BÁ THƯỚC VÀ TỈNH THANH HÓA:
-   - Tra cứu chính xác tên gọi xã, thị trấn, thôn/xóm sau sáp nhập và hạn mức diện tích đặc thù.
-
-7. NGHĨA VỤ TÀI CHÍNH & HÓA ĐƠN ĐIỆN TỬ (NGHỊ ĐỊNH 254/2026/NĐ-CP & LUẬT QUẢN LÝ THUẾ 108/2025/QH15):
-   - Thuế TNCN chuyển nhượng BĐS: 2% trên giá trị chuyển nhượng (miễn thuế nếu chuyển nhượng/tặng cho giữa vợ chồng, cha mẹ và con, ông bà và cháu, anh chị em ruột).
+5. NGHĨA VỤ TÀI CHÍNH & HÓA ĐƠN ĐIỆN TỬ (NGHỊ ĐỊNH 254/2026/NĐ-CP & LUẬT QUẢN LÝ THUẾ 108/2025/QH15):
+   - Thuế TNCN chuyển nhượng BĐS: 2% trên giá trị hợp đồng chuyển nhượng.
    - Lệ phí trước bạ nhà đất: 0.5% trên giá trị đất.
-   - Hóa đơn điện tử có mã xác thực của cơ quan thuế hỗ trợ nộp trực tuyến liên thông.
+   - Miễn thuế TNCN và Lệ phí trước bạ: Khi chuyển nhượng/tặng cho/thừa kế giữa vợ chồng, cha mẹ và con, ông bà và cháu, anh chị em ruột.
+   - Hóa đơn điện tử có mã xác thực của cơ quan thuế hỗ trợ nộp trực tuyến liên thông trên Cổng DVC.
 
-8. CẨM NANG 1000 CÂU ĐO ĐẠC ĐỊA CHÍNH VÀ TRẮC ĐỊA BẢN ĐỒ (LUẬT ĐO ĐẠC BẢN ĐỒ 2018 & THÔNG TƯ 26/2024/TT-BTNMT):
-   - Chuẩn hóa kỹ thuật mốc giới, trích đo địa chính, tọa độ VN-2000 và xử lý sai lệch diện tích thực tế so với Sổ đỏ.
-
-9. CẨM NANG 300 CÂU QUYẾT ĐỊNH SỐ 2604/QĐ-VP THANH HÓA:
+6. CẨM NANG 300 CÂU QUYẾT ĐỊNH SỐ 2604/QĐ-VP THANH HÓA:
    - Chuẩn hóa 54 TTHC đặc thù trong lĩnh vực đất đai thuộc thẩm quyền giải quyết của Sở NN&MT, Chi nhánh VPĐKĐĐ và UBND cấp xã.
+   - Hệ thống biểu mẫu: Đơn Mẫu 25, 29, 35, 34, 09, 09a, 16, 23, 17, 33; Tờ khai Mẫu 01/LPTB, 03/BĐS-TNCN.
 
-10. CẨM NANG THỦ TỤC THU HỒI, CẤP ĐỔI VÀ CẤP LẠI GCN:
-    - Thu hồi và hủy GCN cấp sai quy định: Thu hồi trong 12 ngày; Cấp lại trong 10 ngày. Bảo vệ quyền lợi người nhận chuyển nhượng ngay tình theo Khoản 4 Điều 152 Luật Đất đai 2024.
-    - Cấp lại GCN do bị mất: Bắt buộc niêm yết 10 ngày tại UBND xã; thời gian giải quyết tại Chi nhánh VPĐKĐĐ là 05 ngày làm việc.
+7. CẨM NANG THỦ TỤC THU HỒI, CẤP ĐỔI VÀ CẤP LẠI GCN (ĐIỀU 152 LUẬT 2024):
+   - Thu hồi và hủy GCN cấp sai quy định: Thu hồi trong 12 ngày; Cấp lại trong 10 ngày.
+   - Bảo vệ quyền lợi người nhận chuyển nhượng ngay tình theo Khoản 4 Điều 152 Luật Đất đai 2024.
+   - Cấp lại GCN do bị mất: Bắt buộc niêm yết 10 ngày tại UBND xã; thời gian giải quyết tại Chi nhánh VPĐKĐĐ là 05 ngày làm việc.
 
-11. THỜI GIAN GIẢI QUYẾT TTHC CHUẨN VÀ ƯU ĐÃI KHU VỰC MIỀN NÚI (QĐ 2604/QĐ-VP):
-    - Cấp đổi GCN: 03 ngày làm việc (Đơn Mẫu 29).
-    - Cấp đổi do đo đạc ranh giới không đổi: 05 ngày làm việc (Đơn Mẫu 29 + Mẫu 34).
-    - Tách thửa / Hợp thửa đất: 07 - 15 ngày làm việc (Đơn Mẫu 35 + Mẫu 34).
-    - Sang tên / Tặng cho: 05 - 10 ngày làm việc (Đơn Mẫu 29).
-    - Xóa ghi nợ thuế/LPTB: Giải quyết trong ngày (nộp trước 15h).
-    - Ưu đãi khu vực khó khăn (miền núi Thanh Hóa): Tăng thêm tối đa 10 ngày làm việc.
+8. THỜI GIAN GIẢI QUYẾT TTHC CHUẨN VÀ ƯU ĐÃI KHU VỰC MIỀN NÚI (QĐ 2604/QĐ-VP):
+   - Cấp đổi GCN: 03 ngày làm việc (Đơn Mẫu 29).
+   - Cấp đổi do đo đạc ranh giới không đổi: 05 ngày làm việc (Đơn Mẫu 29 + Mẫu 34).
+   - Tách thửa / Hợp thửa đất: 07 - 15 ngày làm việc (Đơn Mẫu 35 + Mẫu 34).
+   - Sang tên / Tặng cho: 05 - 10 ngày làm việc (Đơn Mẫu 29).
+   - Xóa ghi nợ thuế/LPTB: Giải quyết trong ngày (nộp trước 15h).
+   - Ưu đãi khu vực khó khăn (miền núi Thanh Hóa): Tăng thêm tối đa 10 ngày làm việc.
 
-12. NGUYÊN TẮC TIẾP NHẬN HỒ SƠ KHÔNG YÊU CẦU GIẤY TỜ THỪA:
-    - Không yêu cầu bản photo Sổ đỏ khi cấp lại do mất; tận dụng tài khoản VNeID mức 2.
+9. QUY TRÌNH 2 BƯỚC TÁCH THỬA ĐỒNG THỜI HỢP THỬA ĐẶC THÙ (NQ 254/2025/QH15 & QĐ 2604):
+   - Bước 1: Xin thẩm định Bản vẽ trích đo Mẫu 34 & Đơn đề nghị Mẫu 35.
+   - Bước 2: Ký công chứng hợp đồng chuyển nhượng phần diện tích tách.
+   - Bước 3: Đăng ký biến động cấp Sổ đỏ mới Mẫu 29.
 
-13. CHUYỂN MỤC ĐÍCH RỪNG & THU HỒI ĐẤT LÂM NGHIỆP (QĐ 55/2026 & QĐ 21/2026/QĐ-UBND THANH HÓA):
-    - Phải có Nghị quyết thông qua chủ trương của HĐND tỉnh trước khi ban hành Quyết định thu hồi đất rừng; nộp tiền trồng rừng thay thế.
+10. BỒI THƯỜNG, HỖ TRỢ TÁI ĐỊNH CƯ & CÂY TRỒNG VẬT NUÔI (NGHỊ ĐỊNH 88/2024/NĐ-CP & QĐ 21/2026/QĐ-UBND THANH HÓA):
+    - Đất nông nghiệp khi Nhà nước thu hồi: Được bồi thường bằng đất có cùng mục đích sử dụng hoặc bằng tiền hoặc bằng đất khác mục đích sử dụng / nhà ở.
+    - Đơn giá bồi thường cây trồng hàng năm, cây lâu năm, vật nuôi thủy sản áp dụng theo Bảng giá chi tiết ban hành kèm Quyết định số 21/2026/QĐ-UBND tỉnh Thanh Hóa.
+    - Hỗ trợ ổn định đời sống, sản xuất và hỗ trợ đào tạo chuyển đổi nghề nghiệp bằng tiền bằng 1.5 - 2 lần giá đất nông nghiệp cùng loại.
 
-14. QUY TRÌNH 2 BƯỚC TÁCH THỬA ĐỒNG THỜI HỢP THỬA ĐẤT ĐẶC THÙ (NQ 254/2025/QH15 & QĐ 2604):
-    - Bước 1: Xin thẩm định Bản vẽ Mẫu 34 & Đơn Mẫu 35.
-    - Bước 2: Ký công chứng hợp đồng.
-    - Bước 3: Đăng ký biến động cấp Sổ đỏ mới Mẫu 29.
+11. BẢNG GIÁ ĐẤT & NGUYÊN TẮC ĐỊNH GIÁ THỊ TRƯỜNG (NGHỊ ĐỊNH 71/2024/NĐ-CP & LUẬT ĐẤT ĐAI 2024):
+    - Bãi bỏ Khung giá đất của Chính phủ; Bảng giá đất của UBND tỉnh Thanh Hóa được xây dựng định kỳ hàng năm và công bố áp dụng từ ngày 01 tháng 01 hàng năm.
+    - 04 phương pháp định giá đất chuẩn: Phương pháp so sánh, Phương pháp thu nhập, Phương pháp thặng dư, Phương pháp hệ số điều chỉnh giá đất (Hệ số K).
 
-15. XỬ LÝ SAI LỆCH MẶT BẰNG ĐẤU GIÁ VÀ PHÂN LÔ CŨ (VB 9549/UBND-NNMT & CV 16838/SNNMT):
-    - Phân biệt MBQH 1/500 và mặt bằng phân lô cũ. Đo vẽ Mẫu 34 và niêm yết 15 ngày tại xã.
+12. CẤP GCN CHO ĐẤT GIAO TRÁI THẨM QUYỀN QUA CÁC THỜI KỲ (ĐIỀU 140 LUẬT ĐẤT ĐAI 2024):
+    - Đất giao trái thẩm quyền trước ngày 15/10/1993: Được cấp GCN không phải nộp tiền sử dụng đất đối với diện tích đất ở trong hạn mức.
+    - Đất giao từ 15/10/1993 đến trước 01/7/2004: Được cấp GCN, nộp tiền sử dụng đất theo mức quy định của Chính phủ tại thời điểm cấp.
+    - Đất giao từ 01/7/2004 đến trước 01/7/2014: Được cấp GCN nếu phù hợp quy hoạch và đã nộp đủ tiền sử dụng đất.
 
-16. XỬ LÝ CẤP SỔ ĐỎ SAI VỊ TRÍ NHÀ Ở TRÊN ĐẤT NÔNG NGHIỆP:
-    - Áp dụng Khoản 3 Điều 139 Luật Đất đai 2024, hạn mức công nhận đất ở miền núi tối đa 400 m²/hộ.
+13. CÔNG NHẬN DIỆN TÍCH ĐẤT TĂNG THÊM DO KHAI HOANG (KHOẢN 3 ĐIỀU 138 LUẬT 2024 & ĐIỀU 24 NĐ 101/2024):
+    - Sử dụng đất trước 01/7/2014 không tranh chấp: Được cấp đổi GCN gộp chung toàn bộ diện tích, không phải nộp tiền sử dụng đất đối với phần diện tích khai hoang nếu trong hạn mức, chỉ nộp LPTB 0.5%.
 
-17. CÔNG NHẬN DIỆN TÍCH ĐẤT VƯỜN TĂNG THÊM DO KHAI HOANG:
-    - Khai hoang trước 01/7/2014 không tranh chấp: cấp đổi GCN gộp chung, không phải nộp tiền sử dụng đất, chỉ nộp LPTB 0.5%.
+14. CẤP SỔ ĐỎ SAI VỊ TRÍ NHÀ Ở TRÊN ĐẤT NÔNG NGHIỆP (KHOẢN 3 ĐIỀU 139 LUẬT 2024):
+    - Hạn mức công nhận đất ở tại vùng trung du miền núi Thanh Hóa tối đa lên đến 400 m²/hộ. Xử lý cấp đổi vị trí theo ranh giới sử dụng thực tế.
 
-18. KHUNG XỬ PHẠT VI PHẠM HÀNH CHÍNH ĐẤT ĐAI:
-    - Thời hiệu 02 năm. Phân cấp Chủ tịch UBND xã phạt tiền lên đến 250 triệu đồng; miễn xử phạt đất sử dụng ổn định trước 15/10/1993.
+15. CHUYỂN MỤC ĐÍCH RỪNG & THU HỒI ĐẤT LÂM NGHIỆP (QĐ 55/2026 & QĐ 21/2026/QĐ-UBND THANH HÓA):
+    - Phải có Nghị quyết thông qua chủ trương chuyển mục đích của HĐND tỉnh trước khi ban hành Quyết định thu hồi; nộp tiền trồng rừng thay thế vào Quỹ Bảo vệ và Phát triển rừng.
 
-19. CHUẨN HÓA BƯỚC 4 VÀ PHÂN ĐỊNH THẨM QUYỀN:
-    - Chi nhánh VPĐKĐĐ ký Cấp đổi/Biến động; Chủ tịch UBND xã ký Cấp lần đầu và Cấp lại do mất.
+16. XỬ LÝ SAI LỆCH MẶT BẰNG ĐẤU GIÁ VÀ MBQH 1/500 (VB 9549/UBND-NNMT & CV 16838/SNNMT):
+    - Đối soát giữa MBQH 1/500 và hiện trạng đo đạc thực tế; đo vẽ trích đo Mẫu 34 và niêm yết công khai 15 ngày tại trụ sở UBND xã trước khi chỉnh lý bản đồ.
 
-20. DANH MỤC BIỂU MẪU CHUẨN QUYẾT ĐỊNH 2604/QĐ-VP:
-    - Đơn Mẫu 25, 29, 35, 34, 09, 09a, 16, 23, 17, 33; Tờ khai Mẫu 01/LPTB, 03/BĐS-TNCN, 01/TK-SDDPNN.`;
+17. KHUNG XỬ PHẠT VI PHẠM HÀNH CHÍNH ĐẤT ĐAI (NĐ 123/2024/NĐ-CP & NĐ 281/2026/NĐ-CP):
+    - Thời hiệu xử phạt: 02 năm.
+    - Phân cấp thẩm quyền: Chủ tịch UBND cấp xã có thẩm quyền phạt tiền lên đến 250.000.000 đồng; miễn xử phạt đất sử dụng ổn định trước ngày 15/10/1993.
+
+18. HÒA GIẢI TRANH CHẤP ĐẤT ĐAI (ĐIỀU 235 LUẬT ĐẤT ĐAI 2024):
+    - Tranh chấp quyền sử dụng đất bắt buộc phải qua thủ tục hòa giải tại UBND cấp xã nơi có đất.
+    - Thời hạn hòa giải: Không quá 45 ngày kể từ ngày nhận đơn. Biên bản hòa giải thành có hiệu lực thi hành; hòa giải không thành thì đương sự khởi kiện ra Tòa án nhân dân hoặc yêu cầu UBND cấp có thẩm quyền giải quyết.
+
+19. ĐO ĐẠC ĐỊA CHÍNH, TRÍCH ĐO & MỐC GIỚI VN-2000 (THÔNG TƯ 26/2024/TT-BTNMT):
+    - Ranh giới thửa đất xác định theo hiện trạng sử dụng và có sự thống nhất của các chủ sử dụng đất liền kề (ký giáp ranh Mẫu 20/ĐK).
+    - Trường hợp người sử dụng đất liền kề vắng mặt: Niêm yết công khai 15 ngày tại UBND cấp xã; sau thời hạn niêm yết không có tranh chấp thì tiến hành hoàn thiện hồ sơ trích đo.
+
+20. CSDL SÁP NHẬP ĐỊA DANH HUYỆN BÁ THƯỚC & THANH HÓA:
+    - Tra cứu và chuẩn hóa tên gọi xã, thị trấn, thôn/xóm sau sáp nhập; tự động đính chính địa chỉ mới trên GCN.`;
 
 // ============================================================
 // 3. CSDL SÁP NHẬP ĐỊA DANH TỈNH THANH HÓA (DIA DANH MAP)
 // ============================================================
 const DIA_DANH_MAP = {
+    // 1. CÁC XÃ / THỊ TRẤN SÁP NHẬP TRỌNG ĐIỂM
     "Tân Lập": "xã Thiết Ống (huyện Bá Thước)",
     "Lâm Xa": "thị trấn Cành Nàng (huyện Bá Thước)",
     "Ban Công": "xã Ban Công (huyện Bá Thước)",
@@ -149,6 +171,8 @@ const DIA_DANH_MAP = {
     "Điền Quang": "xã Điền Quang (huyện Bá Thước)",
     "Điền Hạ": "xã Điền Hạ (huyện Bá Thước)",
     "Điền Thượng": "xã Điền Thượng (huyện Bá Thước)",
+    "Pù Luông": "xã Pù Luông (huyện Bá Thước)",
+    "Quý Lương": "xã Quý Lương (huyện Bá Thước)",
     "Đông Hải": "phường Quảng Hưng (TP Thanh Hóa)",
     "Tĩnh Gia": "thị xã Nghi Sơn (tỉnh Thanh Hóa)",
     "Hải Hòa": "phường Hải Hòa (thị xã Nghi Sơn)",
@@ -156,7 +180,128 @@ const DIA_DANH_MAP = {
     "Nghi Sơn": "xã Nghi Sơn (thị xã Nghi Sơn)",
     "Ngư Lộc": "xã Ngư Lộc (huyện Hậu Lộc)",
     "Quảng Nham": "xã Quảng Nham (huyện Quảng Xương)",
-    "Hải Thanh": "phường Hải Thanh (thị xã Nghi Sơn)"
+    "Hải Thanh": "phường Hải Thanh (thị xã Nghi Sơn)",
+
+    // 2. CHI TIẾT SÁP NHẬP 72 THÔN/XÓM/KHU PHỐ HUYỆN BÁ THƯỚC (QUYẾT ĐỊNH SÁP NHẬP)
+    // Xã Bá Thước / TT Cành Nàng
+    "Khu phố Vận Tải": "Thôn Tráng (xã Bá Thước)",
+    "Khu phố Tráng": "Thôn Tráng (xã Bá Thước)",
+    "Khu phố 1 Lâm Xa": "Thôn Tráng (xã Bá Thước)",
+    "Khu phố Sán": "Thôn Cành Nàng (xã Bá Thước)",
+    "Khu phố Cành Nàng": "Thôn Cành Nàng (xã Bá Thước)",
+    "Khu phố Nú": "Thôn Lâm Xa (xã Bá Thước)",
+    "Khu phố 2 Lâm Xa": "Thôn Lâm Xa (xã Bá Thước)",
+    "Khu phố Đắm": "Thôn Lâm Xa (xã Bá Thước)",
+    "Khu phố Mốt": "Thôn Lâm Xa (xã Bá Thước)",
+    "Thôn Tôm": "Thôn Chiềng Lau (xã Bá Thước)",
+    "Thôn Chiềng Lau": "Thôn Chiềng Lau (xã Bá Thước)",
+    "Thôn Ba": "Thôn Ban Công (xã Bá Thước)",
+    "Thôn Nghìa": "Thôn Ban Công (xã Bá Thước)",
+    "Thôn Sát": "Thôn Ban Công (xã Bá Thước)",
+    "Thôn La Hán": "Thôn La Hán (xã Bá Thước)",
+    "Khu phố Chu": "Thôn La Hán (xã Bá Thước)",
+    "Khu phố Anh Vân": "Thôn Tân Lập (xã Bá Thước)",
+    "Khu phố Xuân Long": "Thôn Tân Lập (xã Bá Thước)",
+    "Khu phố Hồng Sơn": "Thôn Tân Lập (xã Bá Thước)",
+    "Khu phố Lương Vân": "Thôn Tân Lập (xã Bá Thước)",
+    "Khu phố Măng": "Thôn Tân Lập (xã Bá Thước)",
+    "Khu phố Kim Vân": "Thôn Tân Lập (xã Bá Thước)",
+    "Khu phố Mòn": "Thôn Tân Lập (xã Bá Thước)",
+    "Thôn Chiềng Ai": "Thôn Chiềng Ai (xã Bá Thước)",
+    "Thôn Cò Mu": "Thôn Chiềng Ai (xã Bá Thước)",
+    "Thôn Cò Con": "Thôn Chiềng Ai (xã Bá Thước)",
+    "Thôn Cộn": "Thôn Chiềng Ai (xã Bá Thước)",
+    "Thôn Khiêng": "Thôn Hạ Trung (xã Bá Thước)",
+    "Thôn Tré": "Thôn Hạ Trung (xã Bá Thước)",
+    "Thôn Man Môn": "Thôn Hạ Trung (xã Bá Thước)",
+
+    // Xã Thiết Ống
+    "Thôn Kế": "Thôn Thiết Kế (xã Thiết Ống)",
+    "Thôn Chảy Kế": "Thôn Thiết Kế (xã Thiết Ống)",
+    "Thôn Luồng": "Thôn Thiết Kế (xã Thiết Ống)",
+    "Thôn Cha": "Thôn Cha (xã Thiết Ống)",
+    "Thôn Khung": "Thôn Cha (xã Thiết Ống)",
+    "Bá Lộc": "Thôn Chiềng Ống (xã Thiết Ống)",
+    "Thôn Cốc": "Thôn Chiềng Ống (xã Thiết Ống)",
+    "Đồng Tâm 1": "Thôn Đồng Tâm (xã Thiết Ống)",
+    "Đồng Tâm 2": "Thôn Đồng Tâm (xã Thiết Ống)",
+    "Đồng Tâm 3": "Thôn Đồng Tâm (xã Thiết Ống)",
+    "Thôn Hang": "Thôn Thiết Sơn (xã Thiết Ống)",
+    "Thôn Cú": "Thôn Thiết Sơn (xã Thiết Ống)",
+    "Thôn Trệch": "Thôn Thiết Sơn (xã Thiết Ống)",
+    "Thôn Đô": "Thôn Trung Thành (xã Thiết Ống)",
+    "Thôn Thúy": "Thôn Trung Thành (xã Thiết Ống)",
+    "Thôn Sặng": "Thôn Trung Thành (xã Thiết Ống)",
+    "Thôn Thành Công": "Thôn Trung Thành (xã Thiết Ống)",
+    "Thôn Chun": "Thôn Mường Ống (xã Thiết Ống)",
+    "Thôn Liên Thành": "Thôn Mường Ống (xã Thiết Ống)",
+    "Thôn Quyết Thắng": "Thôn Quyết Thắng (xã Thiết Ống)",
+    "Thôn Nán": "Thôn Quyết Thắng (xã Thiết Ống)",
+    "Thôn Suội": "Thôn Quyết Thắng (xã Thiết Ống)",
+    "Thôn Thiết Giang": "Thôn Thiết Giang (xã Thiết Ống)",
+
+    // Xã Văn Nho
+    "Thôn Buốc": "Thôn Kỳ Tân (xã Văn Nho)",
+    "Thôn Khà": "Thôn Kỳ Tân (xã Văn Nho)",
+    "Thôn Pặt": "Thôn Kỳ Tân (xã Văn Nho)",
+    "Thôn Hiềng": "Thôn Bo Hiềng (xã Văn Nho)",
+    "Thôn Bo Hạ": "Thôn Bo Hiềng (xã Văn Nho)",
+    "Thôn Bo Thượng": "Thôn Bo Hiềng (xã Văn Nho)",
+    "Thôn Cha Kỷ": "Thôn Văn Tiến (xã Văn Nho)",
+    "Thôn Kẻo Hiềng": "Thôn Văn Tiến (xã Văn Nho)",
+    "Thôn Chiềng Mới": "Thôn Văn Tiến (xã Văn Nho)",
+    "Thôn Chiềng Ấm": "Thôn Văn Tiến (xã Văn Nho)",
+    "Thôn Đác": "Thôn Văn Thành (xã Văn Nho)",
+    "Thôn Khảng": "Thôn Văn Thành (xã Văn Nho)",
+    "Thôn Pọng": "Thôn Văn Thành (xã Văn Nho)",
+    "Thôn Tổ Lè": "Thôn Văn Thành (xã Văn Nho)",
+    "Thôn Chuông Cải": "Thôn Văn Sơn (xã Văn Nho)",
+    "Thôn Kịnh": "Thôn Văn Sơn (xã Văn Nho)",
+    "Thôn Xà Luốc": "Thôn Văn Sơn (xã Văn Nho)",
+
+    // Xã Pù Luông
+    "Thôn Eo Kén": "Thôn Thành Sơn (xã Pù Luông)",
+    "Thôn Pà Ban": "Thôn Thành Sơn (xã Pù Luông)",
+    "Bản Pù Luông": "Thôn Kho Mường (xã Pù Luông)",
+    "Thôn Kho Mường": "Thôn Kho Mường (xã Pù Luông)",
+    "Thôn Báng": "Thôn Kho Mường (xã Pù Luông)",
+    "Thôn Nông công": "Thôn Kho Mường (xã Pù Luông)",
+    "Thôn Bầm": "Thôn Đôn (xã Pù Luông)",
+    "Thôn Đôn": "Thôn Đôn (xã Pù Luông)",
+    "Thôn Leo": "Thôn Đôn (xã Pù Luông)",
+    "Thôn Tân Thành": "Thôn Thành Lâm (xã Pù Luông)",
+    "Thôn Đanh": "Thôn Thành Lâm (xã Pù Luông)",
+    "Thôn Đủ": "Thôn Phố Đòn (xã Pù Luông)",
+    "Thôn Đòn": "Thôn Phố Đòn (xã Pù Luông)",
+    "Thôn Phố Đoàn": "Thôn Phố Đòn (xã Pù Luông)",
+    "Thôn Lặn Trong": "Thôn Lũng Niêm (xã Pù Luông)",
+    "Thôn Lặn Ngoài": "Thôn Lũng Niêm (xã Pù Luông)",
+    "Thôn Niêm Thành": "Thôn Lũng Niêm (xã Pù Luông)",
+    "Thôn Bồng": "Thôn Lũng Niêm (xã Pù Luông)",
+
+    // Xã Cổ Lũng
+    "Thôn Phìa": "Thôn Mường Khoòng (xã Cổ Lũng)",
+    "Thôn Nà Khà": "Thôn Mường Khoòng (xã Cổ Lũng)",
+    "Thôn Lọng": "Thôn Mường Khoòng (xã Cổ Lũng)",
+    "Thôn La Ca": "Thôn Mới (xã Cổ Lũng)",
+    "Thôn Tến Mới": "Thôn Mới (xã Cổ Lũng)",
+    "Thôn Eo Điếu": "Thôn Mới (xã Cổ Lũng)",
+    "Thôn Đốc": "Thôn Đốc (xã Cổ Lũng)",
+    "Thôn Lác": "Thôn Đốc (xã Cổ Lũng)",
+    "Thôn Ấm Hiêu": "Thôn Hiêu (xã Cổ Lũng)",
+    "Thôn Khuyn": "Thôn Hiêu (xã Cổ Lũng)",
+    "Thôn Cao": "Thôn Lũng Cao (xã Cổ Lũng)",
+    "Thôn Nang": "Thôn Lũng Cao (xã Cổ Lũng)",
+    "Thôn Trình": "Thôn Tân Thành (xã Cổ Lũng)",
+    "Thôn Hin": "Thôn Tân Thành (xã Cổ Lũng)",
+    "Thôn Bố": "Thôn Bó Nủa (xã Cổ Lũng)",
+    "Thôn Nủa": "Thôn Bó Nủa (xã Cổ Lũng)",
+    "Thôn Cao Hoong": "Thôn Kịt (xã Cổ Lũng)",
+    "Thôn Kịt": "Thôn Kịt (xã Cổ Lũng)",
+    "Thôn Pốn Thành Công": "Thôn Kịt (xã Cổ Lũng)",
+    "Thôn Son": "Thôn Son Bá Mười (xã Cổ Lũng)",
+    "Thôn Mười": "Thôn Son Bá Mười (xã Cổ Lũng)",
+    "Thôn Bá": "Thôn Son Bá Mười (xã Cổ Lũng)"
 };
 
 function searchDiaDanh(query) {
@@ -347,33 +492,49 @@ function sanitizeLegalHallucinations(text, question = "") {
 // ============================================================
 // 6. THIẾT LẬP SYSTEM PROMPT ĐA TẦNG CHO GEMINI API
 // ============================================================
+// ============================================================
+// 6. THIẾT LẬP SYSTEM PROMPT ĐA TẦNG CHO GEMINI API
+// ============================================================
 function buildDynamicSystemPrompt(question, intentType) {
     const { title } = selectSmartAnswerFramework(question, intentType);
 
-    return `Bạn là Trợ lý ảo ThanhHoa Land AI (v2026) - Chuyên gia tư vấn pháp lý đất đai và thủ tục hành chính tại tỉnh Thanh Hóa.
-Nhiệm vụ của bạn là giải đáp chính xác, tỉ mỉ, đầy đủ và chuyên sâu các vấn đề đất đai theo:
-- Luật Đất đai 2024 (Luật số 31/2024/QH15)
-- Nghị định số 101/2024/NĐ-CP & Nghị định số 102/2024/NĐ-CP
-- Nghị định số 49/2026/NĐ-CP & Nghị định số 254/2026/NĐ-CP
-- Quyết định số 18/2026/QĐ-UBND tỉnh Thanh Hóa (Quy định hạn mức diện tích tách thửa, giao đất ở)
-- Quyết định số 2604/QĐ-VP tỉnh Thanh Hóa (Danh mục TTHC và biểu mẫu đơn chuẩn).
+    return `Bạn là Trợ lý ảo ThanhHoa Land AI (v2026) - Chuyên gia tư vấn pháp lý đất đai và thủ tục hành chính chuyên sâu tại tỉnh Thanh Hóa.
 
-BẢNG CĂN CỨ PHÁP LÝ CHUẨN XÁC 100%:
+CÂU HỎI HIỆN TẠI CỦA NGƯỜI DÙNG:
+"${question}"
+
+BẢNG CĂN CỨ PHÁP LÝ CHUẨN XÁC 100% (ĐÃ ĐƯỢC HUẤN LUYỆN):
 ${GROUND_TRUTH_FACTS_TEXT}
 
-[KỸ NĂNG HUẤN LUYỆN BẺ LÁI HÓM HỈNH KHI GẶP CÂU HỎI NGOÀI CHUYÊN MÔN / XÃ GIAO / TRÊU ĐÙA]
-Khi người dùng hỏi những câu hỏi KHÔNG LIÊN QUAN ĐẾN ĐẤT ĐAI (chào hỏi, tình cảm, ăn uống, thời tiết, lập trình, triết học, đùa cợt...), hãy áp dụng công thức 3 bước:
-1. [Đồng cảm / Tán thưởng câu hỏi của người dùng một cách duyên dáng, hóm hỉnh].
-2. [Ví von hài hước bằng các thuật ngữ đất đai/địa chính như: ranh giới, sổ đỏ, tranh chấp, quy hoạch, đất ONT, đất LUC, tọa độ VN-2000, Một cửa...].
-3. [Khéo léo "bẻ lái" câu chuyện quay trở lại tư vấn thủ tục đất đai thực tế của người dùng].
+[YÊU CẦU BẮT BUỘC KHI TRẢ LỜI - BÁM SÁT 100% CÂU HỎI & VẬN DỤNG DỮ LIỆU ĐÃ TRAINING]:
+1. BÁM SÁT TRỌNG TÂM CÂU HỎI:
+   - Trích xuất chính xác các thông tin trong câu hỏi của người dùng: Loại đất (đất ở, nông nghiệp, đất rừng, đất CLN/BHK...), Vị trí (đô thị/nông thôn/huyện cụ thể/xã miền núi), Diện tích (số m² cụ thể), Tình huống (tách thửa, sang tên, chuyển nhượng, tặng cho, cấp sổ lần đầu, tranh chấp, đo đạc...).
+   - Nếu câu hỏi có con số diện tích (VD: 80m², 3400m², 100m²...): BẮT BUỘC thực hiện phép tính phân tích trực tiếp trên con số đó (chia đôi được mấy m², thửa còn lại bao nhiêu m², có đủ hạn mức tối thiểu hay không). Tuyệt đối không trả lời chung chung!
+   - Nếu câu hỏi có tên địa danh (Bá Thước, Nghi Sơn, Hậu Lộc, Quảng Nham, Hải Thanh...): BẮT BUỘC đối chiếu với CSDL địa danh sáp nhập và áp đúng hạn mức đặc thù của địa bàn đó (VD: Hải Thanh >= 30 m², Ngư Lộc >= 30 m²).
 
-CẤU TRÚC TRẢ LỜI YÊU CẦU CHO CÂU HỎI PHÁP LÝ THEO ${title}:
-#### 1. Trả lời trực diện & Kết luận dứt điểm (Nêu ngay kết luận, con số diện tích m2 ở dòng đầu tiên)
-#### 2. Căn cứ Pháp lý & Phân tích bối cảnh áp dụng (Trích dẫn chính xác Điều/Khoản luật và QĐ 18, 2604 Thanh Hóa)
-#### 3. Hướng dẫn Quy trình & Thành phần Hồ sơ cốt lõi (Nêu rõ mã mẫu đơn Mẫu 25, Mẫu 29, Mẫu 35, Mẫu 34, Mẫu 01/LPTB; địa điểm nộp; thời gian giải quyết tối đa)
-#### 4. Lưu ý quan trọng & Mẹo thực tế (Tránh rủi ro, phân định thẩm quyền ký cấp GCN).
+2. VẬN DỤNG CHÍNH XÁC VĂN BẢN QUY PHẠM PHÁP LUẬT ĐÃ TRAINING:
+   - Trích dẫn đúng Điều luật: Điều 220 (tách thửa), Điều 45 (chuyển nhượng), Điều 137-140 (cấp lần đầu), Điều 152 (thu hồi/cấp lại) Luật Đất đai 2024.
+   - Trích dẫn đúng Hạn mức diện tích tách thửa theo Quyết định số 18/2026/QĐ-UBND tỉnh Thanh Hóa.
+   - Nêu đúng Mã Biểu mẫu chuẩn theo Quyết định số 2604/QĐ-VP tỉnh Thanh Hóa:
+     * Đơn Mẫu số 25: Cấp GCN lần đầu.
+     * Đơn Mẫu số 29: Đăng ký biến động, sang tên chuyển nhượng, cấp đổi GCN.
+     * Đơn Mẫu số 35 + Bản vẽ Mẫu số 34: Tách thửa đất, hợp thửa đất.
+     * Tờ khai Mẫu 01/LPTB (Lệ phí trước bạ) & Mẫu 03/BĐS-TNCN (Thuế TNCN).
+   - Nêu đúng Thẩm quyền ký cấp GCN Bước 4:
+     * Chi nhánh VPĐKĐĐ: Ký Cấp đổi và Đăng ký biến động (sang tên).
+     * Chủ tịch UBND cấp xã: Ký Cấp lần đầu và Cấp lại do bị mất (sau niêm yết 10 ngày).
+   - Nêu đúng Thời gian giải quyết: Phân biệt rõ thời hạn xã đồng bằng vs xã miền núi (+10 ngày làm việc).
 
-Cuối câu trả lời, hãy thêm 3 câu hỏi gợi mở tiếp theo cho người dân theo định dạng:
+3. KỸ NĂNG BẺ LÁI HÓM HỈNH (NẾU CÂU HỎI NGOÀI ĐẤT ĐAI):
+   - Nếu người dùng chào hỏi, hỏi chuyện tình cảm, ăn uống, thời tiết, trêu đùa: Áp dụng công thức [Đồng cảm duyên dáng] + [Ví von thuật ngữ địa chính/đất đai] + [Bẻ lái khéo léo về thủ tục đất đai].
+
+CẤU TRÚC TRÌNH BÀY CHUẨN THEO ${title}:
+#### 1. Trả lời trực diện & Kết luận dứt điểm (Nêu ngay ĐỦ ĐIỀU KIỆN hay KHÔNG, số m2 cần thiết, hoặc kết luận chính xác ở dòng đầu tiên)
+#### 2. Căn cứ Pháp lý & Phân tích chi tiết vào trường hợp của bạn (Áp dụng đúng Điều luật và phép tính thực tế)
+#### 3. Quy trình thực hiện & Hồ sơ biểu mẫu chuẩn QĐ 2604 (Nêu rõ mã mẫu đơn, nơi nộp, thời gian giải quyết tối đa)
+#### 4. Lưu ý quan trọng & Mẹo thực tế cho bạn (Tránh rủi ro pháp lý, kiểm tra lối đi, phân định thẩm quyền ký cấp GCN)
+
+Cuối câu trả lời, hãy đính kèm 3 câu hỏi gợi mở tiếp theo bám sát với tình huống của người dân:
 ---
 💡 **Bạn có thể hỏi tiếp:**
 1. *[Câu hỏi tiếp theo 1]*
@@ -385,9 +546,20 @@ Cuối câu trả lời, hãy thêm 3 câu hỏi gợi mở tiếp theo cho ngư
 // 8. GEMINI DIRECT REST API CALLER (CLIENT-SIDE JS)
 // ============================================================
 async function callGeminiDirectApi(promptText, systemInstruction, imageParts = [], modelOverride = null) {
-    const key = getEffectiveApiKey();
-    const model = modelOverride || getEffectiveModel();
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`;
+    const customKey = localStorage.getItem('thanhhoa_land_ai_custom_key');
+    const availableKeys = [];
+    if (customKey && customKey.trim().length > 10) {
+        availableKeys.push(customKey.trim());
+    }
+    for (const k of GEMINI_CONFIG.defaultKeys) {
+        if (!availableKeys.includes(k)) availableKeys.push(k);
+    }
+
+    const requestedModel = modelOverride || getEffectiveModel();
+    const candidateModels = [requestedModel];
+    for (const m of ['gemini-2.0-flash', 'gemini-1.5-flash', 'gemini-1.5-pro']) {
+        if (!candidateModels.includes(m)) candidateModels.push(m);
+    }
 
     const contents = [];
     const userParts = [];
@@ -422,48 +594,38 @@ async function callGeminiDirectApi(promptText, systemInstruction, imageParts = [
         };
     }
 
-    try {
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(requestBody)
-        });
+    let lastError = null;
 
-        if (!response.ok) {
-            const errData = await response.json().catch(() => ({}));
-            const errMsg = errData.error ? errData.error.message : response.statusText;
-            throw new Error(`Gemini API error (${response.status}): ${errMsg}`);
-        }
-
-        const data = await response.json();
-        const candidate = data.candidates && data.candidates[0];
-        if (candidate && candidate.content && candidate.content.parts && candidate.content.parts[0]) {
-            return candidate.content.parts[0].text;
-        }
-        throw new Error('Gemini API không trả về nội dung hợp lệ');
-    } catch (err) {
-        console.warn('⚠️ Lỗi gọi Gemini Direct API:', err);
-        if (GEMINI_CONFIG.defaultKeys.length > 1) {
-            const backupKey = GEMINI_CONFIG.defaultKeys[1];
-            if (backupKey !== key) {
-                console.log('🔄 Đang thử lại với Backup Key...');
-                const backupUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${backupKey}`;
-                const backupResp = await fetch(backupUrl, {
+    for (const curModel of candidateModels) {
+        for (const curKey of availableKeys) {
+            try {
+                const url = `https://generativelanguage.googleapis.com/v1beta/models/${curModel}:generateContent?key=${curKey}`;
+                const response = await fetch(url, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(requestBody)
                 });
-                if (backupResp.ok) {
-                    const bData = await backupResp.json();
-                    const bCandidate = bData.candidates && bData.candidates[0];
-                    if (bCandidate && bCandidate.content && bCandidate.content.parts && bCandidate.content.parts[0]) {
-                        return bCandidate.content.parts[0].text;
-                    }
+
+                if (!response.ok) {
+                    const errData = await response.json().catch(() => ({}));
+                    const errMsg = errData.error ? errData.error.message : response.statusText;
+                    throw new Error(`Gemini API error (${response.status}): ${errMsg}`);
                 }
+
+                const data = await response.json();
+                const candidate = data.candidates && data.candidates[0];
+                if (candidate && candidate.content && candidate.content.parts && candidate.content.parts[0]) {
+                    return candidate.content.parts[0].text;
+                }
+                throw new Error('Gemini API không trả về nội dung hợp lệ');
+            } catch (err) {
+                lastError = err;
+                console.warn(`⚠️ Model ${curModel} với Key ...${curKey.slice(-6)} gặp lỗi: ${err.message}. Đang thử model/key tiếp theo...`);
             }
         }
-        throw err;
     }
+
+    throw lastError || new Error('Không thể kết nối với tất cả các mô hình Gemini Vision khả dụng');
 }
 
 // ============================================================
