@@ -4,20 +4,62 @@
 // ============================================================
 console.log('✅ ThanhHoa Land AI v2026 loaded');
 
-// ── Dynamic Backend API Configuration (Hỗ trợ chạy mượt cả trên Local & GitHub Pages) ──
-let SAVED_BACKEND_URL = localStorage.getItem('thanhhoa_ai_backend_url') || '';
-let API_BASE = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? '' : SAVED_BACKEND_URL;
+// ── Dynamic Backend API Configuration (Tự động 100% không cần người dùng nhập) ──
+let API_BASE = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? '' : (localStorage.getItem('thanhhoa_ai_backend_url') || '');
+
+async function autoSyncBackendEndpoint() {
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+        updateBackendStatusUI(true, 'MÁY CỤC BỘ (ONLINE)');
+        return;
+    }
+    
+    // Tự động tải link Tunnel mới nhất từ file backend_endpoint.json trên GitHub
+    try {
+        const res = await fetch(`backend_endpoint.json?nocache=${Date.now()}`);
+        if (res.ok) {
+            const data = await res.json();
+            if (data && data.url && data.url.startsWith('http')) {
+                API_BASE = data.url.replace(/\/+$/, '');
+                localStorage.setItem('thanhhoa_ai_backend_url', API_BASE);
+                console.log('⚡ Tự động kết nối Máy chủ AI:', API_BASE);
+                updateBackendStatusUI(true, 'AI ONLINE (TỰ ĐỘNG)');
+                return;
+            }
+        }
+    } catch (e) {
+        console.warn('Đang kiểm tra máy chủ AI...', e);
+    }
+    
+    if (API_BASE) {
+        updateBackendStatusUI(true, 'AI ONLINE');
+    } else {
+        updateBackendStatusUI(false, 'CHỜ BẬT AI BACKEND');
+    }
+}
+
+function updateBackendStatusUI(isOnline, text) {
+    const textEl = document.getElementById('backendStatusText');
+    const chipEl = document.getElementById('backendStatusChip');
+    if (textEl) textEl.textContent = text || (isOnline ? 'HỆ THỐNG ONLINE' : 'OFFLINE');
+    if (chipEl) {
+        chipEl.className = isOnline ? 'status-chip online' : 'status-chip offline';
+    }
+}
 
 function configureBackendUrl() {
-    const current = localStorage.getItem('thanhhoa_ai_backend_url') || '';
+    const current = localStorage.getItem('thanhhoa_ai_backend_url') || API_BASE || '';
     const newUrl = prompt('🔗 Nhập đường link kết nối Máy chủ AI Backend (Cloudflare Tunnel hoặc Ngrok của bạn):', current);
     if (newUrl !== null) {
         const cleanUrl = newUrl.trim().replace(/\/+$/, '');
         localStorage.setItem('thanhhoa_ai_backend_url', cleanUrl);
+        API_BASE = cleanUrl;
         alert(cleanUrl ? `✅ Đã lưu Máy chủ AI: ${cleanUrl}\nTrang sẽ tự động tải lại!` : 'ℹ️ Đã xóa máy chủ cấu hình. Trang sẽ dùng máy chủ mặc định!');
         window.location.reload();
     }
 }
+
+// Tự động đồng bộ ngay khi tải trang
+autoSyncBackendEndpoint();
 
 // ── Global State ──
 const loadedThumbnails = {
