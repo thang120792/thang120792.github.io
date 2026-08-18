@@ -990,7 +990,7 @@ async function sendMessage() {
     }
 
     const mode = getEffectiveEngineMode();
-    if (!answerText && (mode === 'server' || (mode === 'auto' && window.location.hostname === 'localhost'))) {
+    if (!answerText && mode !== 'direct_js') {
         try {
             const response = await fetch('/api/chat', {
                 method: 'POST',
@@ -999,11 +999,13 @@ async function sendMessage() {
             });
             if (response.ok) {
                 const data = await response.json();
-                answerText = data.answer;
-                sourceLabel = "Local AI Server (Obsidian Vault & NotebookLM)";
+                if (data && data.answer) {
+                    answerText = data.answer;
+                    sourceLabel = data.source || "Vercel Serverless AI (Obsidian Knowledge Base)";
+                }
             }
         } catch (serverErr) {
-            console.log('Local server not reachable, switching to Direct Gemini JS...');
+            console.log('Backend /api/chat not reachable, switching to Direct Gemini JS...');
         }
     }
 
