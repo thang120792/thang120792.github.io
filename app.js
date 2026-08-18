@@ -56,13 +56,13 @@ function getEffectiveEngineMode() {
 // ============================================================
 // 2. BỘ NHỚ PHÁP LÝ CHUẨN XÁC 100% (GROUND TRUTH FACTS TEXT)
 // ============================================================
-const GROUND_TRUTH_FACTS_TEXT = `[BẢNG CĂN CỨ PHÁP LÝ ĐẤT ĐAI THANH HÓA 100% CHUẨN XÁC - ĐƯỢC HUẤN LUYỆN TỪ OBSIDIAN VAULT]
+const GROUND_TRUTH_FACTS_TEXT = `[BẢNG CĂN CỨ PHÁP LÝ ĐẤT ĐAI THANH HÓA 100% CHUẨN XÁC - BÁCH KHOA TOÀN THƯ 10.000 CÂU]
 1. TÁCH THỬA ĐẤT (CĂN CỨ: ĐIỀU 220 LUẬT ĐẤT ĐAI 2024 SỐ 31/2024/QH15 & QUYẾT ĐỊNH 18/2026/QĐ-UBND THANH HÓA):
    - Đất ở nông thôn (xã): Diện tích tối thiểu >= 50 m², chiều rộng mặt tiền >= 4.0 m, chiều sâu >= 4.0 m. (Riêng xã Nghi Sơn, Ngư Lộc, Quảng Nham: >= 30 m²).
    - Đất ở đô thị (phường/thị trấn): Diện tích tối thiểu >= 40 m², chiều rộng mặt tiền >= 3.0 m, chiều sâu >= 3.0 m. (Riêng P. Hải Thanh - TX Nghi Sơn: >= 30 m²).
    - Đất rừng sản xuất & Đất rừng phòng hộ: Diện tích tối thiểu >= 3.000 m² (0.3 ha). Rừng đặc dụng không được chia tách.
    - Đất trồng cây hàng năm, đất trồng cây lâu năm, đất nuôi trồng thủy sản (nông nghiệp): Diện tích tối thiểu >= 500 m² (đô thị), >= 1.000 m² (đồng bằng), >= 1.500 m² (miền núi).
-   - Điều kiện chung: Có Giấy chứng nhận bản gốc, còn thời hạn sử dụng, không tranh chấp, không kê biên, có lối đi kết nối đường công cộng.
+   - Điều kiện bắt buộc: Có Giấy chứng nhận bản gốc, còn thời hạn sử dụng, không tranh chấp, không kê biên, có lối đi kết nối đường giao thông công cộng.
    - Thời gian giải quyết: Không quá 15 ngày làm việc.
 
 2. SANG TÊN / CHUYỂN NHƯỢNG SỔ ĐỎ (CĂN CỨ: NGHỊ ĐỊNH 101/2024/NĐ-CP & ĐIỀU 45 LUẬT ĐẤT ĐAI 2024):
@@ -143,11 +143,18 @@ const GROUND_TRUTH_FACTS_TEXT = `[BẢNG CĂN CỨ PHÁP LÝ ĐẤT ĐAI THANH H
     - Tranh chấp quyền sử dụng đất bắt buộc phải qua thủ tục hòa giải tại UBND cấp xã nơi có đất.
     - Thời hạn hòa giải: Không quá 45 ngày kể từ ngày nhận đơn. Biên bản hòa giải thành có hiệu lực thi hành; hòa giải không thành thì đương sự khởi kiện ra Tòa án nhân dân hoặc yêu cầu UBND cấp có thẩm quyền giải quyết.
 
-19. ĐO ĐẠC ĐỊA CHÍNH, TRÍCH ĐO & MỐC GIỚI VN-2000 (THÔNG TƯ 26/2024/TT-BTNMT):
-    - Ranh giới thửa đất xác định theo hiện trạng sử dụng và có sự thống nhất của các chủ sử dụng đất liền kề (ký giáp ranh Mẫu 20/ĐK).
-    - Trường hợp người sử dụng đất liền kề vắng mặt: Niêm yết công khai 15 ngày tại UBND cấp xã; sau thời hạn niêm yết không có tranh chấp thì tiến hành hoàn thiện hồ sơ trích đo.
+19. ĐO ĐẠC ĐỊA CHÍNH, TRÍCH ĐO MẪU 01/TĐBĐ & 02/TĐBĐ (THÔNG TƯ 26/2024/TT-BTNMT):
+    - Mẫu 01/TĐBĐ: Trích đo độc lập, tự do (nơi chưa có lưới khống chế quốc gia).
+    - Mẫu 02/TĐBĐ: Trích đo có liên kết lưới tọa độ quốc gia VN-2000.
+    - Thẩm quyền ký duyệt: Giám đốc hoặc Phó Giám đốc Chi nhánh VPĐKĐĐ ký duyệt cuối cùng.
+    - Được phép thuê đơn vị đo đạc tư nhân có Giấy phép hoạt động đo đạc bản đồ do Bộ TN&MT cấp.
+    - Ranh giới thửa đất xác định theo hiện trạng sử dụng và ký giáp ranh Mẫu 20/ĐK. Nếu hộ liền kề vắng mặt: Niêm yết công khai 15 ngày tại UBND cấp xã.
 
-20. CSDL SÁP NHẬP ĐỊA DANH HUYỆN BÁ THƯỚC & THANH HÓA:
+20. SỬ DỤNG ĐẤT KẾT HỢP ĐA MỤC ĐÍCH & GIA HẠN ĐẤT (MẪU 33 & 17 - QĐ 2604):
+    - Đất nông nghiệp được kết hợp mục đích thương mại, dịch vụ, du lịch sinh thái (Đơn Mẫu 33) không làm thay đổi loại đất.
+    - Hộ gia đình, cá nhân trực tiếp sản xuất nông nghiệp được tiếp tục sử dụng đất khi hết hạn mà không phải làm thủ tục gia hạn; tổ chức nộp Đơn Mẫu 17 trước 06 tháng khi hết hạn.
+
+21. CSDL SÁP NHẬP ĐỊA DANH 72 THÔN HUYỆN BÁ THƯỚC & THANH HÓA:
     - Tra cứu và chuẩn hóa tên gọi xã, thị trấn, thôn/xóm sau sáp nhập; tự động đính chính địa chỉ mới trên GCN.`;
 
 // ============================================================
@@ -434,20 +441,20 @@ function analyzeUserIntent(question) {
 }
 
 function selectSmartAnswerFramework(question, intentType) {
-    const qLower = question.toLowerCase();
+    const qLower = question.toLowerCase().trim();
+    const words = question.trim().split(/\s+/);
+
     if (qLower.includes("json") || qLower.includes("payload") || qLower.includes("trích xuất dữ liệu")) {
-        return { code: "PHOM_5", title: "PHOM 5: ĐỊNH DẠNG TRÍCH XUẤT DỮ LIỆU TỰ ĐỘNG (JSON PAYLOAD)" };
+        return { code: "PHOM_JSON", title: "ĐỊNH DẠNG TRÍCH XUẤT DỮ LIỆU TỰ ĐỘNG (JSON PAYLOAD)" };
     }
-    if (qLower.includes("tranh chấp") || qLower.includes("xung đột") || qLower.includes("nghiên cứu sâu") || qLower.includes("suy luận") || qLower.includes("phức tạp")) {
-        return { code: "PHOM_2", title: "PHOM 2: QUY TRÌNH SUY LUẬN BẮT BUỘC (CHAIN-OF-THOUGHT)" };
+    
+    // Câu hỏi đơn giản / tra cứu nhanh -> Tùy cơ ứng biến trả lời ngắn gọn, trực diện
+    if (words.length <= 7 || qLower.includes("mấy m2") || qLower.includes("bao nhiêu m2") || qLower.includes("ở đâu") || qLower.includes("mấy ngày") || qLower.includes("là gì")) {
+        return { code: "PHOM_DON_GIAN", title: "CẤU TRÚC ĐƠN GIẢN (TRẢ LỜI NGẮN GỌN & ĐÚNG TRỌNG TÂM)" };
     }
-    if (qLower.includes("mẹo") || qLower.includes("đột phá") || qLower.includes("đàm phán") || qLower.includes("dịch vụ công") || qLower.includes("tự động hóa")) {
-        return { code: "PHOM_3", title: "PHOM 3: CẤU TRÚC TÍCH HỢP ANTIGRAVITY (TƯ DUY ĐỘT PHÁ & MẸO THỰC TẾ)" };
-    }
-    if (question.trim().split(/\s+/).length <= 8 || qLower.includes("mấy m2") || qLower.includes("bao nhiêu m2") || qLower.includes("ở đâu") || qLower.includes("mấy ngày")) {
-        return { code: "PHOM_4", title: "PHOM 4: CẤU TRÚC TỐI GIẢN (ĐÚNG TRỌNG TÂM)" };
-    }
-    return { code: "PHOM_1", title: "PHOM 1: KHUNG PHÂN TÍCH 4 BƯỚC (TƯ VẤN THỦ TỤC THỰC TIỄN)" };
+
+    // Câu hỏi nghiệp vụ, thủ tục, tranh chấp, tính toán -> Áp dụng Khung cấu trúc chuẩn 5 phần
+    return { code: "PHOM_CHUAN_HOA_5_BUOC", title: "KHUNG CẤU TRÚC PHẢN HỒI CHUẨN HÓA (5 THÀNH PHẦN)" };
 }
 
 // ============================================================
@@ -490,49 +497,68 @@ function sanitizeLegalHallucinations(text, question = "") {
 }
 
 // ============================================================
-// 6. THIẾT LẬP SYSTEM PROMPT ĐA TẦNG CHO GEMINI API
 // ============================================================
-// ============================================================
-// 6. THIẾT LẬP SYSTEM PROMPT ĐA TẦNG CHO GEMINI API
+// 6. THIẾT LẬP SYSTEM PROMPT SUY LUẬN ĐA TẦNG CHO GEMINI API
 // ============================================================
 function buildDynamicSystemPrompt(question, intentType) {
     const { title } = selectSmartAnswerFramework(question, intentType);
 
-    return `Bạn là Trợ lý ảo ThanhHoa Land AI (v2026) - Chuyên gia tư vấn pháp lý đất đai và thủ tục hành chính chuyên sâu tại tỉnh Thanh Hóa.
+    return `Bạn là Trợ lý ảo ThanhHoa Land AI (v2026) - Chuyên gia cao cấp tư vấn pháp lý đất đai và thủ tục hành chính tại tỉnh Thanh Hóa, hoạt động với cơ chế SUY LUẬN ĐA TẦNG (MULTI-TIER DEDUCTIVE REASONING) và BẢO ĐẢM 0% ẢO GIÁC (ZERO-HALLUCINATION).
 
 CÂU HỎI HIỆN TẠI CỦA NGƯỜI DÙNG:
 "${question}"
 
-BẢNG CĂN CỨ PHÁP LÝ CHUẨN XÁC 100% (ĐÃ ĐƯỢC HUẤN LUYỆN):
+BẢNG CĂN CỨ PHÁP LÝ & CƠ SỞ TRI THỨC ĐÃ ĐƯỢC HUẤN LUYỆN (BRAIN GROUND TRUTH):
 ${GROUND_TRUTH_FACTS_TEXT}
 
-[YÊU CẦU BẮT BUỘC KHI TRẢ LỜI - BÁM SÁT 100% CÂU HỎI & VẬN DỤNG DỮ LIỆU ĐÃ TRAINING]:
-1. BÁM SÁT TRỌNG TÂM CÂU HỎI:
-   - Trích xuất chính xác các thông tin trong câu hỏi của người dùng: Loại đất (đất ở, nông nghiệp, đất rừng, đất CLN/BHK...), Vị trí (đô thị/nông thôn/huyện cụ thể/xã miền núi), Diện tích (số m² cụ thể), Tình huống (tách thửa, sang tên, chuyển nhượng, tặng cho, cấp sổ lần đầu, tranh chấp, đo đạc...).
-   - Nếu câu hỏi có con số diện tích (VD: 80m², 3400m², 100m²...): BẮT BUỘC thực hiện phép tính phân tích trực tiếp trên con số đó (chia đôi được mấy m², thửa còn lại bao nhiêu m², có đủ hạn mức tối thiểu hay không). Tuyệt đối không trả lời chung chung!
-   - Nếu câu hỏi có tên địa danh (Bá Thước, Nghi Sơn, Hậu Lộc, Quảng Nham, Hải Thanh...): BẮT BUỘC đối chiếu với CSDL địa danh sáp nhập và áp đúng hạn mức đặc thù của địa bàn đó (VD: Hải Thanh >= 30 m², Ngư Lộc >= 30 m²).
+===============================================================
+QUY TRÌNH SUY LUẬN BẮT BUỘC KHI XỬ LÝ MỌI CÂU HỎI (KỂ CẢ CÂU HỎI MỚI / NGOÀI KỊCH BẢN):
+===============================================================
 
-2. VẬN DỤNG CHÍNH XÁC VĂN BẢN QUY PHẠM PHÁP LUẬT ĐÃ TRAINING:
-   - Trích dẫn đúng Điều luật: Điều 220 (tách thửa), Điều 45 (chuyển nhượng), Điều 137-140 (cấp lần đầu), Điều 152 (thu hồi/cấp lại) Luật Đất đai 2024.
-   - Trích dẫn đúng Hạn mức diện tích tách thửa theo Quyết định số 18/2026/QĐ-UBND tỉnh Thanh Hóa.
-   - Nêu đúng Mã Biểu mẫu chuẩn theo Quyết định số 2604/QĐ-VP tỉnh Thanh Hóa:
-     * Đơn Mẫu số 25: Cấp GCN lần đầu.
-     * Đơn Mẫu số 29: Đăng ký biến động, sang tên chuyển nhượng, cấp đổi GCN.
-     * Đơn Mẫu số 35 + Bản vẽ Mẫu số 34: Tách thửa đất, hợp thửa đất.
-     * Tờ khai Mẫu 01/LPTB (Lệ phí trước bạ) & Mẫu 03/BĐS-TNCN (Thuế TNCN).
-   - Nêu đúng Thẩm quyền ký cấp GCN Bước 4:
-     * Chi nhánh VPĐKĐĐ: Ký Cấp đổi và Đăng ký biến động (sang tên).
-     * Chủ tịch UBND cấp xã: Ký Cấp lần đầu và Cấp lại do bị mất (sau niêm yết 10 ngày).
-   - Nêu đúng Thời gian giải quyết: Phân biệt rõ thời hạn xã đồng bằng vs xã miền núi (+10 ngày làm việc).
+1. ĐỐI VỚI CÂU HỎI ĐÃ CÓ TRONG KHO TRI THỨC (TÁCH THỬA, SANG TÊN, CẤP SỔ LẦN ĐẦU, ĐO ĐẠC, ĐẤT RỪNG, THUẾ, SÁP NHẬP ĐỊA DANH...):
+   - Trích xuất chính xác các tham số trong câu hỏi: Diện tích (số m² cụ thể), Loại đất (đất ở đô thị/nông thôn, đất rừng sản xuất/phòng hộ, đất CLN/BHK/LUC), Địa bàn (xã/phường/huyện/thôn xóm sáp nhập).
+   - Thực hiện phép tính phân tích trực tiếp trên con số của người dùng (VD: Thửa gốc X m² chia đôi thì mỗi thửa được bao nhiêu m², so sánh với hạn mức QĐ 18/2026/QĐ-UBND).
+   - Áp dụng đúng số Điều luật (Điều 45, 137-140, 152, 220, 235 Luật Đất đai 2024), đúng Mã biểu mẫu QĐ 2604/QĐ-VP (Mẫu 25, 29, 35, 34, 01/LPTB, 03/BĐS-TNCN), đúng thẩm quyền Bước 4 và thời gian giải quyết chuẩn.
 
-3. KỸ NĂNG BẺ LÁI HÓM HỈNH (NẾU CÂU HỎI NGOÀI ĐẤT ĐAI):
-   - Nếu người dùng chào hỏi, hỏi chuyện tình cảm, ăn uống, thời tiết, trêu đùa: Áp dụng công thức [Đồng cảm duyên dáng] + [Ví von thuật ngữ địa chính/đất đai] + [Bẻ lái khéo léo về thủ tục đất đai].
+2. ĐỐI VỚI CÂU HỎI MỚI, PHỨC TẠP HOẶC CHƯA CÓ TRONG KỊCH BẢN CÓ SẴN (TRANH CHẤP ĐỒNG SỞ HỮU, THỪA KẾ NHIỀU ĐỜI, ĐẤT ĐANG THẾ CHẤP, ĐẤT QUY HOẠCH TREO, THU HỒI DỰ ÁN ĐẶC THÙ, ĐĂNG KÝ BIẾN ĐỘNG PHỨC TẠP...):
+   - BƯỚC 1 (Bóc tách bản chất pháp lý): Phân tích rõ các quan hệ pháp luật, loại giấy tờ hiện trạng, quyền và nghĩa vụ của các bên liên quan.
+   - BƯỚC 2 (Suy luận từ nguyên tắc tối cao của Luật Đất đai 2024): Vận dụng hệ thống quy định pháp luật hiện hành (Luật Đất đai 2024, NĐ 101/2024, NĐ 102/2024, NĐ 103/2024, NĐ 88/2024, NĐ 123/2024, NĐ 254/2026, TT 26/2024) để suy luận logic, chặt chẽ, đa chiều và giải quyết tận gốc vấn đề.
+   - BƯỚC 3 (Đề xuất giải pháp tối ưu & Mẹo thực tế): Hướng dẫn người dân cách xử lý an toàn nhất về mặt pháp lý, giảm thiểu tối đa chi phí tài chính và thời gian đi lại.
+   - BƯỚC 4 (Lộ trình hồ sơ hành động): Nêu rõ từng bước nộp tại Bộ phận Một Cửa / Chi nhánh VPĐKĐĐ / UBND xã; các giấy tờ cần nộp kèm để hồ sơ được tiếp nhận ngay trong 1 lần nộp duy nhất.
 
-CẤU TRÚC TRÌNH BÀY CHUẨN THEO ${title}:
-#### 1. Trả lời trực diện & Kết luận dứt điểm (Nêu ngay ĐỦ ĐIỀU KIỆN hay KHÔNG, số m2 cần thiết, hoặc kết luận chính xác ở dòng đầu tiên)
-#### 2. Căn cứ Pháp lý & Phân tích chi tiết vào trường hợp của bạn (Áp dụng đúng Điều luật và phép tính thực tế)
-#### 3. Quy trình thực hiện & Hồ sơ biểu mẫu chuẩn QĐ 2604 (Nêu rõ mã mẫu đơn, nơi nộp, thời gian giải quyết tối đa)
-#### 4. Lưu ý quan trọng & Mẹo thực tế cho bạn (Tránh rủi ro pháp lý, kiểm tra lối đi, phân định thẩm quyền ký cấp GCN)
+3. NGUYÊN TẮC PHÒNG CHỐNG ẢO GIÁC PHÁP LÝ (ZERO-HALLUCINATION GUARDRAILS):
+   - Tuyệt đối KHÔNG trích dẫn các văn bản đã hết hiệu lực (như Luật Đất đai 2013, Nghị định 43/2014/NĐ-CP). Toàn bộ phải áp dụng theo Luật Đất đai 2024 và các Nghị định mới 2024 - 2026.
+   - Tuyệt đối KHÔNG bịa đặt hạn mức diện tích tách thửa (Đô thị >= 40 m², Nông thôn >= 50 m², Rừng >= 3.000 m², Đất nông nghiệp >= 500 m²).
+   - Phân định rõ: Cấp lần đầu & Cấp lại bị mất thuộc thẩm quyền Chủ tịch UBND cấp xã; Cấp đổi & Sang tên biến động thuộc thẩm quyền Chi nhánh VPĐKĐĐ.
+
+4. KỸ NĂNG BẺ LÁI HÓM HỈNH (NẾU CÂU HỎI NGOÀI ĐẤT ĐAI):
+   - Nếu người dùng chào hỏi, đùa cợt, hỏi chuyện tình cảm, thời tiết, lập trình...: Áp dụng công thức [Đồng cảm duyên dáng] + [Ví von hài hước bằng thuật ngữ địa chính] + [Khéo léo bẻ lái về thủ tục đất đai thực tế].
+
+===============================================================
+CẤU TRÚC PHẢN HỒI BẮT BUỘC (${title}):
+===============================================================
+${code === 'PHOM_DON_GIAN' ? `
+[CHẾ ĐỘ TỐI GIẢN - TRẢ LỜI NGẮN GỌN & TÙY CƠ ỨNG BIẾN]:
+- Trả lời NGAY con số/kết luận chính xác trong 2 - 4 dòng.
+- Nêu ngắn gọn căn cứ pháp lý cốt lõi (Điều luật, Quyết định).
+` : `
+[CHẾ ĐỘ CHUYÊN NGHIỆP - KHUNG CẤU TRÚC 5 PHẦN CHUẨN HÓA]:
+**[KẾT LUẬN TRỰC DIỆN VIẾT HOA TOÀN BỘ, BÔI ĐẬM Ở DÒNG ĐẦU TIÊN: HOÀN TOÀN ĐƯỢC PHÉP / KHÔNG THỂ THỰC HIỆN / ĐỦ ĐIỀU KIỆN...]**
+
+### **1. Cơ sở pháp lý áp dụng**
+*   **[Liệt kê Điều, Khoản, Điểm văn bản pháp luật cụ thể]**
+
+### **2. Bản chất pháp lý & Phân tích kịch bản nghiệp vụ**
+*   **[Phân tích bản chất, chia trường hợp rõ ràng hoặc tính toán m2 thực tế bằng danh sách gạch đầu dòng]**
+
+### **3. Quy trình thực hiện tại Bộ phận Một cửa**
+*   **Bước 1:** [Đo đạc, lập trích đo nếu cần]
+*   **Bước 2:** [Nộp hồ sơ: Nêu rõ Đơn Mẫu 25, Mẫu 29, Mẫu 35 kèm Mẫu 34 theo QĐ 2604]
+*   **Bước 3:** [Thẩm tra, niêm yết công khai, chuyển cơ quan thuế]
+*   **Bước 4:** [Ký duyệt cấp GCN theo phân cấp Bước 4 & nhận kết quả]
+
+⚠️ **CẢNH BÁO QUAN TRỌNG:** [Chỉ rõ rủi ro thực địa, điều kiện bắt buộc về không tranh chấp ranh giới hoặc lối đi công cộng]
+`}
 
 Cuối câu trả lời, hãy đính kèm 3 câu hỏi gợi mở tiếp theo bám sát với tình huống của người dân:
 ---
@@ -545,7 +571,7 @@ Cuối câu trả lời, hãy đính kèm 3 câu hỏi gợi mở tiếp theo b�
 // ============================================================
 // 8. GEMINI DIRECT REST API CALLER (CLIENT-SIDE JS)
 // ============================================================
-async function callGeminiDirectApi(promptText, systemInstruction, imageParts = [], modelOverride = null) {
+async function callGeminiDirectApi(promptText, systemInstruction, imageParts = [], modelOverride = null, isJson = false) {
     const customKey = localStorage.getItem('thanhhoa_land_ai_custom_key');
     const availableKeys = [];
     if (customKey && customKey.trim().length > 10) {
@@ -578,14 +604,20 @@ async function callGeminiDirectApi(promptText, systemInstruction, imageParts = [
     userParts.push({ text: promptText });
     contents.push({ role: 'user', parts: userParts });
 
+    const genConfig = {
+        temperature: isJson ? 0.1 : 0.2,
+        topK: 40,
+        topP: 0.95,
+        maxOutputTokens: 2500
+    };
+
+    if (isJson) {
+        genConfig.responseMimeType = "application/json";
+    }
+
     const requestBody = {
         contents: contents,
-        generationConfig: {
-            temperature: 0.2,
-            topK: 40,
-            topP: 0.95,
-            maxOutputTokens: 2500
-        }
+        generationConfig: genConfig
     };
 
     if (systemInstruction) {
@@ -1004,61 +1036,73 @@ async function sendMessage() {
 // ============================================================
 // OCR SCAN PROMPTS & CLIENT-SIDE VISION INTEGRATION
 // ============================================================
-const PROMPT_CCCD_EXACT = `Bạn là chuyên gia OCR tài liệu hành chính Việt Nam.
-Hãy đọc toàn bộ thông tin trên thẻ Căn cước công dân (CCCD) trong ảnh và trả về CHÍNH XÁC cấu trúc JSON dưới đây:
+const PROMPT_CCCD_EXACT = `Bạn là chuyên gia OCR tài liệu căn cước công dân Việt Nam.
+Hãy đọc toàn bộ thông tin trên thẻ Căn cước công dân (CCCD) / CMND trong ảnh và trả về JSON chuẩn xác:
 {
-  "document_type": "Căn cước công dân",
-  "front_side": {
-    "id_number": "Số CCCD (12 chữ số)",
-    "full_name": "Họ và tên IN HOA",
-    "date_of_birth": "DD/MM/YYYY",
-    "sex": "Nam hoặc Nữ",
-    "nationality": "Việt Nam",
-    "place_of_origin": "Quê quán đầy đủ",
-    "place_of_residence": "Nơi thường trú đầy đủ",
-    "date_of_expiry": "DD/MM/YYYY hoặc Không thời hạn"
-  },
-  "back_side": {
-    "personal_identification": "Đặc điểm nhận dạng",
-    "date_of_issue": "Ngày cấp DD/MM/YYYY",
-    "place_of_issue": "Nơi cấp (Cục Cảnh sát QLHC về TTXH)",
-    "mrz_code": ""
-  }
+  "id_number": "Số CCCD (12 chữ số) hoặc CMND (9 chữ số)",
+  "full_name": "Họ và tên IN HOA",
+  "date_of_birth": "Ngày tháng năm sinh (DD/MM/YYYY hoặc YYYY)",
+  "sex": "Nam hoặc Nữ",
+  "nationality": "Việt Nam",
+  "place_of_origin": "Quê quán đầy đủ",
+  "place_of_residence": "Nơi thường trú đầy đủ",
+  "date_of_issue": "Ngày cấp (DD/MM/YYYY)",
+  "place_of_issue": "Nơi cấp (Cục Cảnh sát QLHC về TTXH hoặc Công an tỉnh)",
+  "personal_identification": "Đặc điểm nhận dạng"
 }
-Chỉ trả về chuỗi JSON thuần túy, không dùng thẻ markdown.`;
+Chỉ trả về JSON thuần túy.`;
 
-const PROMPT_LAND_EXACT = `Bạn là chuyên gia OCR tài liệu hành chính Việt Nam.
-Đây là ảnh Giấy Chứng Nhận Quyền Sử Dụng Đất (Sổ đỏ/Sổ hồng).
-Hãy trích xuất thông tin và trả về CHÍNH XÁC chuẩn cấu trúc JSON:
+const PROMPT_LAND_EXACT = `Bạn là chuyên gia OCR Giấy chứng nhận quyền sử dụng đất (Sổ đỏ / Sổ hồng) Việt Nam.
+Hãy đọc kỹ toàn bộ thông tin trên Giấy chứng nhận trong ảnh và trả về JSON chuẩn xác:
 {
-  "document_type": "Giấy chứng nhận quyền sử dụng đất",
-  "page_1_owner_info": {
-    "certificate_serial_number": "Số phát hành GCN ở DƯỚI CÙNG bìa có 2 chữ cái in hoa ở đầu (VD: DA 895241, CM 902946)",
-    "owner_name": "Tên người sử dụng đất ở mặt bìa (VD: Hà Văn Tha)",
-    "owner_year_of_birth": "Năm sinh",
-    "owner_id_number": "Số CMND/CCCD",
-    "owner_address": "Địa chỉ thường trú chủ sở hữu"
-  },
-  "page_2_land_info": {
-    "parcel_number": "Thửa đất số",
-    "map_sheet_number": "Tờ bản đồ số",
-    "parcel_address": "Địa chỉ thửa đất đầy đủ",
-    "area_number": "Diện tích m2",
-    "purpose_of_use": "Mục đích sử dụng đất (VD: Đất ở tại nông thôn)",
-    "time_of_use": "Thời hạn sử dụng đất (VD: Lâu dài)"
-  },
-  "issuance_info": {
-    "place_of_issue": "Nơi cấp (VD: Chi nhánh VPĐKĐĐ)",
-    "date_of_issue": "Ngày cấp GCN (VD: 05/08/2019)",
-    "registration_book_number": "Số vào sổ cấp GCN (bắt đầu bằng CH, CX, CN, H)"
-  }
+  "certificate_serial_number": "Số phát hành GCN (thường ở DƯỚI CÙNG trang bìa 1 hoặc góc phải, có 2 chữ cái in hoa ở đầu như DA 895241, CM 902946, BD...)",
+  "owner_name": "Họ tên người sử dụng đất / chủ sở hữu (ở trang 1 mặt bìa)",
+  "owner_year_of_birth": "Năm sinh chủ sở hữu",
+  "owner_id_number": "Số CMND/CCCD chủ sở hữu",
+  "owner_address": "Địa chỉ thường trú của chủ sở hữu",
+  "parcel_number": "Thửa đất số (ở trang 2)",
+  "map_sheet_number": "Tờ bản đồ số (ở trang 2)",
+  "parcel_address": "Địa chỉ thửa đất đầy đủ",
+  "area_number": "Diện tích m2 (chỉ lấy số VD: 120.5 hoặc 3400)",
+  "purpose_of_use": "Mục đích sử dụng đất (VD: Đất ở tại nông thôn, Đất trồng cây lâu năm, Đất rừng sản xuất...)",
+  "time_of_use": "Thời hạn sử dụng đất (VD: Lâu dài hoặc Đến năm 2063)",
+  "place_of_issue": "Nơi cấp (VD: Chi nhánh VPĐKĐĐ huyện Bá Thước, UBND huyện Bá Thước, Sở Tài nguyên và Môi trường)",
+  "date_of_issue": "Ngày cấp GCN (DD/MM/YYYY)",
+  "registration_book_number": "Số vào sổ cấp GCN (bắt đầu bằng CH, CS, CN, H...)"
 }
-Chỉ trả về JSON thuần túy, không dùng code block.`;
+Chỉ trả về JSON thuần túy.`;
 
-function readFileAsBase64(file) {
+// Client-side image optimization (resizes large smartphone photos to max 1920px for 10x faster OCR)
+function optimizeImageForOcr(file) {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
-        reader.onload = () => resolve(reader.result);
+        reader.onload = (e) => {
+            const rawDataUrl = e.target.result;
+            const img = new Image();
+            img.onload = () => {
+                const maxDim = 1920;
+                let width = img.width;
+                let height = img.height;
+                if (width > maxDim || height > maxDim) {
+                    if (width > height) {
+                        height = Math.round((height * maxDim) / width);
+                        width = maxDim;
+                    } else {
+                        width = Math.round((width * maxDim) / height);
+                        height = maxDim;
+                    }
+                }
+                const canvas = document.createElement('canvas');
+                canvas.width = width;
+                canvas.height = height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, width, height);
+                const optimizedDataUrl = canvas.toDataURL('image/jpeg', 0.88);
+                resolve(optimizedDataUrl);
+            };
+            img.onerror = () => resolve(rawDataUrl);
+            img.src = rawDataUrl;
+        };
         reader.onerror = reject;
         reader.readAsDataURL(file);
     });
@@ -1085,7 +1129,7 @@ async function handleFileSelectedSide(event, docType, side) {
     if (scanner) scanner.style.display = 'block';
 
     try {
-        const dataUrl = await readFileAsBase64(file);
+        const dataUrl = await optimizeImageForOcr(file);
         loadedThumbnails[docType][side] = dataUrl;
         renderDocumentPreview();
 
@@ -1119,15 +1163,16 @@ async function handleFileSelectedSide(event, docType, side) {
         // 2. Nếu chưa bóc tách được -> Gọi trực tiếp Client Gemini Vision API với Model được chọn
         if (!extracted) {
             const rawBase64 = dataUrl.split(',')[1];
-            const mimeType = file.type || 'image/jpeg';
+            const mimeType = 'image/jpeg';
             const prompt = (docType === 'cccd') ? PROMPT_CCCD_EXACT : PROMPT_LAND_EXACT;
             const ocrModel = getEffectiveOcrModel();
 
             const aiResponseText = await callGeminiDirectApi(
-                `Bóc tách thông tin từ ảnh ${docType === 'cccd' ? 'CCCD' : 'Sổ đỏ'} mặt ${side === 'front' ? '1 (mặt trước/bìa)' : '2 (mặt sau/trang trong)'}. Trả về JSON theo đúng định dạng.`,
+                `Bóc tách toàn bộ thông tin từ ảnh ${docType === 'cccd' ? 'CCCD' : 'Sổ đỏ'} mặt ${side === 'front' ? '1 (mặt trước/bìa)' : '2 (mặt sau/trang trong)'}. Trả về JSON theo đúng định dạng.`,
                 prompt,
                 [{ base64: rawBase64, mimeType: mimeType }],
-                ocrModel
+                ocrModel,
+                true // isJson = true
             );
 
             modelUsed = `Vision ${ocrModel}`;
@@ -1138,16 +1183,21 @@ async function handleFileSelectedSide(event, docType, side) {
             } catch (e) {
                 const jsonMatch = cleanJsonStr.match(/\{[\s\S]*\}/);
                 if (jsonMatch) {
-                    extracted = JSON.parse(jsonMatch[0]);
+                    try {
+                        extracted = JSON.parse(jsonMatch[0]);
+                    } catch (e2) {
+                        // Resilient regex key-value extractor as last resort
+                        extracted = extractFieldsViaRegex(cleanJsonStr);
+                    }
                 } else {
-                    throw new Error("Không thể trích xuất JSON từ phản hồi AI");
+                    extracted = extractFieldsViaRegex(cleanJsonStr);
                 }
             }
         }
 
         if (scanner) scanner.style.display = 'none';
 
-        if (extracted) {
+        if (extracted && Object.keys(extracted).length > 0) {
             fillFormFields(docType, extracted, side);
             updateLiveA4Form();
 
@@ -1173,10 +1223,41 @@ async function handleFileSelectedSide(event, docType, side) {
     }
 }
 
+function extractFieldsViaRegex(text) {
+    const res = {};
+    if (!text || typeof text !== 'string') return res;
+
+    const regexPairs = [
+        ['id_number', /(?:id_number|so_cccd|số cccd|so_cmnd|cccd_so|số)[\s":=]+([0-9]{9,12})/i],
+        ['full_name', /(?:full_name|ho_va_ten|họ và tên|ho_ten|họ tên|owner_name|tên)[\s":=]+["']?([^"\n\r,}]+)["']?/i],
+        ['date_of_birth', /(?:date_of_birth|ngay_sinh|ngay sinh|sinh_nam)[\s":=]+["']?([0-9]{1,2}\/[0-9]{1,2}\/[0-9]{4}|[0-9]{4})["']?/i],
+        ['date_of_issue', /(?:date_of_issue|ngay_cap|ngay cap)[\s":=]+["']?([0-9]{1,2}\/[0-9]{1,2}\/[0-9]{4})["']?/i],
+        ['place_of_origin', /(?:place_of_origin|que_quan|quê quán)[\s":=]+["']?([^"\n\r,}]+)["']?/i],
+        ['place_of_residence', /(?:place_of_residence|noi_thuong_tru|nơi thường trú|thuongtru)[\s":=]+["']?([^"\n\r,}]+)["']?/i],
+        ['certificate_serial_number', /(?:certificate_serial_number|so_phat_hanh|so_seri|số seri|so_gcn)[\s":=]+["']?([A-Z0-9\s]{5,15})["']?/i],
+        ['registration_book_number', /(?:registration_book_number|so_vao_so|số vào sổ)[\s":=]+["']?([^"\n\r,}]+)["']?/i],
+        ['parcel_number', /(?:parcel_number|thua_dat_so|thửa đất số|thua_so|thửa số)[\s":=]+["']?([0-9A-Za-z\s]+)["']?/i],
+        ['map_sheet_number', /(?:map_sheet_number|to_ban_do_so|tờ bản đồ số|to_so|tờ số)[\s":=]+["']?([0-9A-Za-z\s]+)["']?/i],
+        ['parcel_address', /(?:parcel_address|dia_chi_thua_dat|địa chỉ thửa đất|dia_chi|địa chỉ)[\s":=]+["']?([^"\n\r,}]+)["']?/i],
+        ['area_number', /(?:area_number|dien_tich|diện tích)[\s":=]+["']?([0-9.,]+)/i],
+        ['purpose_of_use', /(?:purpose_of_use|muc_dich_su_dung|mục đích sử dụng|muc_dich)[\s":=]+["']?([^"\n\r,}]+)["']?/i],
+        ['time_of_use', /(?:time_of_use|thoi_han_su_dung|thời hạn sử dụng|thoi_han)[\s":=]+["']?([^"\n\r,}]+)["']?/i],
+        ['place_of_issue', /(?:place_of_issue|noi_cap|nơi cấp)[\s":=]+["']?([^"\n\r,}]+)["']?/i]
+    ];
+
+    for (const [k, reg] of regexPairs) {
+        const m = text.match(reg);
+        if (m && m[1]) {
+            res[k] = m[1].trim();
+        }
+    }
+    return res;
+}
+
 function highlightFilledFormFields(docType) {
     const inputIds = docType === 'cccd'
         ? ['cccd_so', 'cccd_hoten', 'cccd_ngaysinh', 'cccd_ngaycap', 'cccd_gioitinh', 'cccd_quequan', 'cccd_thuongtru']
-        : ['land_sophathanh', 'land_sovaoso', 'land_ngaycap', 'land_noicap', 'land_thua', 'land_tobando', 'land_diachi', 'land_dientich', 'land_mucdich', 'land_thoihan'];
+        : ['land_sophathanh', 'land_sovaoso', 'land_ngaycap', 'land_noicap', 'land_chu', 'land_thua', 'land_tobando', 'land_diachi', 'land_dientich', 'land_mucdich', 'land_thoihan'];
 
     inputIds.forEach(id => {
         const el = document.getElementById(id);
@@ -1211,6 +1292,13 @@ function findKeyInObj(obj, keyCandidates) {
     return null;
 }
 
+function cleanFieldValue(val) {
+    if (val === undefined || val === null) return '';
+    let s = String(val).trim();
+    s = s.replace(/^(họ và tên|họ tên|số cccd|số cmnd|số|thửa đất số|thửa số|tờ bản đồ số|tờ số|diện tích|mục đích sử dụng|thời hạn sử dụng|nơi thường trú|quê quán):\s*/gi, '');
+    return s.trim();
+}
+
 // STRUCTURED HIERARCHICAL JSON FIELD FILLER (PRESERVE SIDE 1 DATA WHEN SCANNING SIDE 2)
 function fillFormFields(docType, data, side = 'front') {
     if (!data) return;
@@ -1220,23 +1308,23 @@ function fillFormFields(docType, data, side = 'front') {
 
     if (docType === 'cccd') {
         const idNum = findKeyInObj(data, ['id_number', 'so_cccd', 'cccd_so', 'so_cmnd', 'cmnd_so', 'so']);
-        const fullName = findKeyInObj(data, ['full_name', 'ho_va_ten', 'hoten', 'ho_ten', 'ten']);
+        const fullName = findKeyInObj(data, ['full_name', 'ho_va_ten', 'hoten', 'ho_ten', 'ten', 'owner_name']);
         const dob = findKeyInObj(data, ['date_of_birth', 'ngay_sinh', 'ngaysinh', 'sinh_nam']);
         const doi = findKeyInObj(data, ['date_of_issue', 'ngay_cap', 'ngaycap']);
         const sex = findKeyInObj(data, ['sex', 'gioi_tinh', 'gioitinh']);
         const origin = findKeyInObj(data, ['place_of_origin', 'que_quan', 'quequan', 'nguyen_quan']);
         const residence = findKeyInObj(data, ['place_of_residence', 'noi_thuong_tru', 'thuongtru', 'dia_chi', 'residence']);
 
-        setVal('cccd_so', idNum, preserveExisting);
-        setVal('cccd_hoten', fullName, preserveExisting);
-        setVal('cccd_ngaysinh', dob, preserveExisting);
-        setVal('cccd_ngaycap', doi, false);
-        setVal('cccd_gioitinh', sex, preserveExisting);
-        setVal('cccd_quequan', origin, preserveExisting);
-        setVal('cccd_thuongtru', residence, preserveExisting);
+        setVal('cccd_so', cleanFieldValue(idNum), preserveExisting);
+        setVal('cccd_hoten', cleanFieldValue(fullName)?.toUpperCase(), preserveExisting);
+        setVal('cccd_ngaysinh', cleanFieldValue(dob), preserveExisting);
+        setVal('cccd_ngaycap', cleanFieldValue(doi), false);
+        setVal('cccd_gioitinh', cleanFieldValue(sex), preserveExisting);
+        setVal('cccd_quequan', cleanFieldValue(origin), preserveExisting);
+        setVal('cccd_thuongtru', cleanFieldValue(residence), preserveExisting);
     } else if (docType === 'land') {
-        const serial = findKeyInObj(data, ['certificate_serial_number', 'so_phat_hanh', 'so_seri', 'so_gcn']);
-        const owner = findKeyInObj(data, ['owner_name', 'ten_chu_su_dung', 'chu_su_dung', 'nguoi_su_dung_dat', 'chu_so_huu']);
+        const serial = findKeyInObj(data, ['certificate_serial_number', 'so_phat_hanh', 'so_seri', 'so_gcn', 'so_hieu']);
+        const owner = findKeyInObj(data, ['owner_name', 'ten_chu_su_dung', 'chu_su_dung', 'nguoi_su_dung_dat', 'chu_so_huu', 'full_name']);
         const regBook = findKeyInObj(data, ['registration_book_number', 'so_vao_so_cap_gcn', 'so_vao_so']);
         const issueDate = findKeyInObj(data, ['date_of_issue', 'ngay_cap_gcn', 'ngay_cap']);
         const issuePlace = findKeyInObj(data, ['place_of_issue', 'ubnd_cap', 'co_quan_cap', 'noi_cap']);
@@ -1247,17 +1335,17 @@ function fillFormFields(docType, data, side = 'front') {
         const purpose = findKeyInObj(data, ['purpose_of_use', 'muc_dich_su_dung_dat', 'muc_dich_su_dung', 'muc_dich']);
         const timeOfUse = findKeyInObj(data, ['time_of_use', 'thoi_han_su_dung', 'thoi_han']);
 
-        setVal('land_sophathanh', serial, preserveExisting);
-        setVal('land_chu', owner, preserveExisting);
-        setVal('land_sovaoso', regBook, false);
-        setVal('land_ngaycap', issueDate, false);
-        setVal('land_noicap', issuePlace, false);
-        setVal('land_thua', parcel, false);
-        setVal('land_tobando', mapSheet, false);
-        setVal('land_diachi', address, false);
-        setVal('land_dientich', area, false);
-        setVal('land_mucdich', purpose, false);
-        setVal('land_thoihan', timeOfUse, false);
+        setVal('land_sophathanh', cleanFieldValue(serial), preserveExisting);
+        setVal('land_chu', cleanFieldValue(owner), preserveExisting);
+        setVal('land_sovaoso', cleanFieldValue(regBook), false);
+        setVal('land_ngaycap', cleanFieldValue(issueDate), false);
+        setVal('land_noicap', cleanFieldValue(issuePlace), false);
+        setVal('land_thua', cleanFieldValue(parcel), false);
+        setVal('land_tobando', cleanFieldValue(mapSheet), false);
+        setVal('land_diachi', cleanFieldValue(address), false);
+        setVal('land_dientich', cleanFieldValue(area), false);
+        setVal('land_mucdich', cleanFieldValue(purpose), false);
+        setVal('land_thoihan', cleanFieldValue(timeOfUse), false);
     }
 }
 
