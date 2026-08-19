@@ -4,6 +4,11 @@
 // ============================================================
 console.log('✅ ThanhHoa Land AI v2026 loaded');
 
+// ── Cấu hình Backend URL (Tự động nhận diện Localhost hoặc Ngrok/Cloudflare) ──
+const API_BASE_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+    ? ''
+    : 'https://swab-underwear-theatrics.ngrok-free.dev';
+
 // ── Global State ──
 const loadedThumbnails = {
     cccd: { front: null, back: null },
@@ -191,9 +196,12 @@ async function sendMessage() {
     if (isMobile()) inputEl.blur();
 
     try {
-        const response = await fetch('/api/chat', {
+        const response = await fetch(`${API_BASE_URL}/api/chat`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+                'Content-Type': 'application/json',
+                'ngrok-skip-browser-warning': 'true'
+            },
             body: JSON.stringify({ question })
         });
         const data = await response.json();
@@ -252,8 +260,11 @@ async function handleFileSelectedSide(event, docType, side) {
     formData.append('file', file);
 
     try {
-        const response = await fetch('/api/ocr/scan', {
+        const response = await fetch(`${API_BASE_URL}/api/ocr/scan`, {
             method: 'POST',
+            headers: {
+                'ngrok-skip-browser-warning': 'true'
+            },
             body: formData
         });
         const result = await response.json();
@@ -854,9 +865,12 @@ async function exportToWord() {
     const formType = document.getElementById('selectFormType')?.value || 'Don_Dat_Dai';
 
     try {
-        const response = await fetch('/api/export/docx', {
+        const response = await fetch(`${API_BASE_URL}/api/export/docx`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+                'Content-Type': 'application/json',
+                'ngrok-skip-browser-warning': 'true'
+            },
             body: JSON.stringify({
                 title: `${formType}_${cccdHoten.replace(/\s+/g, '_')}`,
                 content: formOutputText
