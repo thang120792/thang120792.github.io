@@ -4,54 +4,6 @@
 // ============================================================
 console.log('✅ ThanhHoa Land AI v2026 loaded');
 
-// ── Dynamic Backend API Configuration (Cố định vĩnh viễn qua Ngrok Static Domain) ──
-const PERMANENT_NGROK_URL = 'https://swab-underwear-theatrics.ngrok-free.dev';
-let API_BASE = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? '' : (localStorage.getItem('thanhhoa_ai_backend_url') || PERMANENT_NGROK_URL);
-
-async function autoSyncBackendEndpoint() {
-    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-        updateBackendStatusUI(true, 'MÁY CỤC BỘ (ONLINE)');
-        return;
-    }
-    
-    // Kiểm tra cấu hình lưu hoặc dùng tên miền cố định
-    if (!API_BASE) {
-        API_BASE = PERMANENT_NGROK_URL;
-    }
-    updateBackendStatusUI(true, 'NGROK ONLINE (CỐ ĐỊNH)');
-}
-    
-    if (API_BASE) {
-        updateBackendStatusUI(true, 'AI ONLINE');
-    } else {
-        updateBackendStatusUI(false, 'CHỜ BẬT AI BACKEND');
-    }
-}
-
-function updateBackendStatusUI(isOnline, text) {
-    const textEl = document.getElementById('backendStatusText');
-    const chipEl = document.getElementById('backendStatusChip');
-    if (textEl) textEl.textContent = text || (isOnline ? 'HỆ THỐNG ONLINE' : 'OFFLINE');
-    if (chipEl) {
-        chipEl.className = isOnline ? 'status-chip online' : 'status-chip offline';
-    }
-}
-
-function configureBackendUrl() {
-    const current = localStorage.getItem('thanhhoa_ai_backend_url') || API_BASE || '';
-    const newUrl = prompt('🔗 Nhập đường link kết nối Máy chủ AI Backend (Cloudflare Tunnel hoặc Ngrok của bạn):', current);
-    if (newUrl !== null) {
-        const cleanUrl = newUrl.trim().replace(/\/+$/, '');
-        localStorage.setItem('thanhhoa_ai_backend_url', cleanUrl);
-        API_BASE = cleanUrl;
-        alert(cleanUrl ? `✅ Đã lưu Máy chủ AI: ${cleanUrl}\nTrang sẽ tự động tải lại!` : 'ℹ️ Đã xóa máy chủ cấu hình. Trang sẽ dùng máy chủ mặc định!');
-        window.location.reload();
-    }
-}
-
-// Tự động đồng bộ ngay khi tải trang
-autoSyncBackendEndpoint();
-
 // ── Global State ──
 const loadedThumbnails = {
     cccd: { front: null, back: null },
@@ -239,15 +191,11 @@ async function sendMessage() {
     if (isMobile()) inputEl.blur();
 
     try {
-        const response = await fetch(`${API_BASE}/api/chat`, {
+        const response = await fetch('/api/chat', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ question })
         });
-        
-        if (!response.ok) {
-            throw new Error(`Máy chủ AI Backend đang khởi động hoặc chưa bật (HTTP ${response.status}). Vui lòng mở file 2_CHAY_UNG_DUNG.bat trên máy tính!`);
-        }
         const data = await response.json();
 
         chatContainer.removeChild(typingDiv);
@@ -271,7 +219,7 @@ async function sendMessage() {
         errorMsg.className = 'message bot';
         errorMsg.innerHTML = `
             <div class="msg-avatar"><i class="fa-solid fa-robot"></i></div>
-            <div class="msg-bubble"><p style="color:var(--red);"><i class="fa-solid fa-triangle-exclamation"></i> <strong>Lỗi kết nối:</strong> ${err.message}</p></div>
+            <div class="msg-bubble"><p style="color:var(--red);">Lỗi kết nối: ${err.message}</p></div>
         `;
         chatContainer.appendChild(errorMsg);
         chatContainer.scrollTop = chatContainer.scrollHeight;
@@ -304,7 +252,7 @@ async function handleFileSelectedSide(event, docType, side) {
     formData.append('file', file);
 
     try {
-        const response = await fetch(`${API_BASE}/api/ocr/scan`, {
+        const response = await fetch('/api/ocr/scan', {
             method: 'POST',
             body: formData
         });
@@ -906,7 +854,7 @@ async function exportToWord() {
     const formType = document.getElementById('selectFormType')?.value || 'Don_Dat_Dai';
 
     try {
-        const response = await fetch(`${API_BASE}/api/export/docx`, {
+        const response = await fetch('/api/export/docx', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
