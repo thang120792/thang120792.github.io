@@ -4,8 +4,9 @@
 // ============================================================
 console.log('✅ ThanhHoa Land AI v2026 loaded');
 
-// ── Dynamic Backend API Configuration (Tự động 100% không cần người dùng nhập) ──
-let API_BASE = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? '' : (localStorage.getItem('thanhhoa_ai_backend_url') || '');
+// ── Dynamic Backend API Configuration (Cố định vĩnh viễn qua Ngrok Static Domain) ──
+const PERMANENT_NGROK_URL = 'https://swab-underwear-theatrics.ngrok-free.dev';
+let API_BASE = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? '' : (localStorage.getItem('thanhhoa_ai_backend_url') || PERMANENT_NGROK_URL);
 
 async function autoSyncBackendEndpoint() {
     if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
@@ -13,22 +14,12 @@ async function autoSyncBackendEndpoint() {
         return;
     }
     
-    // Tự động tải link Tunnel mới nhất từ file backend_endpoint.json trên GitHub
-    try {
-        const res = await fetch(`backend_endpoint.json?nocache=${Date.now()}`);
-        if (res.ok) {
-            const data = await res.json();
-            if (data && data.url && data.url.startsWith('http')) {
-                API_BASE = data.url.replace(/\/+$/, '');
-                localStorage.setItem('thanhhoa_ai_backend_url', API_BASE);
-                console.log('⚡ Tự động kết nối Máy chủ AI:', API_BASE);
-                updateBackendStatusUI(true, 'AI ONLINE (TỰ ĐỘNG)');
-                return;
-            }
-        }
-    } catch (e) {
-        console.warn('Đang kiểm tra máy chủ AI...', e);
+    // Kiểm tra cấu hình lưu hoặc dùng tên miền cố định
+    if (!API_BASE) {
+        API_BASE = PERMANENT_NGROK_URL;
     }
+    updateBackendStatusUI(true, 'NGROK ONLINE (CỐ ĐỊNH)');
+}
     
     if (API_BASE) {
         updateBackendStatusUI(true, 'AI ONLINE');
