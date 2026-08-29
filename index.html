@@ -454,6 +454,11 @@ const API_BASE_URL = (window.location.hostname.includes('github.io') || window.l
     ? 'https://bot-troly-luat-telegram.onrender.com'
     : '';
 
+// Pre-warm server in background on page load
+if (API_BASE_URL) {
+    fetch(`${API_BASE_URL}/health`).catch(() => {});
+}
+
 // ── Global State ──
 const loadedThumbnails = {
     cccd: { front: null, back: null },
@@ -640,8 +645,24 @@ async function sendMessage() {
     // Dismiss keyboard on mobile
     if (isMobile()) inputEl.blur();
 
+    // Auto pre-warm and retry fetch
+    async function fetchWithRetry(url, options, maxRetries = 2) {
+        for (let attempt = 1; attempt <= maxRetries; attempt++) {
+            try {
+                const res = await fetch(url, options);
+                return res;
+            } catch (e) {
+                if (attempt === maxRetries) throw e;
+                // Update indicator to let user know it's waking up
+                const spinner = typingDiv.querySelector('.msg-bubble p');
+                if (spinner) spinner.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Máy chủ AI đang khởi động lần đầu (~15s), đang thử lại lần ${attempt + 1}...`;
+                await new Promise(r => setTimeout(r, 4000));
+            }
+        }
+    }
+
     try {
-        const response = await fetch(`${API_BASE_URL}/api/chat`, {
+        const response = await fetchWithRetry(`${API_BASE_URL}/api/chat`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ question })
@@ -664,7 +685,7 @@ async function sendMessage() {
             blockedMsg.className = 'message bot';
             blockedMsg.innerHTML = `
                 <div class="msg-avatar"><i class="fa-solid fa-robot"></i></div>
-                <div class="msg-bubble"><p style="color:#f59e0b;">\u26a0\ufe0f ${data.error || 'Yêu cầu bị từ chối. Vui lòng thử lại sau.'}</p></div>
+                <div class="msg-bubble"><p style="color:#f59e0b;">⚠️ ${data.error || 'Yêu cầu bị từ chối. Vui lòng thử lại sau.'}</p></div>
             `;
             chatContainer.appendChild(blockedMsg);
             chatContainer.scrollTop = chatContainer.scrollHeight;
@@ -689,11 +710,11 @@ async function sendMessage() {
         const errorMsg = document.createElement('div');
         errorMsg.className = 'message bot';
         const friendlyMsg = err.message.includes('Failed to fetch')
-            ? 'Không thể kết nối máy chủ. Kiểm tra server đang chạy.'
+            ? 'Máy chủ AI đang khởi động lại. Vui lòng thử bấm gửi lại sau vài giây.'
             : err.message;
         errorMsg.innerHTML = `
             <div class="msg-avatar"><i class="fa-solid fa-robot"></i></div>
-            <div class="msg-bubble"><p style="color:var(--red);">\u26a0\ufe0f ${friendlyMsg}</p></div>
+            <div class="msg-bubble"><p style="color:var(--red);">⚠️ ${friendlyMsg}</p></div>
         `;
         chatContainer.appendChild(errorMsg);
         chatContainer.scrollTop = chatContainer.scrollHeight;
