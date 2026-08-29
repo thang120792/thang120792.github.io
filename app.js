@@ -4,10 +4,10 @@
 // ============================================================
 console.log('✅ ThanhHoa Land AI v2026 loaded');
 
-// ── Cấu hình Backend URL (Tự động nhận diện Localhost hoặc Ngrok/Cloudflare) ──
-const API_BASE_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
-    ? ''
-    : 'https://swab-underwear-theatrics.ngrok-free.dev';
+// ── Multi-Platform API Gateway Base URL ──
+const API_BASE_URL = (window.location.hostname.includes('github.io') || window.location.hostname.includes('thanhhoalandai') || window.location.protocol === 'https:')
+    ? 'https://bot-troly-luat-telegram.onrender.com'
+    : '';
 
 // ── Global State ──
 const loadedThumbnails = {
@@ -198,15 +198,33 @@ async function sendMessage() {
     try {
         const response = await fetch(`${API_BASE_URL}/api/chat`, {
             method: 'POST',
-            headers: { 
-                'Content-Type': 'application/json',
-                'ngrok-skip-browser-warning': 'true'
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ question })
         });
-        const data = await response.json();
+
+        // Kiểm tra Content-Type trước khi parse — tránh lỗi "Unexpected token '<'"
+        const contentType = response.headers.get('content-type') || '';
+        let data;
+        if (contentType.includes('application/json')) {
+            data = await response.json();
+        } else {
+            throw new Error('Server lỗi (HTTP ' + response.status + '). Vui lòng thử lại sau.');
+        }
 
         chatContainer.removeChild(typingDiv);
+
+        // Xử lý khi bị Security Guard chặn (429)
+        if (!response.ok || data.blocked) {
+            const blockedMsg = document.createElement('div');
+            blockedMsg.className = 'message bot';
+            blockedMsg.innerHTML = `
+                <div class="msg-avatar"><i class="fa-solid fa-robot"></i></div>
+                <div class="msg-bubble"><p style="color:#f59e0b;">\u26a0\ufe0f ${data.error || 'Yêu cầu bị từ chối. Vui lòng thử lại sau.'}</p></div>
+            `;
+            chatContainer.appendChild(blockedMsg);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+            return;
+        }
 
         const botMsg = document.createElement('div');
         botMsg.className = 'message bot';
@@ -215,7 +233,7 @@ async function sendMessage() {
             <div class="msg-avatar"><i class="fa-solid fa-robot"></i></div>
             <div class="msg-bubble">
                 ${formatMarkdown(data.answer)}
-                <div class="msg-source-tag"><i class="fa-solid fa-database"></i> Trích nguồn: CSDL Pháp luật Đất đai & NotebookLM${modelLabel}</div>
+                <div class="msg-source-tag"><i class="fa-solid fa-database"></i> Trích nguồn: CSDL Pháp luật Đất đai${modelLabel}</div>
             </div>
         `;
         chatContainer.appendChild(botMsg);
@@ -225,9 +243,12 @@ async function sendMessage() {
         if (chatContainer.contains(typingDiv)) chatContainer.removeChild(typingDiv);
         const errorMsg = document.createElement('div');
         errorMsg.className = 'message bot';
+        const friendlyMsg = err.message.includes('Failed to fetch')
+            ? 'Không thể kết nối máy chủ. Kiểm tra server đang chạy.'
+            : err.message;
         errorMsg.innerHTML = `
             <div class="msg-avatar"><i class="fa-solid fa-robot"></i></div>
-            <div class="msg-bubble"><p style="color:var(--red);">Lỗi kết nối: ${err.message}</p></div>
+            <div class="msg-bubble"><p style="color:var(--red);">\u26a0\ufe0f ${friendlyMsg}</p></div>
         `;
         chatContainer.appendChild(errorMsg);
         chatContainer.scrollTop = chatContainer.scrollHeight;
@@ -262,9 +283,6 @@ async function handleFileSelectedSide(event, docType, side) {
     try {
         const response = await fetch(`${API_BASE_URL}/api/ocr/scan`, {
             method: 'POST',
-            headers: {
-                'ngrok-skip-browser-warning': 'true'
-            },
             body: formData
         });
         const result = await response.json();
@@ -867,10 +885,7 @@ async function exportToWord() {
     try {
         const response = await fetch(`${API_BASE_URL}/api/export/docx`, {
             method: 'POST',
-            headers: { 
-                'Content-Type': 'application/json',
-                'ngrok-skip-browser-warning': 'true'
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 title: `${formType}_${cccdHoten.replace(/\s+/g, '_')}`,
                 content: formOutputText
