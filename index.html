@@ -1158,21 +1158,208 @@ Tôi xin cam đoan nội dung kê khai trên đơn là đúng sự thật.
 
 
                                                               ${cccdHoten !== '...................................................' ? cccdHoten : ''}`;
-    } else if (formType === 'tk_le_phi_truoc_ba') {
-        // MẪU SỐ 01/LPTB CHUẨN TỪ G:\My Drive\BOT CHẠY\obsidian_vault\cac to khai thue\tk lệ phí trước bạ.doc (Thông tư 89/2026/TT-BTC)
-        fullDoc = `Mẫu số: 01/LPTB                                                   CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
-(Kèm theo Thông tư số 89/2026/TT-BTC)                                   Độc lập - Tự do - Hạnh phúc
-                                                                               ---------------
+    } else if (formType === 'tk_thue_tncn') {
+        // MẪU SỐ 03/BĐS-TNCN CHUẨN KHỚP 100% ẢNH MẪU OBSIDIAN VAULT (THÔNG TƯ 89/2026/TT-BTC)
+        fullDoc = `                                                  +-----------------------------------------------------------+
+                                                  | Mẫu số: 03/BĐS-TNCN                                       |
+                                                  | (Kèm theo Thông tư số 89/2026/TT-BTC                      |
+                                                  | ngày 30 tháng 6 năm 2026 của Bộ trưởng                     |
+                                                  | Bộ Tài chính)                                             |
+                                                  +-----------------------------------------------------------+
 
-                                TỜ KHAI LỆ PHÍ TRƯỚC BẠ
-                                (Áp dụng đối với nhà, đất)
+                                 CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+                                      Độc lập - Tự do - Hạnh phúc
+                                             ---------------
+
+                                    TỜ KHAI THUẾ THU NHẬP CÁ NHÂN
+                   (Áp dụng đối với cá nhân có thu nhập từ chuyển nhượng bất động sản; 
+                       thu nhập từ nhận thừa kế và nhận quà tặng là bất động sản)
+
+[01] Kỳ tính thuế: Lần phát sinh: Ngày … tháng … năm ${dateYear}
+[02] Lần đầu: [x]      [03.1] Bổ sung lần thứ:…       [03.2] Số Thông báo lần trước liền kề:….
+
+I. THÔNG TIN NGƯỜI CHUYỂN NHƯỢNG, NHẬN THỪA KẾ, QUÀ TẶNG
++-----+----------------------+---------------------+---------------+---------------------------------+------------+-------+--------------------+
+| STT |      Họ và tên       | Mã số thuế/Số ĐDCN  |   Ngày sinh   | Hộ chiếu (Số | Ngày cấp | Nơi) | Điện thoại | Email | Tỷ lệ sở hữu (%)   |
++-----+----------------------+---------------------+---------------+---------------------------------+------------+-------+--------------------+
+| [04.1]|[04.2]              | [04.3]              | [04.4]        | [04.5] | [04.6] | [04.7]        | [04.8]     | [04.9]| [04.10]            |
++-----+----------------------+---------------------+---------------+---------------------------------+------------+-------+--------------------+
+|  1  | ${cccdHoten.padEnd(20)} | ${cccdSo.padEnd(19)} | ${cccdNgaySinh.padEnd(13)} |                                 |            |       | 100%               |
++-----+----------------------+---------------------+---------------+---------------------------------+------------+-------+--------------------+
+|  2  |                      |                     |               |                                 |            |       |                    |
++-----+----------------------+---------------------+---------------+---------------------------------+------------+-------+--------------------+
+[05] Tổ chức, cá nhân khai, nộp thuế thay (nếu có): ............................................................................
+[06] Mã số thuế (nếu có): ......................................................................................................
+[07] Văn bản ủy quyền (nếu có): Số .................... ngày ..... tháng ..... năm ..........
+[08] Tên tổ chức, cá nhân cung cấp dịch vụ làm thủ tục về thuế (nếu có): .......................................................
+[09] Mã số thuế: ...............................................................................................................
+[10] Hợp đồng dịch vụ làm thủ tục về thuế: Số ........................ ngày ........................
+
+II. THÔNG TIN NGƯỜI NHẬN CHUYỂN NHƯỢNG, NHẬN THỪA KẾ, QUÀ TẶNG
++-----+----------------------+---------------------+---------------+---------------------------------+--------------------+
+| STT |      Họ và tên       | Mã số thuế/Số ĐDCN  |   Ngày sinh   | Hộ chiếu (Số | Ngày cấp | Nơi) | Tỷ lệ sở hữu (%)   |
++-----+----------------------+---------------------+---------------+---------------------------------+--------------------+
+| [11.1]|[11.2]              | [11.3]              | [11.4]        | [11.5] | [11.6] | [11.7]        | [11.8]             |
++-----+----------------------+---------------------+---------------+---------------------------------+--------------------+
+|  1  |                      |                     |               |                                 | 100%               |
++-----+----------------------+---------------------+---------------+---------------------------------+--------------------+
+|  2  |                      |                     |               |                                 |                    |
++-----+----------------------+---------------------+---------------+---------------------------------+--------------------+
+
+III. LOẠI BẤT ĐỘNG SẢN CHUYỂN NHƯỢNG, NHẬN THỪA KẾ, QUÀ TẶNG:
+[12] Quyền sử dụng đất và tài sản gắn liền trên đất: [x]
+[13] Quyền sở hữu hoặc sử dụng nhà ở: [ ]
+[14] Quyền thuê đất, thuê mặt nước: [ ]
+[15] Bất động sản khác: [ ]
+
+IV. ĐẶC ĐIỂM BẤT ĐỘNG SẢN CHUYỂN NHƯỢNG, NHẬN THỪA KẾ, QUÀ TẶNG:
+[16] Giấy tờ về quyền sử dụng đất:
+[16.1] Loại giấy tờ: Giấy chứng nhận quyền sử dụng đất
+[16.2] Số: ${landSophathanh} ; [16.3] Nơi cấp: ${landNoiCap} ; [16.4] Ngày cấp: ${landNgayCap}
+[18] Hợp đồng chuyển nhượng trao đổi bất động sản:
+[18.1] Số: .................... [18.2] Nơi lập: VP Công chứng .................... [18.3] Ngày lập: ...../...../..........
+[20] Thông tin về đất:
+[20.1] Thửa đất số: ${landThua} ; [20.2] Tờ bản đồ số: ${landTobando}
+[20.3] Địa chỉ: ${landDiachi}
+[20.6] Loại đất, vị trí thửa đất:
++-----+--------------------+--------------------+---------+----------------------+------------------+------------------+
+| STT | Đường              | Đoạn đường         | Vị trí  | Loại đất             | Hệ số (nếu có)   | Diện tích (m²)   |
++-----+--------------------+--------------------+---------+----------------------+------------------+------------------+
+| (1) | (2)                | (3)                | (4)     | (5)                  | (6)              | (7)              |
++-----+--------------------+--------------------+---------+----------------------+------------------+------------------+
+|  1  |                    |                    |         | ${landMucdich.padEnd(20)} |                  | ${landDientich.padEnd(16)} |
++-----+--------------------+--------------------+---------+----------------------+------------------+------------------+
+[20.7] Nguồn gốc đất: Nhận chuyển nhượng / Cấp Giấy chứng nhận lần đầu
+[20.8] Thời hạn sử dụng đất: - Ổn định lâu dài [x]   - Có thời hạn: ..... năm
+[20.9] Giá trị đất thực tế chuyển giao (nếu có): ................................................... đồng
+
+[21] Thông tin về nhà ở, công trình xây dựng (nếu có):
+[21.1] Nhà ở riêng lẻ: Cấp nhà ở: .................... Diện tích sàn xây dựng: .................... m²
+[22] Tài sản gắn liền với đất: .................................................................................................
+
+V. THU NHẬP TỪ CHUYỂN NHƯỢNG BẤT ĐỘNG SẢN / THỪA KẾ / QUÀ TẶNG:
+[23] Loại thu nhập: [23.1] Thu nhập từ chuyển nhượng bất động sản [x]     [23.2] Thu nhập từ nhận thừa kế, quà tặng [ ]
+[24] Giá trị chuyển nhượng bất động sản và tài sản khác gắn liền với đất: ................................................... đồng
+[26] Miễn thuế thu nhập từ chuyển nhượng bất động sản, nhận thừa kế, quà tặng (nếu có):
++-----+----------------------+---------------------+----------------------------------------------------+--------------------+
+| STT |      Họ và tên       | Mã số thuế/Số ĐDCN  | Lý do miễn đối với nhà ở, đất ở duy nhất          | Lý do miễn khác    |
++-----+----------------------+---------------------+----------------------------------------------------+--------------------+
+| [26.1]|[26.2]              | [26.3]              | [26.4]                                             | [26.5]             |
++-----+----------------------+---------------------+----------------------------------------------------+--------------------+
+|  1  |                      |                     |                                                    |                    |
++-----+----------------------+---------------------+----------------------------------------------------+--------------------+
+
+VI. HỒ SƠ KÈM THEO GỒM:
+- Hợp đồng chuyển nhượng quyền sử dụng đất, tài sản gắn liền với đất;
+- Bản sao Giấy chứng nhận quyền sử dụng đất số ${landSophathanh};
+- Bản sao Thẻ Căn cước công dân của các bên tham gia giao dịch.
+
+Tôi cam đoan những nội dung kê khai là đúng và chịu trách nhiệm trước pháp luật về những nội dung đã khai./.
+
+NGƯỜI TRỰC TIẾP THỰC HIỆN                                     ${dateStr}
+DỊCH VỤ LÀM THỦ TỤC VỀ THUẾ                                  NGƯỜI NỘP THUẾ hoặc
+Họ và tên: ..............................                     ĐẠI DIỆN HỢP PHÁP CỦA NGƯỜI NỘP THUẾ
+Chứng chỉ NV thuế số: ...................                     (Ký, ghi rõ họ tên; chức vụ và đóng dấu)
+
+
+                                                              ${cccdHoten !== '...................................................' ? cccdHoten : ''}`;
+    } else if (formType === 'tk_phi_nong_nghiep') {
+        // MẪU SỐ 01/TK-SDDPNN CHUẨN TỪ G:\\My Drive\\BOT CHẠY\\obsidian_vault\\cac to khai thue\\tk phi nông nghiệp.docx
+        fullDoc = `                                                  +-----------------------------------------------------------+
+                                                  | Mẫu số: 01/TK-SDDPNN                                      |
+                                                  | (Kèm theo Thông tư số 89/2026/TT-BTC                      |
+                                                  | ngày 30 tháng 6 năm 2026 của Bộ trưởng                     |
+                                                  | Bộ Tài chính)                                             |
+                                                  +-----------------------------------------------------------+
+
+                                 CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+                                      Độc lập - Tự do - Hạnh phúc
+                                             ---------------
+
+                                TỜ KHAI THUẾ SỬ DỤNG ĐẤT PHI NÔNG NGHIỆP
+                                     (Áp dụng đối với hộ gia đình, cá nhân)
+
+   [01] Kỳ tính thuế: Năm ${dateYear}
+   [02] Lần đầu: [x]                       [03] Bổ sung lần thứ:……
+
+1. Người nộp thuế:      
+[04] Họ và tên: ${cccdHoten}
+[05] Ngày, tháng, năm sinh: ${cccdNgaySinh}
+[06] Mã số thuế: .....................................................................................................................
+[07] Số định danh cá nhân/Số hộ chiếu: ${cccdSo}
+[08] Địa chỉ cư trú: ${cccdThuongtru}
+[09] Địa chỉ nhận thông báo thuế: ${cccdThuongtru}
+[10] Điện thoại: ......................................................................................................................
+
+2. Tổ chức, cá nhân cung cấp dịch vụ làm thủ tục về thuế (nếu có):      
+[11] Tên tổ chức, cá nhân cung cấp dịch vụ làm thủ tục về thuế: ......................................................................
+[12] Mã số thuế: ....................................................................................................................
+[13] Hợp đồng dịch vụ làm thủ tục về thuế: Số: ................................ Ngày: ........................
+
+3. Thửa đất chịu thuế: 
+[14] Thông tin người sử dụng đất:
++-----+----------------------+---------------------+---------------------------------+--------------------+
+| STT |      Họ và tên       | Mã số thuế          | Số định danh cá nhân/Hộ chiếu   | Tỷ lệ              |
++-----+----------------------+---------------------+---------------------------------+--------------------+
+|  1  | ${cccdHoten.padEnd(20)} |                     | ${cccdSo.padEnd(31)} | 100%               |
++-----+----------------------+---------------------+---------------------------------+--------------------+
+[15] Nguồn gốc thửa đất: Sử dụng đất ổn định, nhận chuyển nhượng / cấp Giấy chứng nhận lần đầu
+[16] Địa chỉ thửa đất: ${landDiachi}
+[17] Là thửa đất duy nhất: [x]
+[18] Đăng ký kê khai tổng hợp tại (Xã/phường/đặc khu): ${landDiachi}
+[19] Đã có giấy chứng nhận:
+[19.1] Số giấy chứng nhận: ${landSophathanh}            [19.2] Ngày cấp: ${landNgayCap}
+[19.3] Thửa đất số: ${landThua}                         [19.4] Tờ bản đồ số: ${landTobando}
+[19.5] Diện tích: ${landDientich} m²                    [19.6] Loại đất/ Mục đích sử dụng: ${landMucdich}
+[20] Tổng diện tích thực tế sử dụng cho mục đích phi nông nghiệp: ${landDientich} m²
+[20.1] Diện tích đất sử dụng đúng mục đích: ${landDientich} m²
+[20.2] Diện tích đất sử dụng không đúng mục đích: 0 m²
+[20.3] Diện tích đất chưa sử dụng theo đúng quy định: 0 m²
+[20.4] Hạn mức (nếu có): ......................................................................................................
+[20.5] Diện tích đất lấn, chiếm: 0 m²
+[21] Chưa có giấy chứng nhận:   
+[21.1] Diện tích: ................. [21.2] Loại đất/ Mục đích đang sử dụng: ...........................
+[22] Thời điểm bắt đầu sử dụng đất: ...................................................................................... 
+[23] Thời điểm thay đổi thông tin của thửa đất: ......................................................................
+
+4. Đối với đất ở nhà nhiều tầng nhiều hộ ở, nhà chung cư [24]: 
+[24.1] Loại nhà: ................... [24.2] Diện tích: ................ [24.3] Hệ số phân bổ: ..........
+
+5. Miễn, giảm thuế [25]: 
+[25.1] Trường hợp miễn, giảm: ................................................................................................
+[25.2] Kỳ tính thuế/Khoảng thời gian đề nghị miễn, giảm: ...............................................
+
+Tôi cam đoan số liệu khai trên là đúng và chịu trách nhiệm trước pháp luật về số liệu đã khai./.
+
+NGƯỜI TRỰC TIẾP THỰC HIỆN                                     ${dateStr}
+DỊCH VỤ LÀM THỦ TỤC VỀ THUẾ                                  NGƯỜI NỘP THUẾ hoặc
+Họ và tên: ..............................                     ĐẠI DIỆN HỢP PHÁP CỦA NGƯỜI NỘP THUẾ
+Chứng chỉ NV thuế số: ...................                     (Ký, ghi rõ họ tên; chức vụ và đóng dấu)
+
+
+                                                              ${cccdHoten !== '...................................................' ? cccdHoten : ''}`;
+    } else if (formType === 'tk_le_phi_truoc_ba') {
+        // MẪU SỐ 01/LPTB CHUẨN TỪ G:\\My Drive\\BOT CHẠY\\obsidian_vault\\cac to khai thue\\tk lệ phí trước bạ.doc
+        fullDoc = `                                                  +-----------------------------------------------------------+
+                                                  | Mẫu số: 01/LPTB                                           |
+                                                  | (Kèm theo Thông tư số 89/2026/TT-BTC                      |
+                                                  | ngày 30 tháng 6 năm 2026 của Bộ trưởng                     |
+                                                  | Bộ Tài chính)                                             |
+                                                  +-----------------------------------------------------------+
+
+                                 CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+                                      Độc lập - Tự do - Hạnh phúc
+                                             ---------------
+
+                                    TỜ KHAI LỆ PHÍ TRƯỚC BẠ
+                                    (Áp dụng đối với nhà, đất)
 
 [01] Kỳ tính thuế: Theo từng lần phát sinh ngày ..... tháng ..... năm ${dateYear}
 [02] Lần đầu: [x]              [03] Bổ sung lần thứ:……
 [ ] Tổ chức, cá nhân được ủy quyền khai thay cho người nộp thuế
 
 [04] Người nộp thuế: ${cccdHoten}
-[05] Ngày, tháng, năm sinh (Đối với người nộp thuế là cá nhân): ${cccdNgaySinh}
+[05] Ngày, tháng, năm sinh (Đối với người nộp thuế là cá nhân, đại diện hộ gia đình): ${cccdNgaySinh}
 [06] Mã số thuế: ......................................................................................................................
 [07] Số định danh cá nhân/Số hộ chiếu: ${cccdSo}
 [08] Địa chỉ: ${cccdThuongtru}
@@ -1218,148 +1405,12 @@ b) Thời điểm làm giấy tờ chuyển giao QSDĐ: Ngày ..... tháng .....
 Tôi cam đoan số liệu khai trên là đúng và chịu trách nhiệm trước pháp luật về số liệu đã khai./.
 
 NGƯỜI TRỰC TIẾP THỰC HIỆN                                     ${dateStr}
-DỊCH VỤ LÀM THỦ TỤC VỀ THUẾ                                  NGƯỜI NỘP THUẾ
-(Ký, ghi rõ họ tên)                             (Ký, ghi rõ họ tên; chức vụ và đóng dấu)
+DỊCH VỤ LÀM THỦ TỤC VỀ THUẾ                                  NGƯỜI NỘP THUẾ hoặc
+Họ và tên: ..............................                     ĐẠI DIỆN HỢP PHÁP CỦA NGƯỜI NỘP THUẾ
+Chứng chỉ NV thuế số: ...................                     (Ký, ghi rõ họ tên; chức vụ và đóng dấu)
 
 
-                                                        ${cccdHoten !== '...................................................' ? cccdHoten : ''}`;
-    } else if (formType === 'tk_thue_tncn') {
-        // MẪU SỐ 03/BĐS-TNCN CHUẨN TỪ G:\My Drive\BOT CHẠY\obsidian_vault\cac to khai thue\tờ khai thuế thu nhập cá nhân.docx (Thông tư 89/2026/TT-BTC)
-        fullDoc = `Mẫu số: 03/BĐS-TNCN                                                   CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
-(Kèm theo Thông tư số 89/2026/TT-BTC)                                   Độc lập - Tự do - Hạnh phúc
-                                                                               ---------------
-
-                          TỜ KHAI THUẾ THU NHẬP CÁ NHÂN
-         (Áp dụng đối với cá nhân có thu nhập từ chuyển nhượng bất động sản; 
-             thu nhập từ nhận thừa kế và nhận quà tặng là bất động sản)
-
-[01] Kỳ tính thuế: Lần phát sinh: Ngày … tháng … năm ${dateYear}
-[02] Lần đầu: [x]      [03.1] Bổ sung lần thứ:…       [03.2] Số Thông báo liền kề:….
-
-I. THÔNG TIN NGƯỜI CHUYỂN NHƯỢNG, NHẬN THỪA KẾ, QUÀ TẶNG:
-1. Họ và tên: ${cccdHoten}
-2. Mã số thuế / Số định danh cá nhân: ${cccdSo}
-3. Ngày, tháng, năm sinh: ${cccdNgaySinh}
-4. Điện thoại: ........................................ ; Email: ........................................
-5. Nơi thường trú: ${cccdThuongtru}
-6. Tỷ lệ sở hữu: 100%
-[05] Tổ chức, cá nhân khai, nộp thuế thay (nếu có): ..........................................................
-[07] Văn bản ủy quyền (nếu có): Số ..............ngày ..... tháng ..... năm ..........
-
-II. THÔNG TIN NGƯỜI NHẬN CHUYỂN NHƯỢNG, NHẬN THỪA KẾ, QUÀ TẶNG:
-1. Họ và tên: .......................................................................................................................
-2. Mã số thuế / Số định danh cá nhân: ................................................................................
-3. Ngày, tháng, năm sinh: ...../...../.......... ; Điện thoại: .....................................................
-4. Nơi thường trú: ...............................................................................................................
-5. Tỷ lệ sở hữu (%): 100%
-
-III. LOẠI BẤT ĐỘNG SẢN CHUYỂN NHƯỢNG, NHẬN THỪA KẾ, QUÀ TẶNG:
-[12] Quyền sử dụng đất và tài sản gắn liền trên đất: [x]
-[13] Quyền sở hữu hoặc sử dụng nhà ở: [ ]
-[14] Quyền thuê đất, thuê mặt nước: [ ]
-[15] Bất động sản khác: [ ]
-
-IV. ĐẶC ĐIỂM BẤT ĐỘNG SẢN CHUYỂN NHƯỢNG, NHẬN THỪA KẾ, QUÀ TẶNG:
-[16] Giấy tờ về quyền sử dụng đất:
-[16.1] Loại giấy tờ: Giấy chứng nhận quyền sử dụng đất
-[16.2] Số phát hành: ${landSophathanh} ; [16.3] Nơi cấp: ${landNoiCap} ; [16.4] Ngày cấp: ${landNgayCap}
-[18] Hợp đồng chuyển nhượng trao đổi bất động sản:
-[18.1] Số: .................... [18.2] Nơi lập: VP Công chứng .................... [18.3] Ngày lập: ...../...../..........
-[20] Thông tin về đất:
-[20.1] Thửa đất số: ${landThua} ; [20.2] Tờ bản đồ số: ${landTobando}
-[20.3] Địa chỉ: ${landDiachi}
-[20.6] Loại đất: ${landMucdich} ; Diện tích: ${landDientich} m²
-[20.7] Nguồn gốc đất: Nhận chuyển nhượng / Cấp GCN lần đầu
-[20.8] Thời hạn sử dụng đất: Ổn định lâu dài [x]
-[20.9] Giá trị đất thực tế chuyển giao: ................................................... đồng
-
-[21] Thông tin về nhà ở, công trình xây dựng (nếu có):
-- Cấp nhà ở: .................... Diện tích sàn xây dựng: .................... m²
-[22] Tài sản gắn liền với đất: .................................................................................................
-
-V. THU NHẬP TỪ CHUYỂN NHƯỢNG BẤT ĐỘNG SẢN / THỪA KẾ / QUÀ TẶNG:
-[23.1] Thu nhập từ chuyển nhượng bất động sản: [x]
-[24] Giá trị chuyển nhượng bất động sản và tài sản khác gắn liền với đất: .................... đồng
-[26] Miễn thuế thu nhập cá nhân (nếu thuộc đối tượng miễn thuế):
-[ ] Chuyển nhượng giữa vợ chồng, cha mẹ với con, ông bà với cháu, anh chị em ruột.
-[ ] Chuyển nhượng nhà ở, đất ở duy nhất của cá nhân theo quy định.
-
-VI. HỒ SƠ KÈM THEO GỒM:
-1. Hợp đồng chuyển nhượng quyền sử dụng đất (bản chính có công chứng);
-2. Bản sao Giấy chứng nhận quyền sử dụng đất số ${landSophathanh};
-3. Bản sao CCCD của các bên chuyển nhượng và nhận chuyển nhượng.
-
-Tôi cam đoan những nội dung kê khai là đúng và chịu trách nhiệm trước pháp luật về những nội dung đã khai./.
-
-NGƯỜI TRỰC TIẾP THỰC HIỆN                                     ${dateStr}
-DỊCH VỤ LÀM THỦ TỤC VỀ THUẾ                                  NGƯỜI NỘP THUẾ
-(Ký, ghi rõ họ tên)                             (Ký, ghi rõ họ tên; chức vụ và đóng dấu)
-
-
-                                                        ${cccdHoten !== '...................................................' ? cccdHoten : ''}`;
-    } else if (formType === 'tk_phi_nong_nghiep') {
-        // MẪU SỐ 01/TK-SDDPNN CHUẨN TỪ G:\My Drive\BOT CHẠY\obsidian_vault\cac to khai thue\tk phi nông nghiệp.docx (Thông tư 89/2026/TT-BTC)
-        fullDoc = `Mẫu số: 01/TK-SDDPNN                                              CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
-(Kèm theo Thông tư số 89/2026/TT-BTC)                                   Độc lập - Tự do - Hạnh phúc
-                                                                               ---------------
-
-                     TỜ KHAI THUẾ SỬ DỤNG ĐẤT PHI NÔNG NGHIỆP
-                         (Áp dụng đối với hộ gia đình, cá nhân)
-
-   [01] Kỳ tính thuế: Năm ${dateYear}
-   [02] Lần đầu: [x]                       [03] Bổ sung lần thứ:……
-
-1. Người nộp thuế:      
-[04] Họ và tên: ${cccdHoten}
-[05] Ngày, tháng, năm sinh: ${cccdNgaySinh}
-[06] Mã số thuế: .....................................................................................................................
-[07] Số định danh cá nhân/Số hộ chiếu: ${cccdSo}
-[08] Địa chỉ cư trú: ${cccdThuongtru}
-[09] Địa chỉ nhận thông báo thuế: ${cccdThuongtru}
-[10] Điện thoại: ......................................................................................................................
-
-2. Tổ chức, cá nhân cung cấp dịch vụ làm thủ tục về thuế (nếu có):      
-[11] Tên tổ chức, cá nhân cung cấp dịch vụ làm thủ tục về thuế: ...........................................
-[12] Mã số thuế: ....................................................................................................................
-[13] Hợp đồng dịch vụ làm thủ tục về thuế: Số: ................................ Ngày: ........................
-
-3. Thửa đất chịu thuế: 
-[14] Thông tin người sử dụng đất:
-- Họ và tên: ${cccdHoten} | Mã số thuế: .................... | Số CCCD/Định danh: ${cccdSo} | Tỷ lệ: 100%
-[15] Nguồn gốc thửa đất: Sử dụng đất ổn định, nhận chuyển nhượng / cấp GCN lần đầu
-[16] Địa chỉ thửa đất: ${landDiachi}
-[17] Là thửa đất duy nhất: [x]
-[18] Đăng ký kê khai tổng hợp tại: ${landDiachi}
-[19] Đã có giấy chứng nhận:
-[19.1] Số giấy chứng nhận: ${landSophathanh}            [19.2] Ngày cấp: ${landNgayCap}
-[19.3] Thửa đất số: ${landThua}                         [19.4] Tờ bản đồ số: ${landTobando}
-[19.5] Diện tích: ${landDientich} m²                    [19.6] Loại đất/ Mục đích sử dụng: ${landMucdich}
-[20] Tổng diện tích thực tế sử dụng cho mục đích phi nông nghiệp: ${landDientich} m²
-[20.1] Diện tích đất sử dụng đúng mục đích: ${landDientich} m²
-[20.2] Diện tích đất sử dụng không đúng mục đích: 0 m²
-[20.3] Diện tích đất chưa sử dụng theo đúng quy định: 0 m²
-[20.4] Hạn mức (nếu có): ......................................................................................................
-[20.5] Diện tích đất lấn, chiếm: 0 m²
-[21] Chưa có giấy chứng nhận:   
-[21.1] Diện tích: ................. [21.2] Loại đất/ Mục đích đang sử dụng: ...........................
-[22] Thời điểm bắt đầu sử dụng đất: ...................................................................................... 
-[23] Thời điểm thay đổi thông tin của thửa đất: ......................................................................
-
-4. Đối với đất ở nhà nhiều tầng nhiều hộ ở, nhà chung cư [24]: 
-[24.1] Loại nhà: ................... [24.2] Diện tích: ................ [24.3] Hệ số phân bổ: ..........
-
-5. Miễn, giảm thuế [25]: 
-[25.1] Trường hợp miễn, giảm: ................................................................................................
-[25.2] Kỳ tính thuế/Khoảng thời gian đề nghị miễn, giảm: ...............................................
-
-Tôi cam đoan số liệu khai trên là đúng và chịu trách nhiệm trước pháp luật về số liệu đã khai./.
-
-NGƯỜI TRỰC TIẾP THỰC HIỆN                                     ${dateStr}
-DỊCH VỤ LÀM THỦ TỤC VỀ THUẾ                                  NGƯỜI NỘP THUẾ
-(Ký, ghi rõ họ tên)                             (Ký, ghi rõ họ tên; chức vụ và đóng dấu)
-
-
-                                                        ${cccdHoten !== '...................................................' ? cccdHoten : ''}`;
+                                                              ${cccdHoten !== '...................................................' ? cccdHoten : ''}`;
     } else {
         // Mẫu số 25 chuẩn theo Quyết định 2604/QĐ-VP Thanh Hóa
         fullDoc = `Mẫu số 25                                                         CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
@@ -1418,106 +1469,578 @@ Tôi xin cam đoan toàn bộ nội dung kê khai trên đơn là hoàn toàn đ
 }
 
 // ============================================================
-// XUẤT FILE WORD NGUYÊN BẢN CHUẨN 100% TỪ VĂN BẢN ĐANG SOẠN TRÊN KHUNG A4
-// GIỮ NGUYÊN HOÀN TOÀN CẤU TRÚC MẪU ĐƠN VÀ NỘI DUNG NGƯỜI DÙNG ĐANG CHỈNH SỬA
+// XUẤT FILE WORD NGUYÊN BẢN CHUẨN 100% CẤU TRÚC BẢNG & MẪU DOCX (IMAGE 2)
 // ============================================================
 function exportToWord() {
-    const rawContent = (document.getElementById('formOutputText')?.value || '').trim();
-    if (!rawContent) {
-        alert("Chưa có nội dung mẫu đơn để xuất file Word!");
-        return;
-    }
-
     const formType = document.getElementById('selectFormType')?.value || 'mau_25_qd2604';
-    const cccdHoten = (document.getElementById('cccd_hoten')?.value || '').trim() || 'Mau_Don';
-    const filename = `${formType}_${cccdHoten.replace(/\s+/g, '_')}.doc`;
+    
+    // Blank fallbacks
+    const cccdHoten = (document.getElementById('cccd_hoten')?.value || '').trim() || '...................................................';
+    const cccdSo = (document.getElementById('cccd_so')?.value || '').trim() || '........................';
+    const cccdNgaySinh = (document.getElementById('cccd_ngaysinh')?.value || '').trim() || '...../...../..........';
+    const cccdNgayCap = (document.getElementById('cccd_ngaycap')?.value || '').trim() || '...../...../..........';
+    const cccdThuongtru = (document.getElementById('cccd_thuongtru')?.value || '').trim() || '...........................................................................................';
+    
+    const landSophathanh = (document.getElementById('land_sophathanh')?.value || '').trim() || '........................';
+    const landSovaoso = (document.getElementById('land_sovaoso')?.value || '').trim() || '........................';
+    const landNgayCap = (document.getElementById('land_ngaycap')?.value || '').trim() || '...../...../..........';
+    const landNoiCap = (document.getElementById('land_noicap')?.value || '').trim() || 'Chi nhánh VPĐKĐĐ';
+    const landThua = (document.getElementById('land_thua')?.value || '').trim() || '........';
+    const landTobando = (document.getElementById('land_tobando')?.value || '').trim() || '........';
+    const landDiachi = (document.getElementById('land_diachi')?.value || '').trim() || '...........................................................................................';
+    const landDientich = (document.getElementById('land_dientich')?.value || '').trim() || '........';
+    const landMucdich = (document.getElementById('land_mucdich')?.value || '').trim() || '...................................................';
 
-    // Convert raw plain text from A4 textarea into rich structured Word HTML
-    const lines = rawContent.split('\n');
+    const dateYear = new Date().getFullYear();
+    const dateStr = `ngày ..... tháng ..... năm ${dateYear}`;
+    const filename = `${formType}_${cccdHoten !== '...................................................' ? cccdHoten.replace(/\\s+/g, '_') : 'Mau_Don'}.doc`;
+
     let bodyHtml = "";
 
-    for (let i = 0; i < lines.length; i++) {
-        let line = lines[i].trimEnd();
-        if (!line.trim()) {
-            bodyHtml += `<p style="margin: 0; line-height: 12pt; font-size: 11pt;">&nbsp;</p>\n`;
-            continue;
+    if (formType === 'tk_thue_tncn') {
+        // CHUẨN XÁC Y NGUYÊN IMAGE 2 TỪ TỆP tờ khai thuế thu nhập cá nhân.docx
+        bodyHtml = `
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse:collapse; margin-bottom: 10px;">
+            <tr>
+                <td width="45%"></td>
+                <td width="55%" align="right">
+                    <table border="1" cellspacing="0" cellpadding="5" style="border-collapse:collapse; font-size:10pt; text-align:center; font-family:'Times New Roman', serif; border:1px solid #000;">
+                        <tr>
+                            <td>
+                                <b>Mẫu số: 03/BĐS-TNCN</b><br>
+                                <i>(Kèm theo Thông tư số 89/2026/TT-BTC<br>
+                                ngày 30 tháng 6 năm 2026 của Bộ trưởng<br>
+                                Bộ Tài chính)</i>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+
+        <div style="text-align:center; font-family:'Times New Roman', serif; font-size:12pt; font-weight:bold; margin-top:5px;">
+            CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM<br>
+            <u>Độc lập - Tự do - Hạnh phúc</u>
+        </div>
+
+        <div style="text-align:center; font-family:'Times New Roman', serif; font-size:14pt; font-weight:bold; margin-top:15px; text-transform:uppercase;">
+            TỜ KHAI THUẾ THU NHẬP CÁ NHÂN
+        </div>
+        <div style="text-align:center; font-family:'Times New Roman', serif; font-size:11pt; font-style:italic; margin-bottom:12px;">
+            (Áp dụng đối với cá nhân có thu nhập từ chuyển nhượng bất động sản;<br>
+            thu nhập từ nhận thừa kế và nhận quà tặng là bất động sản)
+        </div>
+
+        <p style="margin:4px 0;"><b>[01] Kỳ tính thuế:</b> Lần phát sinh: Ngày … tháng … năm ${dateYear}</p>
+        <p style="margin:4px 0;"><b>[02] Lần đầu:</b> [x] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>[03.1] Bổ sung lần thứ:</b> …… &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>[03.2] Số Thông báo lần trước liền kề:</b> ……</p>
+
+        <p style="font-weight:bold; margin:12px 0 6px 0;">I. THÔNG TIN NGƯỜI CHUYỂN NHƯỢNG, NHẬN THỪA KẾ, QUÀ TẶNG</p>
+        <table border="1" cellspacing="0" cellpadding="4" style="border-collapse:collapse; width:100%; font-size:10pt; text-align:center; font-family:'Times New Roman', serif; border:1px solid #000;">
+            <tr style="font-weight:bold; background:#f9f9f9;">
+                <td rowspan="2" width="5%">STT</td>
+                <td rowspan="2" width="18%">Họ và tên</td>
+                <td rowspan="2" width="14%">Mã số thuế/Số định danh cá nhân</td>
+                <td rowspan="2" width="10%">Ngày, tháng, năm sinh</td>
+                <td colspan="3" width="23%">Hộ chiếu (trường hợp cá nhân không có quốc tịch Việt Nam)</td>
+                <td rowspan="2" width="10%">Điện thoại</td>
+                <td rowspan="2" width="10%">Email</td>
+                <td rowspan="2" width="10%">Diện tích sử dụng/Tỷ lệ sở hữu (%)</td>
+            </tr>
+            <tr style="font-weight:bold; background:#f9f9f9;">
+                <td width="8%">Số</td>
+                <td width="7%">Ngày cấp</td>
+                <td width="8%">Nơi cấp</td>
+            </tr>
+            <tr style="font-size:9pt; font-style:italic; background:#f0f0f0;">
+                <td>[04.1]</td>
+                <td>[04.2]</td>
+                <td>[04.3]</td>
+                <td>[04.4]</td>
+                <td>[04.5]</td>
+                <td>[04.6]</td>
+                <td>[04.7]</td>
+                <td>[04.8]</td>
+                <td>[04.9]</td>
+                <td>[04.10]</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td align="left"><b>${cccdHoten !== '...................................................' ? cccdHoten.toUpperCase() : ''}</b></td>
+                <td><b>${cccdSo !== '........................' ? cccdSo : ''}</b></td>
+                <td>${cccdNgaySinh !== '...../...../..........' ? cccdNgaySinh : ''}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>100%</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>....</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+
+        <p style="margin:6px 0;"><b>[05] Tổ chức, cá nhân khai, nộp thuế thay (nếu có):</b> .........................................................................................................</p>
+        <p style="margin:4px 0;"><b>[06] Mã số thuế (nếu có):</b> ...................................................................................................................................................</p>
+        <p style="margin:4px 0;"><b>[07] Văn bản ủy quyền (nếu có):</b> Số .................... ngày ..... tháng ..... năm ..........</p>
+        <p style="margin:4px 0;"><b>[08] Tên tổ chức, cá nhân cung cấp dịch vụ làm thủ tục về thuế (nếu có):</b> ...................................................................................</p>
+        <p style="margin:4px 0;"><b>[09] Mã số thuế:</b> ...................................................................................................................................................................</p>
+        <p style="margin:4px 0;"><b>[10] Hợp đồng dịch vụ làm thủ tục về thuế:</b> Số ........................ ngày ........................</p>
+
+        <p style="font-weight:bold; margin:12px 0 6px 0;">II. THÔNG TIN NGƯỜI NHẬN CHUYỂN NHƯỢNG, NHẬN THỪA KẾ, QUÀ TẶNG</p>
+        <table border="1" cellspacing="0" cellpadding="4" style="border-collapse:collapse; width:100%; font-size:10pt; text-align:center; font-family:'Times New Roman', serif; border:1px solid #000;">
+            <tr style="font-weight:bold; background:#f9f9f9;">
+                <td rowspan="2" width="6%">STT</td>
+                <td rowspan="2" width="24%">Họ và tên</td>
+                <td rowspan="2" width="18%">Mã số thuế/Số định danh cá nhân</td>
+                <td rowspan="2" width="14%">Ngày, tháng, năm sinh</td>
+                <td colspan="3" width="26%">Hộ chiếu (trường hợp cá nhân không có quốc tịch Việt Nam)</td>
+                <td rowspan="2" width="12%">Tỷ lệ sở hữu (%)</td>
+            </tr>
+            <tr style="font-weight:bold; background:#f9f9f9;">
+                <td width="9%">Số</td>
+                <td width="8%">Ngày cấp</td>
+                <td width="9%">Nơi cấp</td>
+            </tr>
+            <tr style="font-size:9pt; font-style:italic; background:#f0f0f0;">
+                <td>[11.1]</td>
+                <td>[11.2]</td>
+                <td>[11.3]</td>
+                <td>[11.4]</td>
+                <td>[11.5]</td>
+                <td>[11.6]</td>
+                <td>[11.7]</td>
+                <td>[11.8]</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>100%</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>....</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+
+        <p style="font-weight:bold; margin:12px 0 6px 0;">III. LOẠI BẤT ĐỘNG SẢN CHUYỂN NHƯỢNG, NHẬN THỪA KẾ, QUÀ TẶNG</p>
+        <p style="margin:4px 0;"><b>[12] Quyền sử dụng đất và tài sản gắn liền trên đất:</b> [x] &nbsp;&nbsp;&nbsp;&nbsp; <b>[13] Quyền sở hữu hoặc sử dụng nhà ở:</b> [ ]</p>
+        <p style="margin:4px 0;"><b>[14] Quyền thuê đất, thuê mặt nước:</b> [ ] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>[15] Bất động sản khác:</b> [ ]</p>
+
+        <p style="font-weight:bold; margin:12px 0 6px 0;">IV. ĐẶC ĐIỂM BẤT ĐỘNG SẢN CHUYỂN NHƯỢNG, NHẬN THỪA KẾ, QUÀ TẶNG</p>
+        <p style="margin:4px 0;"><b>[16] Giấy tờ về quyền sử dụng đất:</b> [16.1] Loại: Giấy chứng nhận quyền sử dụng đất &nbsp;;&nbsp; [16.2] Số: <b>${landSophathanh}</b> &nbsp;;&nbsp; [16.3] Nơi cấp: ${landNoiCap} &nbsp;;&nbsp; [16.4] Ngày cấp: ${landNgayCap}</p>
+        <p style="margin:4px 0;"><b>[18] Hợp đồng chuyển nhượng trao đổi bất động sản:</b> [18.1] Số: .................... [18.2] Nơi lập: VP Công chứng .................... [18.3] Ngày lập: ...../...../..........</p>
+        <p style="margin:4px 0;"><b>[20] Thông tin về đất:</b> [20.1] Thửa đất số: <b>${landThua}</b> &nbsp;;&nbsp; [20.2] Tờ bản đồ số: <b>${landTobando}</b> &nbsp;;&nbsp; [20.3] Địa chỉ: ${landDiachi}</p>
+        
+        <p style="margin:4px 0; font-style:italic;">[20.6] Loại đất, vị trí thửa đất (1, 2, 3, 4…):</p>
+        <table border="1" cellspacing="0" cellpadding="4" style="border-collapse:collapse; width:100%; font-size:10pt; text-align:center; font-family:'Times New Roman', serif; border:1px solid #000;">
+            <tr style="font-weight:bold; background:#f9f9f9;">
+                <td width="6%">STT</td>
+                <td width="20%">Đường</td>
+                <td width="20%">Đoạn đường</td>
+                <td width="10%">Vị trí</td>
+                <td width="18%">Loại đất</td>
+                <td width="12%">Hệ số (nếu có)</td>
+                <td width="14%">Diện tích (m²)</td>
+            </tr>
+            <tr style="font-size:9pt; font-style:italic; background:#f0f0f0;">
+                <td>(1)</td>
+                <td>(2)</td>
+                <td>(3)</td>
+                <td>(4)</td>
+                <td>(5)</td>
+                <td>(6)</td>
+                <td>(7)</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><b>${landMucdich}</b></td>
+                <td></td>
+                <td><b>${landDientich}</b></td>
+            </tr>
+        </table>
+        <p style="margin:4px 0;"><b>[20.7] Nguồn gốc đất:</b> Nhận chuyển nhượng / Cấp Giấy chứng nhận lần đầu</p>
+        <p style="margin:4px 0;"><b>[20.8] Thời hạn sử dụng đất:</b> - Ổn định lâu dài [x] &nbsp;&nbsp;&nbsp;&nbsp; - Có thời hạn: ..... năm</p>
+        <p style="margin:4px 0;"><b>[20.9] Giá trị đất thực tế chuyển giao (nếu có):</b> ................................................................................................. đồng</p>
+
+        <p style="font-weight:bold; margin:12px 0 6px 0;">V. THU NHẬP TỪ CHUYỂN NHƯỢNG BẤT ĐỘNG SẢN; TỪ NHẬN THỪA KẾ, QUÀ TẶNG LÀ BẤT ĐỘNG SẢN</p>
+        <p style="margin:4px 0;"><b>[23] Loại thu nhập:</b> [23.1] Thu nhập từ chuyển nhượng BĐS [x] &nbsp;&nbsp;&nbsp;&nbsp; [23.2] Thu nhập từ nhận thừa kế, quà tặng [ ]</p>
+        <p style="margin:4px 0;"><b>[24] Giá trị chuyển nhượng bất động sản và tài sản khác gắn liền với đất:</b> ................................................................. đồng</p>
+        <p style="margin:4px 0;"><b>[26] Miễn thuế thu nhập từ chuyển nhượng bất động sản (nếu có):</b></p>
+        <table border="1" cellspacing="0" cellpadding="4" style="border-collapse:collapse; width:100%; font-size:10pt; text-align:center; font-family:'Times New Roman', serif; border:1px solid #000;">
+            <tr style="font-weight:bold; background:#f9f9f9;">
+                <td width="6%">STT</td>
+                <td width="24%">Họ và tên</td>
+                <td width="20%">Mã số thuế/Số định danh cá nhân</td>
+                <td width="30%">Lý do cá nhân được miễn thuế đối với nhà ở, quyền sử dụng đất ở duy nhất</td>
+                <td width="20%">Lý do miễn khác</td>
+            </tr>
+            <tr style="font-size:9pt; font-style:italic; background:#f0f0f0;">
+                <td>[26.1]</td>
+                <td>[26.2]</td>
+                <td>[26.3]</td>
+                <td>[26.4]</td>
+                <td>[26.5]</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td></td>
+                <td></td>
+                <td>[ ]</td>
+                <td></td>
+            </tr>
+        </table>
+
+        <p style="font-weight:bold; margin:12px 0 6px 0;">VI. HỒ SƠ KÈM THEO GỒM:</p>
+        <p style="margin:3px 0;">- Hợp đồng chuyển nhượng quyền sử dụng đất, tài sản gắn liền với đất (bản chính công chứng);</p>
+        <p style="margin:3px 0;">- Bản sao Giấy chứng nhận quyền sử dụng đất số phát hành: <b>${landSophathanh}</b>;</p>
+        <p style="margin:3px 0;">- Bản sao Thẻ Căn cước công dân của các bên chuyển nhượng và nhận chuyển nhượng.</p>
+
+        <p style="margin:10px 0; text-align:justify;">Tôi cam đoan những nội dung kê khai là đúng và chịu trách nhiệm trước pháp luật về những nội dung đã khai./.</p>
+
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse:collapse; margin-top:20px; font-family:'Times New Roman', serif;">
+            <tr>
+                <td width="50%" align="center" valign="top">
+                    <div style="font-weight:bold; font-size:11pt; text-transform:uppercase;">NGƯỜI TRỰC TIẾP THỰC HIỆN<br>DỊCH VỤ LÀM THỦ TỤC VỀ THUẾ</div>
+                    <div style="font-size:10pt; font-style:italic; margin-top:3px;">(Ký, ghi rõ họ tên)</div>
+                    <div style="height:65px;"></div>
+                    <div style="font-size:10pt;">Họ và tên: ........................................</div>
+                </td>
+                <td width="50%" align="center" valign="top">
+                    <div style="font-style:italic; font-size:11pt; margin-bottom:4px;">..., ${dateStr}</div>
+                    <div style="font-weight:bold; font-size:11pt; text-transform:uppercase;">NGƯỜI NỘP THUẾ hoặc<br>ĐẠI DIỆN HỢP PHÁP CỦA NGƯỜI NỘP THUẾ</div>
+                    <div style="font-size:10pt; font-style:italic; margin-top:3px;">(Ký, ghi rõ họ tên; chức vụ và đóng dấu)</div>
+                    <div style="height:65px;"></div>
+                    <div style="font-weight:bold; font-size:12pt;">${cccdHoten !== '...................................................' ? cccdHoten : ''}</div>
+                </td>
+            </tr>
+        </table>
+        `;
+    } else if (formType === 'tk_phi_nong_nghiep') {
+        // CHUẨN XÁC MẪU SỐ 01/TK-SDDPNN TỪ TỆP tk phi nông nghiệp.docx
+        bodyHtml = `
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse:collapse; margin-bottom: 10px;">
+            <tr>
+                <td width="45%"></td>
+                <td width="55%" align="right">
+                    <table border="1" cellspacing="0" cellpadding="5" style="border-collapse:collapse; font-size:10pt; text-align:center; font-family:'Times New Roman', serif; border:1px solid #000;">
+                        <tr>
+                            <td>
+                                <b>Mẫu số: 01/TK-SDDPNN</b><br>
+                                <i>(Kèm theo Thông tư số 89/2026/TT-BTC<br>
+                                ngày 30 tháng 6 năm 2026 của Bộ trưởng<br>
+                                Bộ Tài chính)</i>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+
+        <div style="text-align:center; font-family:'Times New Roman', serif; font-size:12pt; font-weight:bold; margin-top:5px;">
+            CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM<br>
+            <u>Độc lập - Tự do - Hạnh phúc</u>
+        </div>
+
+        <div style="text-align:center; font-family:'Times New Roman', serif; font-size:14pt; font-weight:bold; margin-top:15px; text-transform:uppercase;">
+            TỜ KHAI THUẾ SỬ DỤNG ĐẤT PHI NÔNG NGHIỆP
+        </div>
+        <div style="text-align:center; font-family:'Times New Roman', serif; font-size:11pt; font-style:italic; margin-bottom:12px;">
+            (Áp dụng đối với hộ gia đình, cá nhân)
+        </div>
+
+        <p style="margin:4px 0;"><b>[01] Kỳ tính thuế:</b> Năm ${dateYear} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>[02] Lần đầu:</b> [x] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>[03] Bổ sung lần thứ:</b> ……</p>
+
+        <p style="font-weight:bold; margin:12px 0 6px 0;">1. Người nộp thuế:</p>
+        <p style="margin:4px 0;"><b>[04] Họ và tên:</b> <b>${cccdHoten !== '...................................................' ? cccdHoten.toUpperCase() : ''}</b></p>
+        <p style="margin:4px 0;"><b>[05] Ngày, tháng, năm sinh:</b> ${cccdNgaySinh} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>[06] Mã số thuế:</b> ........................................................................</p>
+        <p style="margin:4px 0;"><b>[07] Số định danh cá nhân/Số hộ chiếu:</b> <b>${cccdSo}</b></p>
+        <p style="margin:4px 0;"><b>[08] Địa chỉ cư trú:</b> ${cccdThuongtru}</p>
+        <p style="margin:4px 0;"><b>[09] Địa chỉ nhận thông báo thuế:</b> ${cccdThuongtru} &nbsp;&nbsp;&nbsp;&nbsp; <b>[10] Điện thoại:</b> ........................................</p>
+
+        <p style="font-weight:bold; margin:12px 0 6px 0;">2. Tổ chức, cá nhân cung cấp dịch vụ làm thủ tục về thuế (nếu có):</p>
+        <p style="margin:4px 0;">[11] Tên tổ chức/cá nhân: ........................................................................ [12] Mã số thuế: ........................................</p>
+        <p style="margin:4px 0;">[13] Hợp đồng dịch vụ: Số ................................ ngày ................................</p>
+
+        <p style="font-weight:bold; margin:12px 0 6px 0;">3. Thửa đất chịu thuế:</p>
+        <p style="margin:4px 0; font-style:italic;">[14] Thông tin người sử dụng đất:</p>
+        <table border="1" cellspacing="0" cellpadding="4" style="border-collapse:collapse; width:100%; font-size:10pt; text-align:center; font-family:'Times New Roman', serif; border:1px solid #000;">
+            <tr style="font-weight:bold; background:#f9f9f9;">
+                <td width="8%">STT</td>
+                <td width="30%">Họ và tên</td>
+                <td width="22%">Mã số thuế</td>
+                <td width="26%">Số định danh cá nhân/Số hộ chiếu</td>
+                <td width="14%">Tỷ lệ</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td align="left"><b>${cccdHoten !== '...................................................' ? cccdHoten.toUpperCase() : ''}</b></td>
+                <td></td>
+                <td><b>${cccdSo !== '........................' ? cccdSo : ''}</b></td>
+                <td>100%</td>
+            </tr>
+        </table>
+
+        <p style="margin:6px 0;"><b>[15] Nguồn gốc thửa đất:</b> Sử dụng đất ổn định, nhận chuyển nhượng / cấp GCN lần đầu</p>
+        <p style="margin:4px 0;"><b>[16] Địa chỉ thửa đất:</b> ${landDiachi}</p>
+        <p style="margin:4px 0;"><b>[17] Là thửa đất duy nhất:</b> [x] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>[18] Đăng ký kê khai tổng hợp tại:</b> ${landDiachi}</p>
+        <p style="margin:4px 0;"><b>[19] Đã có giấy chứng nhận:</b></p>
+        <p style="margin:4px 0 4px 15px;">- [19.1] Số giấy chứng nhận: <b>${landSophathanh}</b> &nbsp;&nbsp;&nbsp;&nbsp; [19.2] Ngày cấp: <b>${landNgayCap}</b></p>
+        <p style="margin:4px 0 4px 15px;">- [19.3] Thửa đất số: <b>${landThua}</b> &nbsp;&nbsp;&nbsp;&nbsp; [19.4] Tờ bản đồ số: <b>${landTobando}</b></p>
+        <p style="margin:4px 0 4px 15px;">- [19.5] Diện tích: <b>${landDientich} m²</b> &nbsp;&nbsp;&nbsp;&nbsp; [19.6] Loại đất/ Mục đích sử dụng: <b>${landMucdich}</b></p>
+
+        <p style="margin:6px 0;"><b>[20] Tổng diện tích thực tế sử dụng cho mục đích phi nông nghiệp:</b> <b>${landDientich} m²</b></p>
+        <p style="margin:3px 0 3px 15px;">- [20.1] Diện tích đất sử dụng đúng mục đích: <b>${landDientich} m²</b></p>
+        <p style="margin:3px 0 3px 15px;">- [20.2] Diện tích đất sử dụng không đúng mục đích: 0 m²</p>
+        <p style="margin:3px 0 3px 15px;">- [20.3] Diện tích đất chưa sử dụng theo đúng quy định: 0 m²</p>
+        <p style="margin:3px 0 3px 15px;">- [20.4] Hạn mức (nếu có): ........................................ m² &nbsp;&nbsp;&nbsp;&nbsp; [20.5] Diện tích đất lấn, chiếm: 0 m²</p>
+
+        <p style="font-weight:bold; margin:12px 0 6px 0;">4. Đối với đất ở nhà nhiều tầng nhiều hộ ở, nhà chung cư [24]:</p>
+        <p style="margin:4px 0;">[24.1] Loại nhà: .................... [24.2] Diện tích: ................ [24.3] Hệ số phân bổ: ..........</p>
+
+        <p style="font-weight:bold; margin:12px 0 6px 0;">5. Miễn, giảm thuế [25]:</p>
+        <p style="margin:4px 0;">[25.1] Trường hợp miễn, giảm: ..................................................................................................................................</p>
+        <p style="margin:4px 0;">[25.2] Kỳ tính thuế đề nghị miễn, giảm: .......................................................................................................................</p>
+
+        <p style="margin:10px 0; text-align:justify;">Tôi cam đoan số liệu khai trên là đúng và chịu trách nhiệm trước pháp luật về số liệu đã khai./.</p>
+
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse:collapse; margin-top:20px; font-family:'Times New Roman', serif;">
+            <tr>
+                <td width="50%" align="center" valign="top">
+                    <div style="font-weight:bold; font-size:11pt; text-transform:uppercase;">NGƯỜI TRỰC TIẾP THỰC HIỆN<br>DỊCH VỤ LÀM THỦ TỤC VỀ THUẾ</div>
+                    <div style="font-size:10pt; font-style:italic; margin-top:3px;">(Ký, ghi rõ họ tên)</div>
+                    <div style="height:65px;"></div>
+                    <div style="font-size:10pt;">Họ và tên: ........................................</div>
+                </td>
+                <td width="50%" align="center" valign="top">
+                    <div style="font-style:italic; font-size:11pt; margin-bottom:4px;">..., ${dateStr}</div>
+                    <div style="font-weight:bold; font-size:11pt; text-transform:uppercase;">NGƯỜI NỘP THUẾ hoặc<br>ĐẠI DIỆN HỢP PHÁP CỦA NGƯỜI NỘP THUẾ</div>
+                    <div style="font-size:10pt; font-style:italic; margin-top:3px;">(Ký, ghi rõ họ tên; chức vụ và đóng dấu)</div>
+                    <div style="height:65px;"></div>
+                    <div style="font-weight:bold; font-size:12pt;">${cccdHoten !== '...................................................' ? cccdHoten : ''}</div>
+                </td>
+            </tr>
+        </table>
+        `;
+    } else if (formType === 'tk_le_phi_truoc_ba') {
+        // CHUẨN XÁC MẪU SỐ 01/LPTB TỪ TỆP tk lệ phí trước bạ.doc
+        bodyHtml = `
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse:collapse; margin-bottom: 10px;">
+            <tr>
+                <td width="45%"></td>
+                <td width="55%" align="right">
+                    <table border="1" cellspacing="0" cellpadding="5" style="border-collapse:collapse; font-size:10pt; text-align:center; font-family:'Times New Roman', serif; border:1px solid #000;">
+                        <tr>
+                            <td>
+                                <b>Mẫu số: 01/LPTB</b><br>
+                                <i>(Kèm theo Thông tư số 89/2026/TT-BTC<br>
+                                ngày 30 tháng 6 năm 2026 của Bộ trưởng<br>
+                                Bộ Tài chính)</i>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+
+        <div style="text-align:center; font-family:'Times New Roman', serif; font-size:12pt; font-weight:bold; margin-top:5px;">
+            CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM<br>
+            <u>Độc lập - Tự do - Hạnh phúc</u>
+        </div>
+
+        <div style="text-align:center; font-family:'Times New Roman', serif; font-size:14pt; font-weight:bold; margin-top:15px; text-transform:uppercase;">
+            TỜ KHAI LỆ PHÍ TRƯỚC BẠ
+        </div>
+        <div style="text-align:center; font-family:'Times New Roman', serif; font-size:11pt; font-style:italic; margin-bottom:12px;">
+            (Áp dụng đối với nhà, đất)
+        </div>
+
+        <p style="margin:4px 0;"><b>[01] Kỳ tính thuế:</b> Theo từng lần phát sinh ngày … tháng … năm ${dateYear}</p>
+        <p style="margin:4px 0;"><b>[02] Lần đầu:</b> [x] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>[03] Bổ sung lần thứ:</b> ……</p>
+        <p style="margin:4px 0;">[ ] Tổ chức, cá nhân được ủy quyền khai thay cho người nộp thuế</p>
+
+        <p style="margin:4px 0;"><b>[04] Người nộp thuế:</b> <b>${cccdHoten !== '...................................................' ? cccdHoten.toUpperCase() : ''}</b></p>
+        <p style="margin:4px 0;"><b>[05] Ngày, tháng, năm sinh:</b> ${cccdNgaySinh} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>[06] Mã số thuế:</b> ........................................................................</p>
+        <p style="margin:4px 0;"><b>[07] Số định danh cá nhân/Số hộ chiếu:</b> <b>${cccdSo}</b></p>
+        <p style="margin:4px 0;"><b>[08] Địa chỉ:</b> ${cccdThuongtru}</p>
+        <p style="margin:4px 0;"><b>[09] Xã/phường/đặc khu:</b> .................................. <b>[10] Tỉnh/Thành phố:</b> Thanh Hóa</p>
+        <p style="margin:4px 0;"><b>[11] Điện thoại:</b> ..................... <b>[12] Fax:</b> .................. <b>[13] Email:</b> ..........................................</p>
+
+        <p style="font-weight:bold; margin:12px 0 6px 0;">ĐẶC ĐIỂM NHÀ ĐẤT:</p>
+        <p style="margin:4px 0;"><b>1. Đất:</b></p>
+        <p style="margin:3px 0 3px 15px;">1.1. Thửa đất số: <b>${landThua}</b> &nbsp;;&nbsp; Tờ bản đồ số: <b>${landTobando}</b></p>
+        <p style="margin:3px 0 3px 15px;">1.2. Địa chỉ thửa đất: ${landDiachi}</p>
+        <p style="margin:3px 0 3px 15px;">1.3. Vị trí thửa đất: ...................................................................................................................................................</p>
+        <p style="margin:3px 0 3px 15px;">1.4. Mục đích sử dụng đất: <b>${landMucdich}</b></p>
+        <p style="margin:3px 0 3px 15px;">1.5. Diện tích (m²): <b>${landDientich} m²</b></p>
+        <p style="margin:3px 0 3px 15px;">1.6. Nguồn gốc nhà đất: Nhận chuyển nhượng / Cấp Giấy chứng nhận lần đầu / Tặng cho / Thừa kế</p>
+        <p style="margin:3px 0 3px 15px;">- Giấy chứng nhận quyền sử dụng đất số phát hành: <b>${landSophathanh}</b> ; Số vào sổ: <b>${landSovaoso}</b> do ${landNoiCap} cấp ngày ${landNgayCap}.</p>
+        <p style="margin:3px 0 3px 15px;">1.7. Giá trị đất thực tế chuyển giao (nếu có): ................................................................................................. đồng</p>
+
+        <p style="margin:4px 0;"><b>2. Nhà (nếu có):</b></p>
+        <p style="margin:3px 0 3px 15px;">2.1. Cấp nhà: .................... Loại nhà: .................... Hạng nhà: ....................</p>
+        <p style="margin:3px 0 3px 15px;">2.2. Diện tích xây dựng (m²): .................... ; Diện tích sàn xây dựng (m²): ....................</p>
+        <p style="margin:3px 0 3px 15px;">2.4. Giá trị nhà (đồng): ...........................................................................................................................................</p>
+
+        <p style="margin:6px 0;"><b>3. Giá trị nhà, đất thực tế nhận chuyển nhượng, thừa kế, tặng cho (đồng):</b> .................................................................</p>
+        <p style="margin:4px 0;"><b>4. Tài sản thuộc diện được miễn lệ phí trước bạ (lý do):</b> .............................................................................................</p>
+
+        <p style="font-weight:bold; margin:12px 0 6px 0;">5. Giấy tờ có liên quan gồm:</p>
+        <p style="margin:3px 0;">- Hợp đồng chuyển nhượng quyền sử dụng đất, tài sản gắn liền với đất;</p>
+        <p style="margin:3px 0;">- Bản sao Giấy chứng nhận quyền sử dụng đất số phát hành: <b>${landSophathanh}</b>;</p>
+        <p style="margin:3px 0;">- Giấy tờ chứng minh thuộc diện miễn lệ phí trước bạ (nếu có).</p>
+
+        <p style="margin:10px 0; text-align:justify;">Tôi cam đoan số liệu khai trên là đúng và chịu trách nhiệm trước pháp luật về số liệu đã khai./.</p>
+
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse:collapse; margin-top:20px; font-family:'Times New Roman', serif;">
+            <tr>
+                <td width="50%" align="center" valign="top">
+                    <div style="font-weight:bold; font-size:11pt; text-transform:uppercase;">NGƯỜI TRỰC TIẾP THỰC HIỆN<br>DỊCH VỤ LÀM THỦ TỤC VỀ THUẾ</div>
+                    <div style="font-size:10pt; font-style:italic; margin-top:3px;">(Ký, ghi rõ họ tên)</div>
+                    <div style="height:65px;"></div>
+                    <div style="font-size:10pt;">Họ và tên: ........................................</div>
+                </td>
+                <td width="50%" align="center" valign="top">
+                    <div style="font-style:italic; font-size:11pt; margin-bottom:4px;">..., ${dateStr}</div>
+                    <div style="font-weight:bold; font-size:11pt; text-transform:uppercase;">NGƯỜI NỘP THUẾ hoặc<br>ĐẠI DIỆN HỢP PHÁP CỦA NGƯỜI NỘP THUẾ</div>
+                    <div style="font-size:10pt; font-style:italic; margin-top:3px;">(Ký, ghi rõ họ tên; chức vụ và đóng dấu)</div>
+                    <div style="height:65px;"></div>
+                    <div style="font-weight:bold; font-size:12pt;">${cccdHoten !== '...................................................' ? cccdHoten : ''}</div>
+                </td>
+            </tr>
+        </table>
+        `;
+    } else {
+        // MẪU 25 / 29 / 35 THEO QĐ 2604/QĐ-VP THANH HÓA
+        const isM29 = (formType === 'mau_18_nd151' || formType === 'mau_29_qd2604');
+        const isM35 = (formType === 'don_tach_thua' || formType === 'mau_35_qd2604');
+        
+        let mTitle = "ĐƠN ĐĂNG KÝ ĐẤT ĐAI, TÀI SẢN GẮN LIỀN VỚI ĐẤT";
+        let mMauSo = "Mẫu số 25";
+        if (isM29) {
+            mTitle = "ĐƠN ĐĂNG KÝ BIẾN ĐỘNG ĐẤT ĐAI, TÀI SẢN GẮN LIỀN VỚI ĐẤT";
+            mMauSo = "Mẫu số 29";
+        } else if (isM35) {
+            mTitle = "ĐƠN ĐỀ NGHỊ TÁCH THỬA ĐẤT, HỢP THỬA ĐẤT";
+            mMauSo = "Mẫu số 35";
         }
 
-        // Escape HTML
-        let escaped = line
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;');
+        bodyHtml = `
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse:collapse; margin-bottom: 12px;">
+            <tr>
+                <td width="40%" align="left" valign="top" style="font-family:'Times New Roman', serif; font-size:11pt; font-weight:bold;">
+                    ${mMauSo}<br>
+                    <span style="font-size:10pt; font-style:italic; font-weight:normal;">QĐ 2604/QĐ-VP Thanh Hóa</span>
+                </td>
+                <td width="60%" align="center" valign="top" style="font-family:'Times New Roman', serif;">
+                    <div style="font-size:12pt; font-weight:bold;">CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</div>
+                    <div style="font-size:12pt; font-weight:bold; margin-top:2px;">Độc lập - Tự do - Hạnh phúc</div>
+                    <div style="width:140px; height:1px; background:#000; margin:4px auto 0 auto;"></div>
+                </td>
+            </tr>
+        </table>
 
-        // Check if line is national header (Cộng hòa xã hội...)
-        if (escaped.includes("CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM") || escaped.includes("CỘNG HOÀ XÃ HỘI CHỦ NGHĨA VIỆT NAM")) {
-            bodyHtml += `<table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse:collapse; margin-bottom:12px;">
-                <tr>
-                    <td width="40%" align="left" valign="top" style="font-family:'Times New Roman', serif; font-size:11pt; font-weight:bold;">
-                        ${lines[0] ? lines[0].split('   ')[0] : ''}<br>
-                        <span style="font-size:10pt; font-style:italic; font-weight:normal;">${lines[1] ? lines[1].split('   ')[0] : ''}</span>
-                    </td>
-                    <td width="60%" align="center" valign="top" style="font-family:'Times New Roman', serif;">
-                        <div style="font-size:12pt; font-weight:bold;">CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</div>
-                        <div style="font-size:12pt; font-weight:bold; margin-top:2px;">Độc lập - Tự do - Hạnh phúc</div>
-                        <div style="width:140px; height:1px; background:#000; margin:4px auto 0 auto;"></div>
-                    </td>
-                </tr>
-            </table>\n`;
-            // Skip next line if it was Doc lap tu do
-            if (i + 1 < lines.length && lines[i+1].includes("Độc lập")) i++;
-            if (i + 1 < lines.length && lines[i+1].includes("---")) i++;
-            continue;
-        }
+        <div style="text-align:center; font-family:'Times New Roman', serif; font-size:14pt; font-weight:bold; margin:16px 0 4px 0; text-transform:uppercase;">
+            ${mTitle}
+        </div>
+        <div style="text-align:center; font-family:'Times New Roman', serif; font-size:11pt; font-style:italic; margin-bottom:12px;">
+            (Ban hành kèm theo Quyết định số 2604/QĐ-VP ngày 27/7/2026 của UBND tỉnh Thanh Hóa)
+        </div>
 
-        // Check if line is main document title
-        if (escaped.includes("ĐƠN ĐĂNG KÝ") || escaped.includes("ĐƠN ĐỀ NGHỊ") || escaped.includes("TỜ KHAI THUẾ") || escaped.includes("TỜ KHAI LỆ PHÍ")) {
-            bodyHtml += `<div style="text-align:center; font-family:'Times New Roman', serif; font-size:14pt; font-weight:bold; margin:16px 0 4px 0; text-transform:uppercase;">${escaped}</div>\n`;
-            continue;
-        }
+        <div style="text-align:center; font-family:'Times New Roman', serif; font-size:12pt; font-weight:bold; margin:12px 0 16px 0;">
+            Kính gửi: ${getDynamicRecipient(formType, landDiachi, cccdThuongtru)}
+        </div>
 
-        // Subtitle (Ban hành kèm theo...)
-        if (escaped.startsWith("(") && escaped.endsWith(")")) {
-            bodyHtml += `<div style="text-align:center; font-family:'Times New Roman', serif; font-size:11pt; font-style:italic; margin-bottom:12px;">${escaped}</div>\n`;
-            continue;
-        }
+        <p style="font-weight:bold; margin:8px 0 4px 0;">1. Người sử dụng đất, chủ sở hữu tài sản gắn liền với đất:</p>
+        <p style="margin:3px 0;">- Họ và tên: <b>${cccdHoten !== '...................................................' ? cccdHoten : ''}</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Năm sinh: ${cccdNgaySinh}</p>
+        <p style="margin:3px 0;">- Số CCCD: <b>${cccdSo}</b> &nbsp;;&nbsp; Cấp ngày: ${cccdNgayCap} &nbsp;;&nbsp; Nơi cấp: Cục Cảnh sát QLHC về TTXH</p>
+        <p style="margin:3px 0;">- Nơi thường trú: ${cccdThuongtru}</p>
 
-        // Kính gửi
-        if (escaped.includes("Kính gửi:")) {
-            bodyHtml += `<div style="text-align:center; font-family:'Times New Roman', serif; font-size:12pt; font-weight:bold; margin:12px 0 16px 0;">${escaped}</div>\n`;
-            continue;
-        }
+        <p style="font-weight:bold; margin:8px 0 4px 0;">2. Thửa đất đề nghị đăng ký:</p>
+        <table border="1" cellspacing="0" cellpadding="4" style="border-collapse:collapse; width:100%; font-size:11pt; font-family:'Times New Roman', serif; border:1px solid #000; margin:6px 0;">
+            <tr style="font-weight:bold; background:#f9f9f9; text-align:center;">
+                <td width="12%">Thửa đất số</td>
+                <td width="12%">Tờ bản đồ</td>
+                <td width="44%">Địa chỉ thửa đất</td>
+                <td width="14%">Diện tích</td>
+                <td width="18%">Mục đích</td>
+            </tr>
+            <tr>
+                <td align="center"><b>${landThua}</b></td>
+                <td align="center"><b>${landTobando}</b></td>
+                <td>${landDiachi}</td>
+                <td align="center"><b>${landDientich} m²</b></td>
+                <td>${landMucdich}</td>
+            </tr>
+        </table>
+        <p style="margin:3px 0;">- Nguồn gốc sử dụng: Sử dụng đất ổn định, không có tranh chấp, phù hợp quy hoạch sử dụng đất.</p>
+        <p style="margin:3px 0;">- Đề nghị: Đăng ký và cấp Giấy chứng nhận quyền sử dụng đất, quyền sở hữu tài sản gắn liền với đất lần đầu theo Luật Đất đai 2024.</p>
 
-        // Section heading
-        if (escaped.match(/^[I|V|X]+\./) || escaped.match(/^[1-9]\./)) {
-            bodyHtml += `<p style="font-family:'Times New Roman', serif; font-size:12pt; font-weight:bold; margin:8px 0 4px 0;">${escaped}</p>\n`;
-            continue;
-        }
+        <p style="margin:10px 0; text-align:justify;">Tôi xin cam đoan toàn bộ nội dung kê khai trên đơn là hoàn toàn đúng sự thật, thửa đất không có tranh chấp, khiếu kiện và xin chịu hoàn toàn trách nhiệm trước pháp luật.</p>
 
-        // Signatures 2-column detection
-        if (escaped.includes("XÁC NHẬN CỦA UBND") || escaped.includes("NGƯỜI TRỰC TIẾP THỰC HIỆN")) {
-            bodyHtml += `<table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse:collapse; margin-top:20px; font-family:'Times New Roman', serif;">
-                <tr>
-                    <td width="50%" align="center" valign="top">
-                        <div style="font-weight:bold; font-size:11.5pt; text-transform:uppercase;">${escaped.split('   ')[0]}</div>
-                        <div style="font-size:10pt; font-style:italic; margin-top:2px;">(Ký, đóng dấu và ghi rõ họ tên)</div>
-                        <div style="height:60px;"></div>
-                    </td>
-                    <td width="50%" align="center" valign="top">
-                        <div style="font-style:italic; font-size:11pt; margin-bottom:4px;">Thanh Hóa, ngày ..... tháng ..... năm ${new Date().getFullYear()}</div>
-                        <div style="font-weight:bold; font-size:11.5pt; text-transform:uppercase;">NGƯỜI LÀM ĐƠN / NỘP THUẾ</div>
-                        <div style="font-size:10pt; font-style:italic; margin-top:2px;">(Ký và ghi rõ họ tên)</div>
-                        <div style="height:60px;"></div>
-                        <div style="font-weight:bold; font-size:12pt;">${cccdHoten !== 'Mau_Don' && !cccdHoten.includes('.') ? cccdHoten : ''}</div>
-                    </td>
-                </tr>
-            </table>\n`;
-            // Skip remaining signature lines
-            break;
-        }
-
-        // Default paragraph
-        bodyHtml += `<p style="font-family:'Times New Roman', serif; font-size:12pt; line-height:1.3; margin:3px 0; text-align:justify;">${escaped}</p>\n`;
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse:collapse; margin-top:20px; font-family:'Times New Roman', serif;">
+            <tr>
+                <td width="50%" align="center" valign="top">
+                    <div style="font-weight:bold; font-size:11.5pt; text-transform:uppercase;">XÁC NHẬN CỦA UBND CẤP XÃ</div>
+                    <div style="font-size:10pt; font-style:italic; margin-top:2px;">(Về hiện trạng sử dụng đất và tình trạng tranh chấp)</div>
+                    <div style="height:60px;"></div>
+                    <div style="font-size:11pt; font-style:italic;">(Ký, đóng dấu và ghi rõ họ tên)</div>
+                </td>
+                <td width="50%" align="center" valign="top">
+                    <div style="font-style:italic; font-size:11pt; margin-bottom:4px;">Thanh Hóa, ${dateStr}</div>
+                    <div style="font-weight:bold; font-size:11.5pt; text-transform:uppercase;">NGƯỜI LÀM ĐƠN</div>
+                    <div style="font-size:10pt; font-style:italic; margin-top:2px;">(Ký và ghi rõ họ tên)</div>
+                    <div style="height:60px;"></div>
+                    <div style="font-weight:bold; font-size:12pt;">${cccdHoten !== '...................................................' ? cccdHoten : ''}</div>
+                </td>
+            </tr>
+        </table>
+        `;
     }
 
     const docHtml = `
@@ -1565,7 +2088,7 @@ function exportToWord() {
     `;
 
     try {
-        const blob = new Blob(['\ufeff', docHtml], {
+        const blob = new Blob(['\\ufeff', docHtml], {
             type: 'application/msword;charset=utf-8'
         });
         const downloadUrl = window.URL.createObjectURL(blob);
