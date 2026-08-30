@@ -1878,634 +1878,113 @@ Tôi cam đoan số liệu khai trên là đúng và chịu trách nhiệm trư�
 
 function exportToWord() {
     const formType = document.getElementById('selectFormType')?.value || 'mau_25_qd2604';
+    const formOutputEl = document.getElementById('formOutputText');
+    const rawText = formOutputEl ? formOutputEl.value : '';
     
     // Blank fallbacks
-    const cccdHoten = (document.getElementById('cccd_hoten')?.value || '').trim() || '...................................................';
-    const cccdSo = (document.getElementById('cccd_so')?.value || '').trim() || '........................';
-    const cccdNgaySinh = (document.getElementById('cccd_ngaysinh')?.value || '').trim() || '...../...../..........';
-    const cccdNgayCap = (document.getElementById('cccd_ngaycap')?.value || '').trim() || '...../...../..........';
-    const cccdThuongtru = (document.getElementById('cccd_thuongtru')?.value || '').trim() || '...........................................................................................';
-    
-    const landSophathanh = (document.getElementById('land_sophathanh')?.value || '').trim() || '........................';
-    const landSovaoso = (document.getElementById('land_sovaoso')?.value || '').trim() || '........................';
-    const landNgayCap = (document.getElementById('land_ngaycap')?.value || '').trim() || '...../...../..........';
-    const landNoiCap = (document.getElementById('land_noicap')?.value || '').trim() || 'Chi nhánh VPĐKĐĐ';
-    const landThua = (document.getElementById('land_thua')?.value || '').trim() || '........';
-    const landTobando = (document.getElementById('land_tobando')?.value || '').trim() || '........';
-    const landDiachi = (document.getElementById('land_diachi')?.value || '').trim() || '...........................................................................................';
-    const landDientich = (document.getElementById('land_dientich')?.value || '').trim() || '........';
-    const landMucdich = (document.getElementById('land_mucdich')?.value || '').trim() || '...................................................';
+    const cccdHoten = (document.getElementById('cccd_hoten')?.value || '').trim();
+    const cleanName = cccdHoten && !cccdHoten.includes('.') ? cccdHoten.replace(/\s+/g, '_') : 'Mau_Don';
+    const filename = `${formType}_${cleanName}.doc`;
 
-    const dateYear = new Date().getFullYear();
-    const dateStr = `ngày ..... tháng ..... năm ${dateYear}`;
-    const filename = `${formType}_${cccdHoten !== '...................................................' ? cccdHoten.replace(/\\s+/g, '_') : 'Mau_Don'}.doc`;
+    if (!rawText.trim()) {
+        alert("Chưa có nội dung mẫu đơn để xuất file Word!");
+        return;
+    }
 
+    // Chuyển đổi nội dung rawText từ textarea thành HTML chuẩn Word, giữ nguyên 100% câu chữ, bố cục, bảng biểu và hướng dẫn
+    const lines = rawText.split('\n');
     let bodyHtml = "";
+    let inTable = false;
+    let tableRows = [];
 
-    if (formType === 'tk_thue_tncn') {
-        // MẪU 03/BĐS-TNCN CHUẨN 100%
-        bodyHtml = `
-        <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse:collapse; margin-bottom: 10px;">
-            <tr>
-                <td width="45%"></td>
-                <td width="55%" align="right">
-                    <table border="1" cellspacing="0" cellpadding="5" style="border-collapse:collapse; font-size:10pt; text-align:center; font-family:'Times New Roman', serif; border:1px solid #000;">
-                        <tr>
-                            <td>
-                                <b>Mẫu số: 03/BĐS-TNCN</b><br>
-                                <i>(Kèm theo Thông tư số 89/2026/TT-BTC<br>
-                                ngày 30 tháng 6 năm 2026 của Bộ trưởng<br>
-                                Bộ Tài chính)</i>
-                            </td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-        </table>
+    for (let i = 0; i < lines.length; i++) {
+        let line = lines[i];
+        let trimmed = line.trim();
 
-        <div style="text-align:center; font-family:'Times New Roman', serif; font-size:12pt; font-weight:bold; margin-top:5px;">
-            CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM<br>
-            <u>Độc lập - Tự do - Hạnh phúc</u>
-        </div>
-
-        <div style="text-align:center; font-family:'Times New Roman', serif; font-size:14pt; font-weight:bold; margin-top:15px; text-transform:uppercase;">
-            TỜ KHAI THUẾ THU NHẬP CÁ NHÂN
-        </div>
-        <div style="text-align:center; font-family:'Times New Roman', serif; font-size:11pt; font-style:italic; margin-bottom:12px;">
-            (Áp dụng đối với cá nhân có thu nhập từ chuyển nhượng bất động sản;<br>
-            thu nhập từ nhận thừa kế và nhận quà tặng là bất động sản)
-        </div>
-
-        <p style="margin:4px 0;"><b>[01] Kỳ tính thuế:</b> Lần phát sinh: Ngày … tháng … năm ${dateYear}</p>
-        <p style="margin:4px 0;"><b>[02] Lần đầu:</b> [x] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>[03.1] Bổ sung lần thứ:</b> …… &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>[03.2] Số Thông báo lần trước liền kề:</b> ……</p>
-
-        <p style="font-weight:bold; margin:12px 0 6px 0;">I. THÔNG TIN NGƯỜI CHUYỂN NHƯỢNG, NHẬN THỪA KẾ, QUÀ TẶNG</p>
-        <table border="1" cellspacing="0" cellpadding="4" style="border-collapse:collapse; width:100%; font-size:10pt; text-align:center; font-family:'Times New Roman', serif; border:1px solid #000;">
-            <tr style="font-weight:bold; background:#f9f9f9;">
-                <td rowspan="2" width="5%">STT</td>
-                <td rowspan="2" width="18%">Họ và tên</td>
-                <td rowspan="2" width="14%">Mã số thuế/Số định danh cá nhân</td>
-                <td rowspan="2" width="10%">Ngày, tháng, năm sinh</td>
-                <td colspan="3" width="23%">Hộ chiếu (trường hợp cá nhân không có quốc tịch Việt Nam)</td>
-                <td rowspan="2" width="10%">Điện thoại</td>
-                <td rowspan="2" width="10%">Email</td>
-                <td rowspan="2" width="10%">Diện tích sử dụng/Tỷ lệ sở hữu (%)</td>
-            </tr>
-            <tr style="font-weight:bold; background:#f9f9f9;">
-                <td width="8%">Số</td>
-                <td width="7%">Ngày cấp</td>
-                <td width="8%">Nơi cấp</td>
-            </tr>
-            <tr style="font-size:9pt; font-style:italic; background:#f0f0f0;">
-                <td>[04.1]</td>
-                <td>[04.2]</td>
-                <td>[04.3]</td>
-                <td>[04.4]</td>
-                <td>[04.5]</td>
-                <td>[04.6]</td>
-                <td>[04.7]</td>
-                <td>[04.8]</td>
-                <td>[04.9]</td>
-                <td>[04.10]</td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td align="left"><b>${cccdHoten !== '...................................................' ? cccdHoten.toUpperCase() : ''}</b></td>
-                <td><b>${cccdSo !== '........................' ? cccdSo : ''}</b></td>
-                <td>${cccdNgaySinh !== '...../...../..........' ? cccdNgaySinh : ''}</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>100%</td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>....</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-        </table>
-
-        <p style="margin:6px 0;"><b>[05] Tổ chức, cá nhân khai, nộp thuế thay (nếu có):</b> .........................................................................................................</p>
-        <p style="margin:4px 0;"><b>[06] Mã số thuế (nếu có):</b> ...................................................................................................................................................</p>
-        <p style="margin:4px 0;"><b>[07] Văn bản ủy quyền (nếu có):</b> Số .................... ngày ..... tháng ..... năm ..........</p>
-        <p style="margin:4px 0;"><b>[08] Tên tổ chức, cá nhân cung cấp dịch vụ làm thủ tục về thuế (nếu có):</b> ...................................................................................</p>
-        <p style="margin:4px 0;"><b>[09] Mã số thuế:</b> ...................................................................................................................................................................</p>
-        <p style="margin:4px 0;"><b>[10] Hợp đồng dịch vụ làm thủ tục về thuế:</b> Số ........................ ngày ........................</p>
-
-        <p style="font-weight:bold; margin:12px 0 6px 0;">II. THÔNG TIN NGƯỜI NHẬN CHUYỂN NHƯỢNG, NHẬN THỪA KẾ, QUÀ TẶNG</p>
-        <table border="1" cellspacing="0" cellpadding="4" style="border-collapse:collapse; width:100%; font-size:10pt; text-align:center; font-family:'Times New Roman', serif; border:1px solid #000;">
-            <tr style="font-weight:bold; background:#f9f9f9;">
-                <td rowspan="2" width="6%">STT</td>
-                <td rowspan="2" width="24%">Họ và tên</td>
-                <td rowspan="2" width="18%">Mã số thuế/Số định danh cá nhân</td>
-                <td rowspan="2" width="14%">Ngày, tháng, năm sinh</td>
-                <td colspan="3" width="26%">Hộ chiếu (trường hợp cá nhân không có quốc tịch Việt Nam)</td>
-                <td rowspan="2" width="12%">Tỷ lệ sở hữu (%)</td>
-            </tr>
-            <tr style="font-weight:bold; background:#f9f9f9;">
-                <td width="9%">Số</td>
-                <td width="8%">Ngày cấp</td>
-                <td width="9%">Nơi cấp</td>
-            </tr>
-            <tr style="font-size:9pt; font-style:italic; background:#f0f0f0;">
-                <td>[11.1]</td>
-                <td>[11.2]</td>
-                <td>[11.3]</td>
-                <td>[11.4]</td>
-                <td>[11.5]</td>
-                <td>[11.6]</td>
-                <td>[11.7]</td>
-                <td>[11.8]</td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>100%</td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>....</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-        </table>
-
-        <p style="font-weight:bold; margin:12px 0 6px 0;">III. LOẠI BẤT ĐỘNG SẢN CHUYỂN NHƯỢNG, NHẬN THỪA KẾ, QUÀ TẶNG</p>
-        <p style="margin:4px 0;"><b>[12] Quyền sử dụng đất và tài sản gắn liền trên đất:</b> [x] &nbsp;&nbsp;&nbsp;&nbsp; <b>[13] Quyền sở hữu hoặc sử dụng nhà ở:</b> [ ]</p>
-        <p style="margin:4px 0;"><b>[14] Quyền thuê đất, thuê mặt nước:</b> [ ] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>[15] Bất động sản khác:</b> [ ]</p>
-
-        <p style="font-weight:bold; margin:12px 0 6px 0;">IV. ĐẶC ĐIỂM BẤT ĐỘNG SẢN CHUYỂN NHƯỢNG, NHẬN THỪA KẾ, QUÀ TẶNG</p>
-        <p style="margin:4px 0;"><b>[16] Giấy tờ về quyền sử dụng đất:</b> [16.1] Loại: Giấy chứng nhận quyền sử dụng đất &nbsp;;&nbsp; [16.2] Số: <b>${landSophathanh}</b> &nbsp;;&nbsp; [16.3] Nơi cấp: ${landNoiCap} &nbsp;;&nbsp; [16.4] Ngày cấp: ${landNgayCap}</p>
-        <p style="margin:4px 0;"><b>[18] Hợp đồng chuyển nhượng trao đổi bất động sản:</b> [18.1] Số: .................... [18.2] Nơi lập: VP Công chứng .................... [18.3] Ngày lập: ...../...../..........</p>
-        <p style="margin:4px 0;"><b>[20] Thông tin về đất:</b> [20.1] Thửa đất số: <b>${landThua}</b> &nbsp;;&nbsp; [20.2] Tờ bản đồ số: <b>${landTobando}</b> &nbsp;;&nbsp; [20.3] Địa chỉ: ${landDiachi}</p>
-        
-        <p style="margin:4px 0; font-style:italic;">[20.6] Loại đất, vị trí thửa đất (1, 2, 3, 4…):</p>
-        <table border="1" cellspacing="0" cellpadding="4" style="border-collapse:collapse; width:100%; font-size:10pt; text-align:center; font-family:'Times New Roman', serif; border:1px solid #000;">
-            <tr style="font-weight:bold; background:#f9f9f9;">
-                <td width="6%">STT</td>
-                <td width="20%">Đường</td>
-                <td width="20%">Đoạn đường</td>
-                <td width="10%">Vị trí</td>
-                <td width="18%">Loại đất</td>
-                <td width="12%">Hệ số (nếu có)</td>
-                <td width="14%">Diện tích (m²)</td>
-            </tr>
-            <tr style="font-size:9pt; font-style:italic; background:#f0f0f0;">
-                <td>(1)</td>
-                <td>(2)</td>
-                <td>(3)</td>
-                <td>(4)</td>
-                <td>(5)</td>
-                <td>(6)</td>
-                <td>(7)</td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td><b>${landMucdich}</b></td>
-                <td></td>
-                <td><b>${landDientich}</b></td>
-            </tr>
-        </table>
-        <p style="margin:4px 0;"><b>[20.7] Nguồn gốc đất:</b> Nhận chuyển nhượng / Cấp Giấy chứng nhận lần đầu</p>
-        <p style="margin:4px 0;"><b>[20.8] Thời hạn sử dụng đất:</b> - Ổn định lâu dài [x] &nbsp;&nbsp;&nbsp;&nbsp; - Có thời hạn: ..... năm</p>
-        <p style="margin:4px 0;"><b>[20.9] Giá trị đất thực tế chuyển giao (nếu có):</b> ................................................................................................. đồng</p>
-
-        <p style="font-weight:bold; margin:12px 0 6px 0;">V. THU NHẬP TỪ CHUYỂN NHƯỢNG BẤT ĐỘNG SẢN; TỪ NHẬN THỪA KẾ, QUÀ TẶNG LÀ BẤT ĐỘNG SẢN</p>
-        <p style="margin:4px 0;"><b>[23] Loại thu nhập:</b> [23.1] Thu nhập từ chuyển nhượng BĐS [x] &nbsp;&nbsp;&nbsp;&nbsp; [23.2] Thu nhập từ nhận thừa kế, quà tặng [ ]</p>
-        <p style="margin:4px 0;"><b>[24] Giá trị chuyển nhượng bất động sản và tài sản khác gắn liền với đất:</b> ................................................................. đồng</p>
-        <p style="margin:4px 0;"><b>[26] Miễn thuế thu nhập từ chuyển nhượng bất động sản (nếu có):</b></p>
-        <table border="1" cellspacing="0" cellpadding="4" style="border-collapse:collapse; width:100%; font-size:10pt; text-align:center; font-family:'Times New Roman', serif; border:1px solid #000;">
-            <tr style="font-weight:bold; background:#f9f9f9;">
-                <td width="6%">STT</td>
-                <td width="24%">Họ và tên</td>
-                <td width="20%">Mã số thuế/Số định danh cá nhân</td>
-                <td width="30%">Lý do cá nhân được miễn thuế đối với nhà ở, quyền sử dụng đất ở duy nhất</td>
-                <td width="20%">Lý do miễn khác</td>
-            </tr>
-            <tr style="font-size:9pt; font-style:italic; background:#f0f0f0;">
-                <td>[26.1]</td>
-                <td>[26.2]</td>
-                <td>[26.3]</td>
-                <td>[26.4]</td>
-                <td>[26.5]</td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td></td>
-                <td></td>
-                <td>[ ]</td>
-                <td></td>
-            </tr>
-        </table>
-
-        <p style="font-weight:bold; margin:12px 0 6px 0;">VI. HỒ SƠ KÈM THEO GỒM:</p>
-        <p style="margin:3px 0;">- Hợp đồng chuyển nhượng quyền sử dụng đất, tài sản gắn liền với đất (bản chính công chứng);</p>
-        <p style="margin:3px 0;">- Bản sao Giấy chứng nhận quyền sử dụng đất số phát hành: <b>${landSophathanh}</b>;</p>
-        <p style="margin:3px 0;">- Bản sao Thẻ Căn cước công dân của các bên chuyển nhượng và nhận chuyển nhượng.</p>
-
-        <p style="margin:10px 0; text-align:justify;">Tôi cam đoan những nội dung kê khai là đúng và chịu trách nhiệm trước pháp luật về những nội dung đã khai./.</p>
-
-        <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse:collapse; margin-top:20px; font-family:'Times New Roman', serif;">
-            <tr>
-                <td width="50%" align="center" valign="top">
-                    <div style="font-weight:bold; font-size:11pt; text-transform:uppercase;">NGƯỜI TRỰC TIẾP THỰC HIỆN<br>DỊCH VỤ LÀM THỦ TỤC VỀ THUẾ</div>
-                    <div style="font-size:10pt; font-style:italic; margin-top:3px;">(Ký, ghi rõ họ tên)</div>
-                    <div style="height:65px;"></div>
-                    <div style="font-size:10pt;">Họ và tên: ........................................</div>
-                </td>
-                <td width="50%" align="center" valign="top">
-                    <div style="font-style:italic; font-size:11pt; margin-bottom:4px;">..., ${dateStr}</div>
-                    <div style="font-weight:bold; font-size:11pt; text-transform:uppercase;">NGƯỜI NỘP THUẾ hoặc<br>ĐẠI DIỆN HỢP PHÁP CỦA NGƯỜI NỘP THUẾ</div>
-                    <div style="font-size:10pt; font-style:italic; margin-top:3px;">(Ký, ghi rõ họ tên; chức vụ và đóng dấu)</div>
-                    <div style="height:65px;"></div>
-                    <div style="font-weight:bold; font-size:12pt;">${cccdHoten !== '...................................................' ? cccdHoten : ''}</div>
-                </td>
-            </tr>
-        </table>
-        `;
-    } else if (formType === 'tk_phi_nong_nghiep') {
-        // MẪU 01/TK-SDDPNN CHUẨN 100%
-        bodyHtml = `
-        <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse:collapse; margin-bottom: 10px;">
-            <tr>
-                <td width="45%"></td>
-                <td width="55%" align="right">
-                    <table border="1" cellspacing="0" cellpadding="5" style="border-collapse:collapse; font-size:10pt; text-align:center; font-family:'Times New Roman', serif; border:1px solid #000;">
-                        <tr>
-                            <td>
-                                <b>Mẫu số: 01/TK-SDDPNN</b><br>
-                                <i>(Kèm theo Thông tư số 89/2026/TT-BTC<br>
-                                ngày 30 tháng 6 năm 2026 của Bộ trưởng<br>
-                                Bộ Tài chính)</i>
-                            </td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-        </table>
-
-        <div style="text-align:center; font-family:'Times New Roman', serif; font-size:12pt; font-weight:bold; margin-top:5px;">
-            CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM<br>
-            <u>Độc lập - Tự do - Hạnh phúc</u>
-        </div>
-
-        <div style="text-align:center; font-family:'Times New Roman', serif; font-size:14pt; font-weight:bold; margin-top:15px; text-transform:uppercase;">
-            TỜ KHAI THUẾ SỬ DỤNG ĐẤT PHI NÔNG NGHIỆP
-        </div>
-        <div style="text-align:center; font-family:'Times New Roman', serif; font-size:11pt; font-style:italic; margin-bottom:12px;">
-            (Áp dụng đối với hộ gia đình, cá nhân)
-        </div>
-
-        <p style="margin:4px 0;"><b>[01] Kỳ tính thuế:</b> Năm ${dateYear} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>[02] Lần đầu:</b> [x] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>[03] Bổ sung lần thứ:</b> ……</p>
-
-        <p style="font-weight:bold; margin:12px 0 6px 0;">1. Người nộp thuế:</p>
-        <p style="margin:4px 0;"><b>[04] Họ và tên:</b> <b>${cccdHoten !== '...................................................' ? cccdHoten.toUpperCase() : ''}</b></p>
-        <p style="margin:4px 0;"><b>[05] Ngày, tháng, năm sinh:</b> ${cccdNgaySinh} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>[06] Mã số thuế:</b> ........................................................................</p>
-        <p style="margin:4px 0;"><b>[07] Số định danh cá nhân/Số hộ chiếu:</b> <b>${cccdSo}</b></p>
-        <p style="margin:4px 0;"><b>[08] Địa chỉ cư trú:</b> ${cccdThuongtru}</p>
-        <p style="margin:4px 0;"><b>[09] Địa chỉ nhận thông báo thuế:</b> ${cccdThuongtru} &nbsp;&nbsp;&nbsp;&nbsp; <b>[10] Điện thoại:</b> ........................................</p>
-
-        <p style="font-weight:bold; margin:12px 0 6px 0;">2. Tổ chức, cá nhân cung cấp dịch vụ làm thủ tục về thuế (nếu có):</p>
-        <p style="margin:4px 0;">[11] Tên tổ chức/cá nhân: ........................................................................ [12] Mã số thuế: ........................................</p>
-        <p style="margin:4px 0;">[13] Hợp đồng dịch vụ: Số ................................ ngày ................................</p>
-
-        <p style="font-weight:bold; margin:12px 0 6px 0;">3. Thửa đất chịu thuế:</p>
-        <p style="margin:4px 0; font-style:italic;">[14] Thông tin người sử dụng đất:</p>
-        <table border="1" cellspacing="0" cellpadding="4" style="border-collapse:collapse; width:100%; font-size:10pt; text-align:center; font-family:'Times New Roman', serif; border:1px solid #000;">
-            <tr style="font-weight:bold; background:#f9f9f9;">
-                <td width="8%">STT</td>
-                <td width="30%">Họ và tên</td>
-                <td width="22%">Mã số thuế</td>
-                <td width="26%">Số định danh cá nhân/Số hộ chiếu</td>
-                <td width="14%">Tỷ lệ</td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td align="left"><b>${cccdHoten !== '...................................................' ? cccdHoten.toUpperCase() : ''}</b></td>
-                <td></td>
-                <td><b>${cccdSo !== '........................' ? cccdSo : ''}</b></td>
-                <td>100%</td>
-            </tr>
-        </table>
-
-        <p style="margin:6px 0;"><b>[15] Nguồn gốc thửa đất:</b> Sử dụng đất ổn định, nhận chuyển nhượng / cấp GCN lần đầu</p>
-        <p style="margin:4px 0;"><b>[16] Địa chỉ thửa đất:</b> ${landDiachi}</p>
-        <p style="margin:4px 0;"><b>[17] Là thửa đất duy nhất:</b> [x] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>[18] Đăng ký kê khai tổng hợp tại:</b> ${landDiachi}</p>
-        <p style="margin:4px 0;"><b>[19] Đã có giấy chứng nhận:</b></p>
-        <p style="margin:4px 0 4px 15px;">- [19.1] Số giấy chứng nhận: <b>${landSophathanh}</b> &nbsp;&nbsp;&nbsp;&nbsp; [19.2] Ngày cấp: <b>${landNgayCap}</b></p>
-        <p style="margin:4px 0 4px 15px;">- [19.3] Thửa đất số: <b>${landThua}</b> &nbsp;&nbsp;&nbsp;&nbsp; [19.4] Tờ bản đồ số: <b>${landTobando}</b></p>
-        <p style="margin:4px 0 4px 15px;">- [19.5] Diện tích: <b>${landDientich} m²</b> &nbsp;&nbsp;&nbsp;&nbsp; [19.6] Loại đất/ Mục đích sử dụng: <b>${landMucdich}</b></p>
-
-        <p style="margin:6px 0;"><b>[20] Tổng diện tích thực tế sử dụng cho mục đích phi nông nghiệp:</b> <b>${landDientich} m²</b></p>
-        <p style="margin:3px 0 3px 15px;">- [20.1] Diện tích đất sử dụng đúng mục đích: <b>${landDientich} m²</b></p>
-        <p style="margin:3px 0 3px 15px;">- [20.2] Diện tích đất sử dụng không đúng mục đích: 0 m²</p>
-        <p style="margin:3px 0 3px 15px;">- [20.3] Diện tích đất chưa sử dụng theo đúng quy định: 0 m²</p>
-        <p style="margin:3px 0 3px 15px;">- [20.4] Hạn mức (nếu có): ........................................ m² &nbsp;&nbsp;&nbsp;&nbsp; [20.5] Diện tích đất lấn, chiếm: 0 m²</p>
-
-        <p style="font-weight:bold; margin:12px 0 6px 0;">4. Đối với đất ở nhà nhiều tầng nhiều hộ ở, nhà chung cư [24]:</p>
-        <p style="margin:4px 0;">[24.1] Loại nhà: .................... [24.2] Diện tích: ................ [24.3] Hệ số phân bổ: ..........</p>
-
-        <p style="font-weight:bold; margin:12px 0 6px 0;">5. Miễn, giảm thuế [25]:</p>
-        <p style="margin:4px 0;">[25.1] Trường hợp miễn, giảm: ..................................................................................................................................</p>
-        <p style="margin:4px 0;">[25.2] Kỳ tính thuế đề nghị miễn, giảm: .......................................................................................................................</p>
-
-        <p style="margin:10px 0; text-align:justify;">Tôi cam đoan số liệu khai trên là đúng và chịu trách nhiệm trước pháp luật về số liệu đã khai./.</p>
-
-        <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse:collapse; margin-top:20px; font-family:'Times New Roman', serif;">
-            <tr>
-                <td width="50%" align="center" valign="top">
-                    <div style="font-weight:bold; font-size:11pt; text-transform:uppercase;">NGƯỜI TRỰC TIẾP THỰC HIỆN<br>DỊCH VỤ LÀM THỦ TỤC VỀ THUẾ</div>
-                    <div style="font-size:10pt; font-style:italic; margin-top:3px;">(Ký, ghi rõ họ tên)</div>
-                    <div style="height:65px;"></div>
-                    <div style="font-size:10pt;">Họ và tên: ........................................</div>
-                </td>
-                <td width="50%" align="center" valign="top">
-                    <div style="font-style:italic; font-size:11pt; margin-bottom:4px;">..., ${dateStr}</div>
-                    <div style="font-weight:bold; font-size:11pt; text-transform:uppercase;">NGƯỜI NỘP THUẾ hoặc<br>ĐẠI DIỆN HỢP PHÁP CỦA NGƯỜI NỘP THUẾ</div>
-                    <div style="font-size:10pt; font-style:italic; margin-top:3px;">(Ký, ghi rõ họ tên; chức vụ và đóng dấu)</div>
-                    <div style="height:65px;"></div>
-                    <div style="font-weight:bold; font-size:12pt;">${cccdHoten !== '...................................................' ? cccdHoten : ''}</div>
-                </td>
-            </tr>
-        </table>
-        `;
-    } else if (formType === 'tk_le_phi_truoc_ba') {
-        // MẪU 01/LPTB CHUẨN 100%
-        bodyHtml = `
-        <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse:collapse; margin-bottom: 10px;">
-            <tr>
-                <td width="45%"></td>
-                <td width="55%" align="right">
-                    <table border="1" cellspacing="0" cellpadding="5" style="border-collapse:collapse; font-size:10pt; text-align:center; font-family:'Times New Roman', serif; border:1px solid #000;">
-                        <tr>
-                            <td>
-                                <b>Mẫu số: 01/LPTB</b><br>
-                                <i>(Kèm theo Thông tư số 89/2026/TT-BTC<br>
-                                ngày 30 tháng 6 năm 2026 của Bộ trưởng<br>
-                                Bộ Tài chính)</i>
-                            </td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-        </table>
-
-        <div style="text-align:center; font-family:'Times New Roman', serif; font-size:12pt; font-weight:bold; margin-top:5px;">
-            CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM<br>
-            <u>Độc lập - Tự do - Hạnh phúc</u>
-        </div>
-
-        <div style="text-align:center; font-family:'Times New Roman', serif; font-size:14pt; font-weight:bold; margin-top:15px; text-transform:uppercase;">
-            TỜ KHAI LỆ PHÍ TRƯỚC BẠ
-        </div>
-        <div style="text-align:center; font-family:'Times New Roman', serif; font-size:11pt; font-style:italic; margin-bottom:12px;">
-            (Áp dụng đối với nhà, đất)
-        </div>
-
-        <p style="margin:4px 0;"><b>[01] Kỳ tính thuế:</b> Theo từng lần phát sinh ngày … tháng … năm ${dateYear}</p>
-        <p style="margin:4px 0;"><b>[02] Lần đầu:</b> [x] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>[03] Bổ sung lần thứ:</b> ……</p>
-        <p style="margin:4px 0;">[ ] Tổ chức, cá nhân được ủy quyền khai thay cho người nộp thuế</p>
-
-        <p style="margin:4px 0;"><b>[04] Người nộp thuế:</b> <b>${cccdHoten !== '...................................................' ? cccdHoten.toUpperCase() : ''}</b></p>
-        <p style="margin:4px 0;"><b>[05] Ngày, tháng, năm sinh:</b> ${cccdNgaySinh} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>[06] Mã số thuế:</b> ........................................................................</p>
-        <p style="margin:4px 0;"><b>[07] Số định danh cá nhân/Số hộ chiếu:</b> <b>${cccdSo}</b></p>
-        <p style="margin:4px 0;"><b>[08] Địa chỉ:</b> ${cccdThuongtru}</p>
-        <p style="margin:4px 0;"><b>[09] Xã/phường/đặc khu:</b> .................................. <b>[10] Tỉnh/Thành phố:</b> Thanh Hóa</p>
-        <p style="margin:4px 0;"><b>[11] Điện thoại:</b> ..................... <b>[12] Fax:</b> .................. <b>[13] Email:</b> ..........................................</p>
-
-        <p style="font-weight:bold; margin:12px 0 6px 0;">ĐẶC ĐIỂM NHÀ ĐẤT:</p>
-        <p style="margin:4px 0;"><b>1. Đất:</b></p>
-        <p style="margin:3px 0 3px 15px;">1.1. Thửa đất số: <b>${landThua}</b> &nbsp;;&nbsp; Tờ bản đồ số: <b>${landTobando}</b></p>
-        <p style="margin:3px 0 3px 15px;">1.2. Địa chỉ thửa đất: ${landDiachi}</p>
-        <p style="margin:3px 0 3px 15px;">1.3. Vị trí thửa đất: ...................................................................................................................................................</p>
-        <p style="margin:3px 0 3px 15px;">1.4. Mục đích sử dụng đất: <b>${landMucdich}</b></p>
-        <p style="margin:3px 0 3px 15px;">1.5. Diện tích (m²): <b>${landDientich} m²</b></p>
-        <p style="margin:3px 0 3px 15px;">1.6. Nguồn gốc nhà đất: Nhận chuyển nhượng / Cấp Giấy chứng nhận lần đầu / Tặng cho / Thừa kế</p>
-        <p style="margin:3px 0 3px 15px;">- Giấy chứng nhận quyền sử dụng đất số phát hành: <b>${landSophathanh}</b> ; Số vào sổ: <b>${landSovaoso}</b> do ${landNoiCap} cấp ngày ${landNgayCap}.</p>
-        <p style="margin:3px 0 3px 15px;">1.7. Giá trị đất thực tế chuyển giao (nếu có): ................................................................................................. đồng</p>
-
-        <p style="margin:4px 0;"><b>2. Nhà (nếu có):</b></p>
-        <p style="margin:3px 0 3px 15px;">2.1. Cấp nhà: .................... Loại nhà: .................... Hạng nhà: ....................</p>
-        <p style="margin:3px 0 3px 15px;">2.2. Diện tích xây dựng (m²): .................... ; Diện tích sàn xây dựng (m²): ....................</p>
-        <p style="margin:3px 0 3px 15px;">2.4. Giá trị nhà (đồng): ...........................................................................................................................................</p>
-
-        <p style="margin:6px 0;"><b>3. Giá trị nhà, đất thực tế nhận chuyển nhượng, thừa kế, tặng cho (đồng):</b> .................................................................</p>
-        <p style="margin:4px 0;"><b>4. Tài sản thuộc diện được miễn lệ phí trước bạ (lý do):</b> .............................................................................................</p>
-
-        <p style="font-weight:bold; margin:12px 0 6px 0;">5. Giấy tờ có liên quan gồm:</p>
-        <p style="margin:3px 0;">- Hợp đồng chuyển quyền sử dụng đất, tài sản gắn liền với đất;</p>
-        <p style="margin:3px 0;">- Bản sao Giấy chứng nhận quyền sử dụng đất số phát hành: <b>${landSophathanh}</b>;</p>
-        <p style="margin:3px 0;">- Giấy tờ chứng minh thuộc diện miễn lệ phí trước bạ (nếu có).</p>
-
-        <p style="margin:10px 0; text-align:justify;">Tôi cam đoan số liệu khai trên là đúng và chịu trách nhiệm trước pháp luật về số liệu đã khai./.</p>
-
-        <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse:collapse; margin-top:20px; font-family:'Times New Roman', serif;">
-            <tr>
-                <td width="50%" align="center" valign="top">
-                    <div style="font-weight:bold; font-size:11pt; text-transform:uppercase;">NGƯỜI TRỰC TIẾP THỰC HIỆN<br>DỊCH VỤ LÀM THỦ TỤC VỀ THUẾ</div>
-                    <div style="font-size:10pt; font-style:italic; margin-top:3px;">(Ký, ghi rõ họ tên)</div>
-                    <div style="height:65px;"></div>
-                    <div style="font-size:10pt;">Họ và tên: ........................................</div>
-                </td>
-                <td width="50%" align="center" valign="top">
-                    <div style="font-style:italic; font-size:11pt; margin-bottom:4px;">..., ${dateStr}</div>
-                    <div style="font-weight:bold; font-size:11pt; text-transform:uppercase;">NGƯỜI NỘP THUẾ hoặc<br>ĐẠI DIỆN HỢP PHÁP CỦA NGƯỜI NỘP THUẾ</div>
-                    <div style="font-size:10pt; font-style:italic; margin-top:3px;">(Ký, ghi rõ họ tên; chức vụ và đóng dấu)</div>
-                    <div style="height:65px;"></div>
-                    <div style="font-weight:bold; font-size:12pt;">${cccdHoten !== '...................................................' ? cccdHoten : ''}</div>
-                </td>
-            </tr>
-        </table>
-        `;
-    } else if (formType === 'don_thu_hoi_gcn') {
-        // ĐƠN THU HỒI GCN CHUẨN 100%
-        bodyHtml = `
-        <div style="text-align:center; font-family:'Times New Roman', serif; font-size:12pt; font-weight:bold;">
-            CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM<br>
-            <u>Độc lập – Tự do – Hạnh phúc</u>
-        </div>
-
-        <div style="text-align:right; font-style:italic; font-family:'Times New Roman', serif; font-size:11pt; margin: 10px 0;">
-            ..., ${dateStr}
-        </div>
-
-        <div style="text-align:center; font-family:'Times New Roman', serif; font-size:14pt; font-weight:bold; margin-top:10px; text-transform:uppercase;">
-            ĐƠN ĐỀ NGHỊ THU HỒI, CẤP LẠI GIẤY CHỨNG NHẬN<br>QUYỀN SỬ DỤNG ĐẤT
-        </div>
-
-        <div style="text-align:center; font-family:'Times New Roman', serif; font-size:12pt; font-weight:bold; margin:12px 0 16px 0;">
-            Kính gửi: Uỷ ban nhân dân xã
-        </div>
-
-        <p style="margin:4px 0;">Tên tôi là: <b>${cccdHoten !== '...................................................' ? cccdHoten : ''}</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Sinh năm: ${cccdNgaySinh}</p>
-        <p style="margin:4px 0;">CCCD số: <b>${cccdSo}</b> &nbsp;&nbsp;&nbsp;&nbsp; Cấp ngày: ${cccdNgayCap} &nbsp;&nbsp;&nbsp;&nbsp; Nơi cấp: Cục Cảnh sát QLHC về TTXH</p>
-        <p style="margin:4px 0;">Địa chỉ thường trú: ${cccdThuongtru}</p>
-
-        <p style="margin:8px 0; font-weight:bold;">Tôi xin trình bày lý do như sau:</p>
-        <p style="margin:4px 0; text-align:justify;">Chúng tôi hiện đang sử dụng thửa đất số <b>${landThua}</b>, tờ bản đồ số <b>${landTobando}</b>, tại ${landDiachi}, được cấp giấy chứng nhận QSD đất số <b>${landSophathanh}</b> cấp ngày ${landNgayCap}, diện tích: <b>${landDientich} m²</b>, mục đích sử dụng đất: <b>${landMucdich}</b>.</p>
-        <p style="margin:4px 0; text-align:justify;">Chúng tôi đã đăng ký đo đạc hiện trạng thửa đất với chi nhánh VPĐKĐĐ Bá Thước để chuyển quyền sử dụng đất, thì phát hiện GCN QSD đất được cấp không đúng với hiện trạng sử dụng thực tế, cụ thể: diện tích và hình thể của thửa đất được cấp tại GCN không đúng với hiện trạng mà gia đình đang sử dụng.</p>
-        <p style="margin:4px 0; text-align:justify;"><b>Nguyên nhân sai lệch:</b> Do thời điểm cấp GCN QSDĐ do chưa có máy móc đo đạc chuyên dụng và hình thể thửa đất đặc thù khu vực miền núi rất nhiều góc cạnh nên chưa thể hiện chính xác hình thể cũng như diện tích thực tế của thửa đất mà gia đình đang sử dụng ổn định.</p>
-        <p style="margin:4px 0; text-align:justify;">Trong quá trình nhận GCN QSD đất, gia đình tôi đã không kiểm tra lại nên không phát hiện sai sót. Nay chúng tôi làm đơn này đề nghị UBND huyện Bá Thước xem xét thu hồi GCN QSD đất số <b>${landSophathanh}</b> cấp ngày ${landNgayCap} để cấp lại GCN QSD đất cho chúng tôi theo đúng hiện trạng, hình thể thửa đất thuộc quyền sử dụng của chúng tôi.</p>
-        <p style="margin:4px 0; text-align:justify;">Chúng tôi cam kết chưa nhận chuyển nhượng, tặng cho với bất cứ tổ chức hay cá nhân nào mà không đăng ký với cơ quan cấp có thẩm quyền hoặc tự ý thay đổi ranh giới thửa đất; đồng thời cam kết không có các ý kiến khiếu kiện, khiếu nại có liên quan đến nội dung đơn.</p>
-        <p style="margin:4px 0; text-align:justify;">Tôi xin cam đoan những gì tôi viết trên đây là đúng sự thật, nếu có điều gì không đúng tôi xin hoàn toàn chịu trách nhiệm theo quy định của pháp luật./.</p>
-
-        <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse:collapse; margin-top:15px; font-family:'Times New Roman', serif;">
-            <tr>
-                <td width="50%"></td>
-                <td width="50%" align="center">
-                    <div style="font-weight:bold; font-size:11.5pt; text-transform:uppercase;">NGƯỜI VIẾT ĐƠN</div>
-                    <div style="font-size:10pt; font-style:italic; margin-top:2px;">(Ký, ghi rõ họ tên)</div>
-                    <div style="height:60px;"></div>
-                    <div style="font-weight:bold; font-size:12pt;">${cccdHoten !== '...................................................' ? cccdHoten : ''}</div>
-                </td>
-            </tr>
-        </table>
-
-        <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse:collapse; margin-top:20px; font-family:'Times New Roman', serif;">
-            <tr>
-                <td width="50%" align="center" valign="top">
-                    <div style="font-weight:bold; font-size:11.5pt; text-transform:uppercase;">XÁC NHẬN CỦA TRƯỞNG THÔN</div>
-                    <div style="height:60px;"></div>
-                    <div style="font-size:10pt;">..................................................</div>
-                </td>
-                <td width="50%" align="center" valign="top">
-                    <div style="font-weight:bold; font-size:11.5pt; text-transform:uppercase;">XÁC NHẬN CỦA UBND XÃ</div>
-                    <div style="height:60px;"></div>
-                    <div style="font-size:10pt;">..................................................</div>
-                </td>
-            </tr>
-        </table>
-        `;
-    } else {
-        // MẪU SỐ 04/ĐK, MẪU 18, MẪU 25, MẪU 29, MẪU 35
-        const isM35 = (formType === 'don_tach_thua' || formType === 'mau_35_qd2604');
-        const isM29 = (formType === 'mau_18_nd151' || formType === 'mau_29_qd2604');
-        
-        let mTitle = "ĐƠN ĐĂNG KÝ ĐẤT ĐAI, TÀI SẢN GẮN LIỀN VỚI ĐẤT";
-        let mMauSo = "Mẫu số 04/ĐK";
-        let mSub = "QĐ 2604/QĐ-VP Thanh Hóa";
-        
-        if (isM35) {
-            mTitle = "ĐƠN ĐỀ NGHỊ TÁCH THỬA ĐẤT, HỢP THỬA ĐẤT";
-            mMauSo = "Mẫu số 35";
-            mSub = "Chi nhánh VPĐKĐĐ Bá Thước";
-        } else if (isM29) {
-            mTitle = "ĐƠN ĐĂNG KÝ BIẾN ĐỘNG ĐẤT ĐAI, TÀI SẢN GẮN LIỀN VỚI ĐẤT";
-            mMauSo = "Mẫu số 18 / 29";
-            mSub = "Nghị định 151/2025/NĐ-CP & QĐ 2604";
+        // Xử lý bảng biểu ASCII dạng +-----+----+ hoặc | col | col |
+        if (trimmed.startsWith('+--') || trimmed.startsWith('|--')) {
+            continue; // Bỏ qua đường kẻ ngang của ASCII table
         }
 
-        bodyHtml = `
-        <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse:collapse; margin-bottom: 12px;">
-            <tr>
-                <td width="40%" align="left" valign="top" style="font-family:'Times New Roman', serif; font-size:11pt; font-weight:bold;">
-                    ${mMauSo}<br>
-                    <span style="font-size:10pt; font-style:italic; font-weight:normal;">${mSub}</span>
-                </td>
-                <td width="60%" align="center" valign="top" style="font-family:'Times New Roman', serif;">
-                    <div style="font-size:12pt; font-weight:bold;">CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</div>
-                    <div style="font-size:12pt; font-weight:bold; margin-top:2px;">Độc lập - Tự do - Hạnh phúc</div>
-                    <div style="width:140px; height:1px; background:#000; margin:4px auto 0 auto;"></div>
-                </td>
-            </tr>
-        </table>
+        if (trimmed.startsWith('|') && trimmed.endsWith('|')) {
+            if (!inTable) {
+                inTable = true;
+                tableRows = [];
+            }
+            const cells = trimmed.split('|').slice(1, -1).map(c => c.trim());
+            tableRows.push(cells);
+            continue;
+        } else if (inTable) {
+            // Đóng bảng và render HTML table
+            bodyHtml += `<table border="1" cellspacing="0" cellpadding="4" style="border-collapse:collapse; width:100%; font-size:10.5pt; text-align:center; font-family:'Times New Roman', serif; border:1px solid #000; margin:8px 0;">`;
+            tableRows.forEach((row, rIdx) => {
+                const isHeader = (rIdx === 0 || row.some(c => c.startsWith('[')));
+                const bg = isHeader ? 'background:#f2f2f2; font-weight:bold;' : '';
+                bodyHtml += `<tr style="${bg}">`;
+                row.forEach(cell => {
+                    bodyHtml += `<td style="border:1px solid #000; padding:4px 6px;">${cell || '&nbsp;'}</td>`;
+                });
+                bodyHtml += `</tr>`;
+            });
+            bodyHtml += `</table>`;
+            inTable = false;
+            tableRows = [];
+        }
 
-        <div style="text-align:center; font-family:'Times New Roman', serif; font-size:14pt; font-weight:bold; margin:16px 0 4px 0; text-transform:uppercase;">
-            ${mTitle}
-        </div>
+        // Xử lý dòng trống
+        if (!trimmed) {
+            bodyHtml += `<p style="margin:2px 0; font-size:6pt;">&nbsp;</p>`;
+            continue;
+        }
 
-        <div style="text-align:center; font-family:'Times New Roman', serif; font-size:12pt; font-weight:bold; margin:12px 0 16px 0;">
-            Kính gửi: ${getDynamicRecipient(formType, landDiachi, cccdThuongtru)}
-        </div>
+        // Xử lý Quốc hiệu Tiêu ngữ & Tiêu đề đơn
+        if (trimmed.includes('CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM') || trimmed.includes('CỘNG HOÀ XÃ HỘI CHỦ NGHĨA VIỆT NAM')) {
+            bodyHtml += `<div style="text-align:center; font-family:'Times New Roman', serif; font-size:12pt; font-weight:bold; margin-top:6px;">${trimmed}</div>`;
+        } else if (trimmed.includes('Độc lập - Tự do - Hạnh phúc') || trimmed.includes('Độc lập – Tự do – Hạnh phúc')) {
+            bodyHtml += `<div style="text-align:center; font-family:'Times New Roman', serif; font-size:12pt; font-weight:bold; margin-bottom:10px;"><u>${trimmed}</u></div>`;
+        } else if (trimmed.startsWith('ĐƠN ') || trimmed.startsWith('TỜ KHAI ') || trimmed.startsWith('VĂN BẢN ĐỀ NGHỊ') || trimmed.startsWith('HỢP ĐỒNG ') || trimmed.startsWith('BÁO CÁO') || trimmed.startsWith('PHIẾU THÔNG TIN') || trimmed.startsWith('QUYẾT ĐỊNH') || trimmed.startsWith('KẾ HOẠCH') || trimmed.startsWith('THÔNG BÁO')) {
+            bodyHtml += `<div style="text-align:center; font-family:'Times New Roman', serif; font-size:13.5pt; font-weight:bold; margin:12px 0 4px 0; text-transform:uppercase;">${trimmed}</div>`;
+        } else if (trimmed.startsWith('Kính gửi:')) {
+            bodyHtml += `<div style="text-align:center; font-family:'Times New Roman', serif; font-size:12pt; font-weight:bold; margin:8px 0 12px 0;">${trimmed}</div>`;
+        } else if (trimmed.startsWith('Mẫu số')) {
+            bodyHtml += `<div style="font-family:'Times New Roman', serif; font-size:11pt; font-weight:bold; margin-bottom:4px;">${trimmed}</div>`;
+        } else if (trimmed.startsWith('(Ban hành kèm theo') || trimmed.startsWith('(Kèm theo')) {
+            bodyHtml += `<div style="font-family:'Times New Roman', serif; font-size:10pt; font-style:italic; margin-bottom:8px;">${trimmed}</div>`;
+        } else if (trimmed.startsWith('Hướng dẫn kê khai') || trimmed.startsWith('Hướng dẫn viết đơn')) {
+            bodyHtml += `<hr style="margin-top:20px; border:0; border-top:1px dashed #666;"><p style="font-size:10pt; font-style:italic; font-weight:bold; margin:6px 0;">${trimmed}</p>`;
+        } else if (trimmed.startsWith('(1)') || trimmed.startsWith('(2)') || trimmed.startsWith('(3)') || trimmed.startsWith('(4)') || trimmed.startsWith('(5)') || trimmed.startsWith('(6)') || trimmed.startsWith('(7)') || trimmed.startsWith('(8)') || trimmed.startsWith('(9)') || trimmed.startsWith('(10)') || trimmed.startsWith('(11)') || trimmed.startsWith('(12)') || trimmed.startsWith('(13)') || trimmed.startsWith('(14)') || trimmed.startsWith('(15)') || trimmed.startsWith('(16)') || trimmed.startsWith('(17)') || trimmed.startsWith('(18)') || trimmed.startsWith('(19)') || trimmed.startsWith('(20)')) {
+            bodyHtml += `<p style="font-size:9.5pt; line-height:1.25; margin:2px 0; text-align:justify;">${trimmed}</p>`;
+        } else if (trimmed.includes('Người viết đơn') || trimmed.includes('Người sử dụng đất') || trimmed.includes('Người làm đơn') || trimmed.includes('NGƯỜI NỘP THUẾ') || trimmed.includes('BÊN THUÊ ĐẤT') || trimmed.includes('THỦ TRƯỞNG ĐƠN VỊ')) {
+            bodyHtml += `
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse:collapse; margin-top:20px; font-family:'Times New Roman', serif;">
+                <tr>
+                    <td width="50%"></td>
+                    <td width="50%" align="center" valign="top">
+                        <div style="font-weight:bold; font-size:11.5pt; text-transform:uppercase;">${trimmed}</div>
+                        <div style="font-size:10pt; font-style:italic; margin-top:2px;">(Ký, ghi rõ họ tên và đóng dấu nếu có)</div>
+                        <div style="height:60px;"></div>
+                        <div style="font-weight:bold; font-size:12pt;">${cccdHoten && !cccdHoten.includes('.') ? cccdHoten : ''}</div>
+                    </td>
+                </tr>
+            </table>`;
+        } else {
+            let formattedLine = trimmed.replace(/^([0-9]+\.|\b[a-đ]\)|\b[I|V|X]+\.|\b\[[0-9a-zA-Z.]+\])/g, '<b>$1</b>');
+            bodyHtml += `<p style="margin:3px 0; text-align:justify;">${formattedLine}</p>`;
+        }
+    }
 
-        <p style="font-weight:bold; margin:8px 0 4px 0;">1. Người sử dụng đất, chủ sở hữu tài sản gắn liền với đất:</p>
-        <p style="margin:3px 0;">- Họ và tên: <b>${cccdHoten !== '...................................................' ? cccdHoten : ''}</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Năm sinh: ${cccdNgaySinh}</p>
-        <p style="margin:3px 0;">- Số CCCD: <b>${cccdSo}</b> &nbsp;;&nbsp; Cấp ngày: ${cccdNgayCap} &nbsp;;&nbsp; Nơi cấp: Cục Cảnh sát QLHC về TTXH</p>
-        <p style="margin:3px 0;">- Nơi thường trú: ${cccdThuongtru}</p>
-
-        <p style="font-weight:bold; margin:8px 0 4px 0;">2. Thửa đất đề nghị đăng ký:</p>
-        <table border="1" cellspacing="0" cellpadding="4" style="border-collapse:collapse; width:100%; font-size:11pt; font-family:'Times New Roman', serif; border:1px solid #000; margin:6px 0;">
-            <tr style="font-weight:bold; background:#f9f9f9; text-align:center;">
-                <td width="12%">Thửa đất số</td>
-                <td width="12%">Tờ bản đồ</td>
-                <td width="44%">Địa chỉ thửa đất</td>
-                <td width="14%">Diện tích</td>
-                <td width="18%">Mục đích</td>
-            </tr>
-            <tr>
-                <td align="center"><b>${landThua}</b></td>
-                <td align="center"><b>${landTobando}</b></td>
-                <td>${landDiachi}</td>
-                <td align="center"><b>${landDientich} m²</b></td>
-                <td>${landMucdich}</td>
-            </tr>
-        </table>
-        <p style="margin:3px 0;">- Nguồn gốc sử dụng: Sử dụng đất ổn định, không có tranh chấp, phù hợp quy hoạch sử dụng đất.</p>
-        <p style="margin:3px 0;">- Đề nghị: Đăng ký và cấp Giấy chứng nhận quyền sử dụng đất, quyền sở hữu tài sản gắn liền với đất lần đầu theo Luật Đất đai 2024.</p>
-
-        <p style="margin:10px 0; text-align:justify;">Tôi xin cam đoan toàn bộ nội dung kê khai trên đơn là hoàn toàn đúng sự thật, thửa đất không có tranh chấp, khiếu kiện và xin chịu hoàn toàn trách nhiệm trước pháp luật.</p>
-
-        <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse:collapse; margin-top:20px; font-family:'Times New Roman', serif;">
-            <tr>
-                <td width="50%" align="center" valign="top">
-                    <div style="font-weight:bold; font-size:11.5pt; text-transform:uppercase;">XÁC NHẬN CỦA UBND CẤP XÃ</div>
-                    <div style="font-size:10pt; font-style:italic; margin-top:2px;">(Về hiện trạng sử dụng đất và tình trạng tranh chấp)</div>
-                    <div style="height:60px;"></div>
-                    <div style="font-size:11pt; font-style:italic;">(Ký, đóng dấu và ghi rõ họ tên)</div>
-                </td>
-                <td width="50%" align="center" valign="top">
-                    <div style="font-style:italic; font-size:11pt; margin-bottom:4px;">..., ${dateStr}</div>
-                    <div style="font-weight:bold; font-size:11.5pt; text-transform:uppercase;">NGƯỜI LÀM ĐƠN / NGƯỜI VIẾT ĐƠN</div>
-                    <div style="font-size:10pt; font-style:italic; margin-top:2px;">(Ký và ghi rõ họ tên)</div>
-                    <div style="height:60px;"></div>
-                    <div style="font-weight:bold; font-size:12pt;">${cccdHoten !== '...................................................' ? cccdHoten : ''}</div>
-                </td>
-            </tr>
-        </table>
-        `;
+    if (inTable) {
+        bodyHtml += `<table border="1" cellspacing="0" cellpadding="4" style="border-collapse:collapse; width:100%; font-size:10.5pt; text-align:center; font-family:'Times New Roman', serif; border:1px solid #000; margin:8px 0;">`;
+        tableRows.forEach((row, rIdx) => {
+            const isHeader = (rIdx === 0 || row.some(c => c.startsWith('[')));
+            const bg = isHeader ? 'background:#f2f2f2; font-weight:bold;' : '';
+            bodyHtml += `<tr style="${bg}">`;
+            row.forEach(cell => {
+                bodyHtml += `<td style="border:1px solid #000; padding:4px 6px;">${cell || '&nbsp;'}</td>`;
+            });
+            bodyHtml += `</tr>`;
+        });
+        bodyHtml += `</table>`;
     }
 
     const docHtml = `
@@ -2525,7 +2004,7 @@ function exportToWord() {
         <style>
             @page Section1 {
                 size: 210mm 297mm;
-                margin: 20mm 15mm 20mm 30mm; /* Chuẩn thể thức văn bản: Trên 2cm, Dưới 2cm, Trái 3cm, Phải 1.5cm */
+                margin: 20mm 15mm 20mm 30mm;
                 mso-header-margin: 36pt;
                 mso-footer-margin: 36pt;
                 mso-paper-source: 0;
@@ -2536,11 +2015,22 @@ function exportToWord() {
             body {
                 font-family: 'Times New Roman', Times, serif;
                 font-size: 12pt;
-                line-height: 1.3;
+                line-height: 1.35;
                 color: #000;
             }
             p {
                 margin: 3px 0;
+                text-align: justify;
+            }
+            table {
+                border-collapse: collapse;
+                width: 100%;
+                margin: 8px 0;
+                font-family: 'Times New Roman', Times, serif;
+            }
+            td, th {
+                border: 1px solid #000;
+                padding: 4px 6px;
             }
         </style>
     </head>
@@ -2553,7 +2043,7 @@ function exportToWord() {
     `;
 
     try {
-        const blob = new Blob(['\\ufeff', docHtml], {
+        const blob = new Blob(['\ufeff', docHtml], {
             type: 'application/msword;charset=utf-8'
         });
         const downloadUrl = window.URL.createObjectURL(blob);
@@ -2564,7 +2054,7 @@ function exportToWord() {
         a.click();
         document.body.removeChild(a);
         window.URL.revokeObjectURL(downloadUrl);
-        console.log("✅ Đã xuất chuẩn xác mẫu đơn nguyên bản:", filename);
+        console.log("✅ Đã xuất chuẩn xác 100% nội dung mẫu đơn sang Word:", filename);
     } catch (err) {
         alert("Lỗi xuất file Word: " + err.message);
     }
