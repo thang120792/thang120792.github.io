@@ -558,79 +558,195 @@ function updateLiveA4Form() {
 
     const recipientStr = getDynamicRecipient(formType, landDiachi, cccdThuongtru);
     const dateYear = new Date().getFullYear();
-    const dateStr = `Thanh Hóa, ngày ..... tháng ..... năm ${dateYear}`;
+    const dateStr = `ngày ..... tháng ..... năm ${dateYear}`;
 
     let fullDoc = "";
 
-    if (formType === 'mau_18_nd151' || formType === 'mau_29_qd2604') {
-        fullDoc = `Mẫu số 29                                                         CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
-QĐ 2604/QĐ-VP Thanh Hóa                                                 Độc lập - Tự do - Hạnh phúc
-                                                                               ---------------
+    if (formType === 'mau_25_qd2604') {
+        // MẪU SỐ 04/ĐK & MẪU 25 - CHUẨN TỪ Đơn đăng ký đất đai, tài sản gắn liền với đất Mẫu số 04.docx
+        fullDoc = `Mẫu số 04/ĐK                                                     CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+(QĐ 2604/QĐ-VP Thanh Hóa)                                               Độc lập - Tự do - Hạnh phúc
+                                                                               ___________________________
 
-              ĐƠN ĐĂNG KÝ BIẾN ĐỘNG ĐẤT ĐAI, TÀI SẢN GẮN LIỀN VỚI ĐẤT
-            (Ban hành kèm theo Quyết định số 2604/QĐ-VP ngày 27/7/2026 của UBND tỉnh Thanh Hóa)
+                    ĐƠN ĐĂNG KÝ ĐẤT ĐAI, TÀI SẢN GẮN LIỀN VỚI ĐẤT
 
-                                Kính gửi: ${recipientStr}
+                                 Kính gửi: ${recipientStr}
 
-I. Người sử dụng đất, chủ sở hữu tài sản gắn liền với đất:
-- Họ và tên: ${cccdHoten}
-- Thẻ CCCD số: ${cccdSo} ; Cấp ngày: ${cccdNgayCap} ; Nơi cấp: Cục Cảnh sát QLHC về TTXH
-- Nơi thường trú: ${cccdThuongtru}
+1. Người sử dụng đất, chủ sở hữu tài sản gắn liền với đất, người quản lý đất: 
+1.1. Tên (1): ${cccdHoten}                     Sinh năm: ${cccdNgaySinh}
+1.2. Giấy tờ nhân thân (2): CCCD số: ${cccdSo} ; Cấp ngày: ${cccdNgayCap} ; Nơi cấp: Cục Cảnh sát QLHC về TTXH
+1.3. Địa chỉ (3): ${cccdThuongtru}
+1.4. Điện thoại liên hệ (nếu có): .................... Hộp thư điện tử (nếu có): ....................
 
-II. Thửa đất đề nghị đăng ký biến động:
-+ Thửa đất số: ${landThua} ; Tờ bản đồ số: ${landTobando} tại ${landDiachi}
-+ Diện tích: ${landDientich} m² ; Mục đích sử dụng: ${landMucdich}
-+ Giấy chứng nhận đã cấp số phát hành: ${landSophathanh} ; Số vào sổ: ${landSovaoso} do ${landNoiCap} cấp ngày ${landNgayCap}.
+2. Thửa đất đăng ký: 
+2.1. Thửa đất số (4): ${landThua} ; 2.2. Tờ bản đồ số (4): ${landTobando} ;
+2.3. Địa chỉ (5): ${landDiachi}
+2.4. Diện tích (6): ${landDientich} m² ; sử dụng chung: ......... m² ; sử dụng riêng: ${landDientich} m² ;
+2.5. Sử dụng vào mục đích (7): ${landMucdich} ; Từ thời điểm: .................... ;
+2.6. Thời hạn đề nghị được sử dụng đất (8): Ổn định lâu dài ;
+2.7. Nguồn gốc sử dụng đất (9): Sử dụng đất ổn định, không có tranh chấp ;
+2.8. Có quyền hoặc hạn chế quyền đối với thửa đất liền kề: Không.
 
-III. Nội dung đề nghị biến động:
-Đăng ký biến động quyền sử dụng đất (chuyển nhượng / tặng cho / cấp đổi / đính chính thông tin) theo quy định của Luật Đất đai 2024.
+3. Nhà ở, công trình xây dựng (nếu có): 
+3.1. Loại nhà ở, công trình xây dựng (11): ..................................................................; 
+3.2. Địa chỉ (12): ${landDiachi} ;
+3.3. Diện tích xây dựng (13): ................... m²;
+3.4. Diện tích sàn xây dựng/diện tích sử dụng (14): .............. m²;
+3.5. Sở hữu chung (15): ............................. m², sở hữu riêng (15): ............................ m²;
+3.6. Số tầng: ....... tầng; trong đó, số tầng nổi: ...... tầng, số tầng hầm: …… tầng;
+3.7. Nguồn gốc (16): Tự xây dựng ;
+3.8. Thời hạn sở hữu đến (17): ..............................................................................
 
-IV. Giấy tờ nộp kèm theo hồ sơ:
-1. Bản gốc Giấy chứng nhận quyền sử dụng đất số phát hành ${landSophathanh};
-2. Hợp đồng chuyển quyền sử dụng đất được công chứng/chứng thực;
-3. Bản sao Thẻ CCCD và các Tờ khai nghĩa vụ tài chính liên quan.
+4. Đề nghị của người sử dụng đất, chủ sở hữu tài sản gắn liền với đất: 
+4.1. Đề nghị đăng ký đất đai, tài sản gắn liền với đất [x]
+4.2. Đề nghị cấp Giấy chứng nhận [x]
+4.3. Đề nghị ghi nợ tiền sử dụng đất [ ]
+4.4. Đề nghị khác (nếu có): ............................................................................................................................
 
-Tôi xin cam đoan toàn bộ nội dung kê khai trên đơn là hoàn toàn đúng sự thật và chịu trách nhiệm trước pháp luật.
+Những giấy tờ nộp kèm theo:
+(1) Bản trích đo địa chính thửa đất số ${landThua};
+(2) Bản sao Căn cước công dân số ${cccdSo};
+(3) Các giấy tờ chứng minh nguồn gốc sử dụng đất theo Điều 137 Luật Đất đai 2024.
 
-   XÁC NHẬN CỦA UBND CẤP XÃ                                       ${dateStr}
-(Về hiện trạng sử dụng đất và tình trạng tranh chấp)                    NGƯỜI LÀM ĐƠN
+Tôi/chúng tôi xin cam đoan nội dung kê khai trên đơn là đúng sự thật, nếu sai tôi/chúng tôi hoàn toàn chịu trách nhiệm trước pháp luật.
+
+   XÁC NHẬN CỦA UBND CẤP XÃ                                       ..., ${dateStr}
+(Về hiện trạng sử dụng đất và tình trạng tranh chấp)                    NGƯỜI VIẾT ĐƠN
                                                                     (Ký và ghi rõ họ tên)
      (Ký, đóng dấu và ghi rõ họ tên)
 
 
                                                                     ${cccdHoten !== '...................................................' ? cccdHoten : ''}`;
-    } else if (formType === 'don_tach_thua' || formType === 'mau_35_qd2604') {
-        fullDoc = `Mẫu số 35                                                         CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
-QĐ 2604/QĐ-VP Thanh Hóa                                                 Độc lập - Tự do - Hạnh phúc
+    } else if (formType === 'mau_18_nd151' || formType === 'mau_29_qd2604') {
+        // MẪU SỐ 18 / 29 - CHUẨN TỪ mẫu đơn đăng ký biến động.docx (Nghị định 151/2025/NĐ-CP & QĐ 2604)
+        fullDoc = `Mẫu số 18                                                         CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+(Nghị định số 151/2025/NĐ-CP)                                           Độc lập - Tự do - Hạnh phúc
                                                                                ---------------
 
-                      ĐƠN ĐỀ NGHỊ TÁCH THỬA ĐẤT, HỢP THỬA ĐẤT
-            (Ban hành kèm theo Quyết định số 2604/QĐ-VP ngày 27/7/2026 của UBND tỉnh Thanh Hóa)
+              ĐƠN ĐĂNG KÝ BIẾN ĐỘNG ĐẤT ĐAI, TÀI SẢN GẮN LIỀN VỚI ĐẤT
 
-                                Kính gửi: ${recipientStr}
+                                 Kính gửi: ${recipientStr}
 
-1. Người làm đơn:
-- Họ và tên: ${cccdHoten}
-- Thẻ CCCD số: ${cccdSo} ; Cấp ngày: ${cccdNgayCap} ; Nơi cấp: Cục Cảnh sát QLHC về TTXH
-- Địa chỉ thường trú: ${cccdThuongtru}
+I. Người sử dụng đất, chủ sở hữu tài sản gắn liền với đất:
+- Tên (2): ${cccdHoten}
+- Giấy tờ nhân thân/pháp nhân (3): CCCD số ${cccdSo} cấp ngày ${cccdNgayCap} tại Cục Cảnh sát QLHC về TTXH
+- Địa chỉ (4): ${cccdThuongtru}
+- Mã số thuế (nếu có): .....................................................................................................................
+- Điện thoại liên hệ (nếu có): .................... Hộp thư điện tử (nếu có): ....................
+(Trường hợp có nhiều đồng sử dụng, sở hữu thì kê khai thông tin một người đại diện; đồng thời lập danh sách đính kèm)
 
-2. Thông tin thửa đất đề nghị tách/hợp thửa:
-- Thửa đất số: ${landThua} ; Tờ bản đồ số: ${landTobando} tại ${landDiachi}
-- Diện tích hiện tại: ${landDientich} m² ; Mục đích sử dụng: ${landMucdich}
-- Giấy chứng nhận QSDĐ số: ${landSophathanh} ; Số vào sổ: ${landSovaoso}
+II. Nội dung biến động (5):
+Đăng ký biến động quyền sử dụng đất đối với thửa đất số ${landThua}, tờ bản đồ số ${landTobando} tại ${landDiachi} (Giấy chứng nhận số phát hành ${landSophathanh}, số vào sổ ${landSovaoso} do ${landNoiCap} cấp ngày ${landNgayCap}) do nhận chuyển nhượng / tặng cho / cấp đổi / đính chính theo quy định.
 
-3. Nội dung và lý do đề nghị:
-- Đề nghị Chi nhánh Văn phòng Đăng ký đất đai thực hiện trích đo địa chính và thẩm định thủ tục tách thửa đất.
-- Kích thước và diện tích các thửa đất sau khi tách đảm bảo đáp ứng đầy đủ điều kiện diện tích tối thiểu theo Quyết định số 18/2026/QĐ-UBND của UBND tỉnh Thanh Hóa.
+III. Thông tin về đối tượng được miễn, giảm nghĩa vụ tài chính về đất đai (nếu có)(6):
+...............................................................................................................................................
 
-Tôi xin cam đoan nội dung kê khai trên đơn là đúng sự thật.
+IV. Giấy tờ liên quan đến nội dung biến động nộp kèm theo đơn này gồm có (7):
+(1) Giấy chứng nhận đã cấp số phát hành ${landSophathanh};
+(2) Hợp đồng chuyển quyền sử dụng đất được công chứng/chứng thực;
+(3) Bản sao Thẻ CCCD và các tờ khai thuế, phí liên quan.
 
-                                                                  ${dateStr}
-                                                                 NGƯỜI LÀM ĐƠN
-                                                              (Ký và ghi rõ họ tên)
+Cam đoan nội dung kê khai trên đơn là đúng sự thật và chịu trách nhiệm trước pháp luật.
+
+                                                                  ..., ${dateStr}
+                                                                  NGƯỜI VIẾT ĐƠN
+                                                       (Ký, ghi rõ họ tên và đóng dấu nếu có)
 
 
                                                               ${cccdHoten !== '...................................................' ? cccdHoten : ''}`;
+    } else if (formType === 'mau_35_qd2604' || formType === 'don_tach_thua') {
+        // CHUẨN TỪ mẫu đơn tách hợp thửa.docx (Chi nhánh VPĐKĐĐ Bá Thước)
+        fullDoc = `                                                 CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+                                                        Độc lập – Tự do - Hạnh phúc
+                                                               ---------------
+
+                                                      ĐƠN ĐỀ NGHỊ 
+                                            TÁCH THỬA ĐẤT, HỢP THỬA ĐẤT
+
+                         Kính gửi: Chi nhánh Văn phòng Đăng ký đất đai Bá Thước
+
+I. KÊ KHAI CỦA NGƯỜI SỬ DỤNG ĐẤT
+(Xem kỹ hướng dẫn ở cuối đơn này trước khi viết đơn; không tẩy xoá, sửa chữa nội dung đã viết)
+
+1. Người sử dụng đất (1):
+a) Tên: ${cccdHoten}
+b) Giấy tờ nhân thân/pháp nhân số (2): ${cccdSo}
+c) Địa chỉ: ${cccdThuongtru}
+d) Điện thoại liên hệ (nếu có): .................... Hộp thư điện tử (nếu có): ....................
+
+2. Đề nghị tách thửa đất, hợp thửa đất (3) như sau:
+a) Tách thửa đất số ${landThua} tờ bản đồ số: ${landTobando} diện tích: ${landDientich} m²; loại đất: ${landMucdich}; địa chỉ thửa đất: ${landDiachi}; Giấy chứng nhận: số vào sổ cấp GCN: ${landSovaoso}, ngày cấp GCN: ${landNgayCap}, thành ......... thửa:
+Thửa thứ nhất: diện tích: ........ m²; loại đất: ${landMucdich}
+Thửa thứ hai: diện tích: ........ m²; loại đất: ${landMucdich}
+(Liệt kê các thửa đất tách thửa): ......................................................................................................................
+
+b) Hợp thửa đất:
+........................................................................................................................................................
+Thành thửa đất mới: Diện tích: ......... m²; loại đất: ....................
+
+3. Lý do tách, hợp thửa đất: Nhu cầu chuyển quyền / tặng cho / phân chia quyền sử dụng đất cho các thành viên trong gia đình theo quy định.
+
+4. Giấy tờ nộp kèm theo đơn này gồm có: 
+- Giấy chứng nhận số ${landSophathanh} và Bản vẽ tách thửa đất, hợp thửa đất các thửa đất nêu trên;
+- Bản sao CCCD của người sử dụng đất.
+
+5. Đề nghị cấp Giấy chứng nhận: Có đề nghị cấp Giấy chứng nhận cho các thửa đất mới sau khi tách thửa.
+
+Tôi cam đoan nội dung kê khai trên đơn là đúng.
+
+                                                                  ..., ${dateStr}
+                                                                 NGƯỜI VIẾT ĐƠN (4)
+                                                       (Ký và ghi rõ họ tên, đóng dấu nếu có)
+
+
+                                                              ${cccdHoten !== '...................................................' ? cccdHoten : ''}
+
+II. Ý KIẾN CỦA VĂN PHÒNG ĐĂNG KÝ ĐẤT ĐAI/CHI NHÁNH VĂN PHÒNG ĐĂNG KÝ ĐẤT ĐAI (5)
+........................................................................................................................................................
+........................................................................................................................................................
+
+Ngày ....... tháng ...... năm ......                              Ngày ....... tháng ...... năm ......
+       NGƯỜI KIỂM TRA                                      CN VĂN PHÒNG ĐĂNG KÝ ĐẤT ĐAI BÁ THƯỚC
+(Ký, ghi rõ họ tên, chức vụ)                                 (Ký, ghi rõ họ tên, chức vụ, đóng dấu)`;
+    } else if (formType === 'don_thu_hoi_gcn') {
+        // CHUẨN TỪ Đơn đề nghị THU HỒI GCN.docx
+        fullDoc = `                                                 CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+                                                        Độc lập – Tự do – Hạnh phúc
+                                                               ---------------
+
+                                                               ..., ${dateStr}
+
+                                  ĐƠN ĐỀ NGHỊ THU HỒI, CẤP LẠI GIẤY CHỨNG NHẬN 
+                                              QUYỀN SỬ DỤNG ĐẤT 
+
+                                       Kính gửi: Uỷ ban nhân dân xã;
+
+Tên tôi là: ${cccdHoten}                     Sinh năm: ${cccdNgaySinh}
+CCCD số: ${cccdSo}          Cấp ngày: ${cccdNgayCap}          Nơi cấp: Cục Cảnh sát QLHC về TTXH
+Địa chỉ thường trú: ${cccdThuongtru}
+
+Tôi xin trình bày lý do như sau: 
+Chúng tôi hiện đang sử dụng thửa đất số ${landThua}, tờ bản đồ số ${landTobando}, tại ${landDiachi}, được cấp giấy chứng nhận QSD đất số ${landSophathanh} cấp ngày ${landNgayCap}, diện tích: ${landDientich} m², mục đích sử dụng đất: ${landMucdich}.
+
+Chúng tôi đã đăng ký đo đạc hiện trạng thửa đất với chi nhánh VPĐKĐĐ Bá Thước để chuyển quyền sử dụng đất, thì phát hiện GCN QSD đất được cấp không đúng với hiện trạng sử dụng thực tế, cụ thể: diện tích và hình thể của thửa đất được cấp tại GCN không đúng với hiện trạng mà gia đình đang sử dụng.
+
+Nguyên nhân sai lệch: Do thời điểm cấp GCN QSDĐ do chưa có máy móc đo đạc chuyên dụng và hình thể thửa đất đặc thù khu vực miền núi rất nhiều góc cạnh nên chưa thể hiện chính xác hình thể cũng như diện tích thực tế của thửa đất mà gia đình đang sử dụng ổn định.
+
+Trong quá trình nhận GCN QSD đất, gia đình tôi đã không kiểm tra lại nên không phát hiện sai sót. Nay chúng tôi làm đơn này đề nghị UBND huyện Bá Thước xem xét thu hồi GCN QSD đất số ${landSophathanh} cấp ngày ${landNgayCap} để cấp lại GCN QSD đất cho chúng tôi theo đúng hiện trạng, hình thể thửa đất thuộc quyền sử dụng của chúng tôi.
+
+Chúng tôi cam kết chưa nhận chuyển nhượng, tặng cho với bất cứ tổ chức hay cá nhân nào mà không đăng ký với cơ quan cấp có thẩm quyền hoặc tự ý thay đổi ranh giới thửa đất; đồng thời cam kết không có các ý kiến khiếu kiện, khiếu nại có liên quan đến nội dung đơn.
+
+Tôi xin cam đoan những gì tôi viết trên đây là đúng sự thật, nếu có điều gì không đúng tôi xin hoàn toàn chịu trách nhiệm theo quy định của pháp luật./.
+
+                                                                 NGƯỜI VIẾT ĐƠN
+                                                              (Ký, ghi rõ họ tên)
+
+
+                                                              ${cccdHoten !== '...................................................' ? cccdHoten : ''}
+
+      XÁC NHẬN CỦA TRƯỞNG THÔN                                     XÁC NHẬN CỦA UBND XÃ
+..................................................          ..................................................
+..................................................          ..................................................`;
     } else if (formType === 'tk_thue_tncn') {
         // MẪU SỐ 03/BĐS-TNCN CHUẨN KHỚP 100% ẢNH MẪU OBSIDIAN VAULT (THÔNG TƯ 89/2026/TT-BTC)
         fullDoc = `                                                  +-----------------------------------------------------------+
@@ -885,7 +1001,7 @@ Chứng chỉ NV thuế số: ...................                     (Ký, ghi 
 
                                                               ${cccdHoten !== '...................................................' ? cccdHoten : ''}`;
     } else {
-        // Mẫu số 25 chuẩn theo Quyết định 2604/QĐ-VP Thanh Hóa
+        // CÁC MẪU ĐƠN KHÁC (THEO QĐ 2604/QĐ-VP)
         fullDoc = `Mẫu số 25                                                         CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
 QĐ 2604/QĐ-VP Thanh Hóa                                                 Độc lập - Tự do - Hạnh phúc
                                                                                ---------------
@@ -942,7 +1058,7 @@ Tôi xin cam đoan toàn bộ nội dung kê khai trên đơn là hoàn toàn đ
 }
 
 // ============================================================
-// XUẤT FILE WORD NGUYÊN BẢN CHUẨN 100% CẤU TRÚC BẢNG & MẪU DOCX (IMAGE 2)
+// XUẤT FILE WORD NGUYÊN BẢN CHUẨN 100% CẤU TRÚC BẢNG & MẪU DOCX TỪ OBSIDIAN VAULT
 // ============================================================
 function exportToWord() {
     const formType = document.getElementById('selectFormType')?.value || 'mau_25_qd2604';
@@ -971,7 +1087,7 @@ function exportToWord() {
     let bodyHtml = "";
 
     if (formType === 'tk_thue_tncn') {
-        // CHUẨN XÁC Y NGUYÊN IMAGE 2 TỪ TỆP tờ khai thuế thu nhập cá nhân.docx
+        // MẪU 03/BĐS-TNCN CHUẨN 100%
         bodyHtml = `
         <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse:collapse; margin-bottom: 10px;">
             <tr>
@@ -1235,7 +1351,7 @@ function exportToWord() {
         </table>
         `;
     } else if (formType === 'tk_phi_nong_nghiep') {
-        // CHUẨN XÁC MẪU SỐ 01/TK-SDDPNN TỪ TỆP tk phi nông nghiệp.docx
+        // MẪU 01/TK-SDDPNN CHUẨN 100%
         bodyHtml = `
         <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse:collapse; margin-bottom: 10px;">
             <tr>
@@ -1341,7 +1457,7 @@ function exportToWord() {
         </table>
         `;
     } else if (formType === 'tk_le_phi_truoc_ba') {
-        // CHUẨN XÁC MẪU SỐ 01/LPTB TỪ TỆP tk lệ phí trước bạ.doc
+        // MẪU 01/LPTB CHUẨN 100%
         bodyHtml = `
         <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse:collapse; margin-bottom: 10px;">
             <tr>
@@ -1404,7 +1520,7 @@ function exportToWord() {
         <p style="margin:4px 0;"><b>4. Tài sản thuộc diện được miễn lệ phí trước bạ (lý do):</b> .............................................................................................</p>
 
         <p style="font-weight:bold; margin:12px 0 6px 0;">5. Giấy tờ có liên quan gồm:</p>
-        <p style="margin:3px 0;">- Hợp đồng chuyển nhượng quyền sử dụng đất, tài sản gắn liền với đất;</p>
+        <p style="margin:3px 0;">- Hợp đồng chuyển quyền sử dụng đất, tài sản gắn liền với đất;</p>
         <p style="margin:3px 0;">- Bản sao Giấy chứng nhận quyền sử dụng đất số phát hành: <b>${landSophathanh}</b>;</p>
         <p style="margin:3px 0;">- Giấy tờ chứng minh thuộc diện miễn lệ phí trước bạ (nếu có).</p>
 
@@ -1428,19 +1544,82 @@ function exportToWord() {
             </tr>
         </table>
         `;
+    } else if (formType === 'don_thu_hoi_gcn') {
+        // ĐƠN THU HỒI GCN CHUẨN 100%
+        bodyHtml = `
+        <div style="text-align:center; font-family:'Times New Roman', serif; font-size:12pt; font-weight:bold;">
+            CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM<br>
+            <u>Độc lập – Tự do – Hạnh phúc</u>
+        </div>
+
+        <div style="text-align:right; font-style:italic; font-family:'Times New Roman', serif; font-size:11pt; margin: 10px 0;">
+            ..., ${dateStr}
+        </div>
+
+        <div style="text-align:center; font-family:'Times New Roman', serif; font-size:14pt; font-weight:bold; margin-top:10px; text-transform:uppercase;">
+            ĐƠN ĐỀ NGHỊ THU HỒI, CẤP LẠI GIẤY CHỨNG NHẬN<br>QUYỀN SỬ DỤNG ĐẤT
+        </div>
+
+        <div style="text-align:center; font-family:'Times New Roman', serif; font-size:12pt; font-weight:bold; margin:12px 0 16px 0;">
+            Kính gửi: Uỷ ban nhân dân xã
+        </div>
+
+        <p style="margin:4px 0;">Tên tôi là: <b>${cccdHoten !== '...................................................' ? cccdHoten : ''}</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Sinh năm: ${cccdNgaySinh}</p>
+        <p style="margin:4px 0;">CCCD số: <b>${cccdSo}</b> &nbsp;&nbsp;&nbsp;&nbsp; Cấp ngày: ${cccdNgayCap} &nbsp;&nbsp;&nbsp;&nbsp; Nơi cấp: Cục Cảnh sát QLHC về TTXH</p>
+        <p style="margin:4px 0;">Địa chỉ thường trú: ${cccdThuongtru}</p>
+
+        <p style="margin:8px 0; font-weight:bold;">Tôi xin trình bày lý do như sau:</p>
+        <p style="margin:4px 0; text-align:justify;">Chúng tôi hiện đang sử dụng thửa đất số <b>${landThua}</b>, tờ bản đồ số <b>${landTobando}</b>, tại ${landDiachi}, được cấp giấy chứng nhận QSD đất số <b>${landSophathanh}</b> cấp ngày ${landNgayCap}, diện tích: <b>${landDientich} m²</b>, mục đích sử dụng đất: <b>${landMucdich}</b>.</p>
+        <p style="margin:4px 0; text-align:justify;">Chúng tôi đã đăng ký đo đạc hiện trạng thửa đất với chi nhánh VPĐKĐĐ Bá Thước để chuyển quyền sử dụng đất, thì phát hiện GCN QSD đất được cấp không đúng với hiện trạng sử dụng thực tế, cụ thể: diện tích và hình thể của thửa đất được cấp tại GCN không đúng với hiện trạng mà gia đình đang sử dụng.</p>
+        <p style="margin:4px 0; text-align:justify;"><b>Nguyên nhân sai lệch:</b> Do thời điểm cấp GCN QSDĐ do chưa có máy móc đo đạc chuyên dụng và hình thể thửa đất đặc thù khu vực miền núi rất nhiều góc cạnh nên chưa thể hiện chính xác hình thể cũng như diện tích thực tế của thửa đất mà gia đình đang sử dụng ổn định.</p>
+        <p style="margin:4px 0; text-align:justify;">Trong quá trình nhận GCN QSD đất, gia đình tôi đã không kiểm tra lại nên không phát hiện sai sót. Nay chúng tôi làm đơn này đề nghị UBND huyện Bá Thước xem xét thu hồi GCN QSD đất số <b>${landSophathanh}</b> cấp ngày ${landNgayCap} để cấp lại GCN QSD đất cho chúng tôi theo đúng hiện trạng, hình thể thửa đất thuộc quyền sử dụng của chúng tôi.</p>
+        <p style="margin:4px 0; text-align:justify;">Chúng tôi cam kết chưa nhận chuyển nhượng, tặng cho với bất cứ tổ chức hay cá nhân nào mà không đăng ký với cơ quan cấp có thẩm quyền hoặc tự ý thay đổi ranh giới thửa đất; đồng thời cam kết không có các ý kiến khiếu kiện, khiếu nại có liên quan đến nội dung đơn.</p>
+        <p style="margin:4px 0; text-align:justify;">Tôi xin cam đoan những gì tôi viết trên đây là đúng sự thật, nếu có điều gì không đúng tôi xin hoàn toàn chịu trách nhiệm theo quy định của pháp luật./.</p>
+
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse:collapse; margin-top:15px; font-family:'Times New Roman', serif;">
+            <tr>
+                <td width="50%"></td>
+                <td width="50%" align="center">
+                    <div style="font-weight:bold; font-size:11.5pt; text-transform:uppercase;">NGƯỜI VIẾT ĐƠN</div>
+                    <div style="font-size:10pt; font-style:italic; margin-top:2px;">(Ký, ghi rõ họ tên)</div>
+                    <div style="height:60px;"></div>
+                    <div style="font-weight:bold; font-size:12pt;">${cccdHoten !== '...................................................' ? cccdHoten : ''}</div>
+                </td>
+            </tr>
+        </table>
+
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse:collapse; margin-top:20px; font-family:'Times New Roman', serif;">
+            <tr>
+                <td width="50%" align="center" valign="top">
+                    <div style="font-weight:bold; font-size:11.5pt; text-transform:uppercase;">XÁC NHẬN CỦA TRƯỞNG THÔN</div>
+                    <div style="height:60px;"></div>
+                    <div style="font-size:10pt;">..................................................</div>
+                </td>
+                <td width="50%" align="center" valign="top">
+                    <div style="font-weight:bold; font-size:11.5pt; text-transform:uppercase;">XÁC NHẬN CỦA UBND XÃ</div>
+                    <div style="height:60px;"></div>
+                    <div style="font-size:10pt;">..................................................</div>
+                </td>
+            </tr>
+        </table>
+        `;
     } else {
-        // MẪU 25 / 29 / 35 THEO QĐ 2604/QĐ-VP THANH HÓA
-        const isM29 = (formType === 'mau_18_nd151' || formType === 'mau_29_qd2604');
+        // MẪU SỐ 04/ĐK, MẪU 18, MẪU 25, MẪU 29, MẪU 35
         const isM35 = (formType === 'don_tach_thua' || formType === 'mau_35_qd2604');
+        const isM29 = (formType === 'mau_18_nd151' || formType === 'mau_29_qd2604');
         
         let mTitle = "ĐƠN ĐĂNG KÝ ĐẤT ĐAI, TÀI SẢN GẮN LIỀN VỚI ĐẤT";
-        let mMauSo = "Mẫu số 25";
-        if (isM29) {
-            mTitle = "ĐƠN ĐĂNG KÝ BIẾN ĐỘNG ĐẤT ĐAI, TÀI SẢN GẮN LIỀN VỚI ĐẤT";
-            mMauSo = "Mẫu số 29";
-        } else if (isM35) {
+        let mMauSo = "Mẫu số 04/ĐK";
+        let mSub = "QĐ 2604/QĐ-VP Thanh Hóa";
+        
+        if (isM35) {
             mTitle = "ĐƠN ĐỀ NGHỊ TÁCH THỬA ĐẤT, HỢP THỬA ĐẤT";
             mMauSo = "Mẫu số 35";
+            mSub = "Chi nhánh VPĐKĐĐ Bá Thước";
+        } else if (isM29) {
+            mTitle = "ĐƠN ĐĂNG KÝ BIẾN ĐỘNG ĐẤT ĐAI, TÀI SẢN GẮN LIỀN VỚI ĐẤT";
+            mMauSo = "Mẫu số 18 / 29";
+            mSub = "Nghị định 151/2025/NĐ-CP & QĐ 2604";
         }
 
         bodyHtml = `
@@ -1448,7 +1627,7 @@ function exportToWord() {
             <tr>
                 <td width="40%" align="left" valign="top" style="font-family:'Times New Roman', serif; font-size:11pt; font-weight:bold;">
                     ${mMauSo}<br>
-                    <span style="font-size:10pt; font-style:italic; font-weight:normal;">QĐ 2604/QĐ-VP Thanh Hóa</span>
+                    <span style="font-size:10pt; font-style:italic; font-weight:normal;">${mSub}</span>
                 </td>
                 <td width="60%" align="center" valign="top" style="font-family:'Times New Roman', serif;">
                     <div style="font-size:12pt; font-weight:bold;">CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</div>
@@ -1460,9 +1639,6 @@ function exportToWord() {
 
         <div style="text-align:center; font-family:'Times New Roman', serif; font-size:14pt; font-weight:bold; margin:16px 0 4px 0; text-transform:uppercase;">
             ${mTitle}
-        </div>
-        <div style="text-align:center; font-family:'Times New Roman', serif; font-size:11pt; font-style:italic; margin-bottom:12px;">
-            (Ban hành kèm theo Quyết định số 2604/QĐ-VP ngày 27/7/2026 của UBND tỉnh Thanh Hóa)
         </div>
 
         <div style="text-align:center; font-family:'Times New Roman', serif; font-size:12pt; font-weight:bold; margin:12px 0 16px 0;">
@@ -1505,8 +1681,8 @@ function exportToWord() {
                     <div style="font-size:11pt; font-style:italic;">(Ký, đóng dấu và ghi rõ họ tên)</div>
                 </td>
                 <td width="50%" align="center" valign="top">
-                    <div style="font-style:italic; font-size:11pt; margin-bottom:4px;">Thanh Hóa, ${dateStr}</div>
-                    <div style="font-weight:bold; font-size:11.5pt; text-transform:uppercase;">NGƯỜI LÀM ĐƠN</div>
+                    <div style="font-style:italic; font-size:11pt; margin-bottom:4px;">..., ${dateStr}</div>
+                    <div style="font-weight:bold; font-size:11.5pt; text-transform:uppercase;">NGƯỜI LÀM ĐƠN / NGƯỜI VIẾT ĐƠN</div>
                     <div style="font-size:10pt; font-style:italic; margin-top:2px;">(Ký và ghi rõ họ tên)</div>
                     <div style="height:60px;"></div>
                     <div style="font-weight:bold; font-size:12pt;">${cccdHoten !== '...................................................' ? cccdHoten : ''}</div>
