@@ -1988,7 +1988,6 @@ function exportToWord() {
     let bodyHtml = "";
 
     if (formType === 'mau_25_qd2604') {
-        // MẪU SỐ 25 CHUẨN 100% Y HỆT ẢNH MẪUmedia_1788077058155.png VÀ PLIV_signed.pdf TRANG 49-51
         bodyHtml = `
         <p class="MsoNormal" style="font-size:11pt; font-weight:bold;">Mẫu số 25. Đơn đăng ký đất đai, tài sản gắn liền với đất</p>
         <div style="text-align:center; font-size:12pt; font-weight:bold; margin-top:6pt;">
@@ -2074,7 +2073,6 @@ function exportToWord() {
         <p class="MsoNormal" style="font-size:9.5pt; line-height:1.25; margin:2pt 0; text-align:justify;">(9) Ghi được Nhà nước giao đất có thu tiền sử dụng đất hoặc giao đất không thu tiền sử dụng đất hoặc cho thuê đất trả tiền một lần cho cả thời gian thuê hoặc cho thuê đất trả tiền thuê đất hằng năm hoặc nhận chuyển quyền (chuyển đổi, chuyển nhượng, thừa kế, tặng cho, góp vốn) hoặc nguồn gốc khác như do ông cha để lại, lấn, chiếm, giao đất không đúng thẩm quyền, khai hoang...</p>
         `;
     } else if (formType === 'mau_29_qd2604') {
-        // MẪU SỐ 29
         bodyHtml = `
         <p class="MsoNormal" style="font-size:11pt; font-weight:bold;">Mẫu số 29. Đơn đăng ký biến động đất đai, tài sản gắn liền với đất</p>
         <div style="text-align:center; font-size:12pt; font-weight:bold; margin-top:6pt;">
@@ -2128,7 +2126,6 @@ function exportToWord() {
         </table>
         `;
     } else if (formType === 'mau_35_qd2604') {
-        // MẪU SỐ 35
         bodyHtml = `
         <p class="MsoNormal" style="font-size:11pt; font-weight:bold;">Mẫu số 35. Đơn đề nghị tách thửa đất, hợp thửa đất</p>
         <div style="text-align:center; font-size:12pt; font-weight:bold; margin-top:6pt;">
@@ -2198,8 +2195,7 @@ function exportToWord() {
             </tr>
         </table>
         `;
-        } else if (formType === 'tk_le_phi_truoc_ba') {
-        // TỜ KHAI LỆ PHÍ TRƯỚC BẠ (MẪU 01/LPTB - media_1788079951664.png)
+    } else if (formType === 'tk_le_phi_truoc_ba') {
         bodyHtml = `
         <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border:none !important; border-collapse:collapse; margin-bottom:10pt; font-family:'Times New Roman', serif;">
             <tr style="border:none !important;">
@@ -2278,7 +2274,6 @@ function exportToWord() {
         </table>
         `;
     } else if (formType === 'tk_phi_nong_nghiep') {
-        // TỜ KHAI THUẾ SỬ DỤNG ĐẤT PHI NÔNG NGHIỆP (MẪU 01/TK-SDDPNN)
         bodyHtml = `
         <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border:none !important; border-collapse:collapse; margin-bottom:10pt; font-family:'Times New Roman', serif;">
             <tr style="border:none !important;">
@@ -2366,7 +2361,6 @@ function exportToWord() {
         </table>
         `;
     } else if (formType === 'tk_thue_tncn') {
-        // TỜ KHAI THUẾ THU NHẬP CÁ NHÂN (MẪU 03/BĐS-TNCN)
         bodyHtml = `
         <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border:none !important; border-collapse:collapse; margin-bottom:10pt; font-family:'Times New Roman', serif;">
             <tr style="border:none !important;">
@@ -2463,9 +2457,7 @@ function exportToWord() {
             </tr>
         </table>
         `;
-    }
     } else {
-        // TẤT CẢ CÁC MẪU CÒN LẠI (TỜ KHAI THUẾ, ĐƠN GIAO ĐẤT, THUÊ ĐẤT, GIA HẠN...)
         const lines = (document.getElementById('formOutputText')?.value || '').split('\n');
         bodyHtml = "";
         let inTable = false;
@@ -2598,7 +2590,7 @@ function exportToWord() {
         a.click();
         document.body.removeChild(a);
         window.URL.revokeObjectURL(downloadUrl);
-        console.log("✅ Đã xuất file Word chuẩn xác không viền chữ ký:", filename);
+        console.log("✅ Đã xuất file Word chuẩn xác 100%:", filename);
     } catch (err) {
         alert("Lỗi xuất file Word: " + err.message);
     }
