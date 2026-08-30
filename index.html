@@ -1919,15 +1919,14 @@ function exportToWord() {
 
         <p class="MsoNormal" style="text-indent:24pt; margin-top:8pt; text-align:justify;">Tôi/chúng tôi xin cam đoan nội dung kê khai trên đơn là đúng sự thật, nếu sai tôi/chúng tôi hoàn toàn chịu trách nhiệm trước pháp luật.</p>
 
-        <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse:collapse; margin-top:16pt; font-family:'Times New Roman', serif;">
-            <tr>
-                <td width="50%" align="center" valign="top"></td>
-                <td width="50%" align="center" valign="top">
-                    <p class="MsoNormal" style="font-style:italic; font-size:11pt; text-align:center;">${dateStr}</p>
-                    <p class="MsoNormal" style="font-weight:bold; font-size:11.5pt; text-align:center;">Người sử dụng đất/Người kê khai</p>
-                    <p class="MsoNormal" style="font-size:10pt; font-style:italic; text-align:center;">(Ký, ghi rõ họ tên hoặc đóng dấu (nếu có))</p>
-                    <div style="height:60pt;"></div>
-                    <p class="MsoNormal" style="font-weight:bold; font-size:12pt; text-align:center;">${cleanName !== 'Mau_Don' ? cccdHoten : ''}</p>
+        <table class="sign-table" border="0" cellspacing="0" cellpadding="0" style="border:none !important; border-collapse:collapse; width:100%; margin-top:16pt; font-family:'Times New Roman', serif;">
+            <tr style="border:none !important;">
+                <td width="45%" style="border:none !important; background:none !important;"></td>
+                <td width="55%" align="center" valign="top" style="border:none !important; background:none !important;">
+                    <p class="MsoNormal" style="font-style:italic; font-size:11pt; text-align:center; margin:0;">${dateStr}</p>
+                    <p class="MsoNormal" style="font-weight:bold; font-size:11.5pt; text-align:center; margin:3pt 0 0 0;">Người sử dụng đất/Người kê khai</p>
+                    <p class="MsoNormal" style="font-size:10pt; font-style:italic; text-align:center; margin:0 0 45pt 0;">(Ký, ghi rõ họ tên hoặc đóng dấu (nếu có))</p>
+                    <p class="MsoNormal" style="font-weight:bold; font-size:12pt; text-align:center; margin:0;">${cleanName !== 'Mau_Don' ? cccdHoten : ''}</p>
                 </td>
             </tr>
         </table>
@@ -1987,15 +1986,14 @@ function exportToWord() {
 
         <p class="MsoNormal" style="text-indent:24pt; margin-top:8pt; text-align:justify;">Cam đoan nội dung kê khai trên đơn là đúng sự thật và chịu trách nhiệm trước pháp luật.</p>
 
-        <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse:collapse; margin-top:16pt; font-family:'Times New Roman', serif;">
-            <tr>
-                <td width="50%" align="center" valign="top"></td>
-                <td width="50%" align="center" valign="top">
-                    <p class="MsoNormal" style="font-style:italic; font-size:11pt; text-align:center;">${dateStr}</p>
-                    <p class="MsoNormal" style="font-weight:bold; font-size:11.5pt; text-align:center;">Người viết đơn</p>
-                    <p class="MsoNormal" style="font-size:10pt; font-style:italic; text-align:center;">(Ký, ghi rõ họ tên và đóng dấu nếu có)</p>
-                    <div style="height:60pt;"></div>
-                    <p class="MsoNormal" style="font-weight:bold; font-size:12pt; text-align:center;">${cleanName !== 'Mau_Don' ? cccdHoten : ''}</p>
+        <table class="sign-table" border="0" cellspacing="0" cellpadding="0" style="border:none !important; border-collapse:collapse; width:100%; margin-top:16pt; font-family:'Times New Roman', serif;">
+            <tr style="border:none !important;">
+                <td width="45%" style="border:none !important; background:none !important;"></td>
+                <td width="55%" align="center" valign="top" style="border:none !important; background:none !important;">
+                    <p class="MsoNormal" style="font-style:italic; font-size:11pt; text-align:center; margin:0;">${dateStr}</p>
+                    <p class="MsoNormal" style="font-weight:bold; font-size:11.5pt; text-align:center; margin:3pt 0 0 0;">Người viết đơn</p>
+                    <p class="MsoNormal" style="font-size:10pt; font-style:italic; text-align:center; margin:0 0 45pt 0;">(Ký, ghi rõ họ tên và đóng dấu nếu có)</p>
+                    <p class="MsoNormal" style="font-weight:bold; font-size:12pt; text-align:center; margin:0;">${cleanName !== 'Mau_Don' ? cccdHoten : ''}</p>
                 </td>
             </tr>
         </table>
@@ -2040,15 +2038,14 @@ function exportToWord() {
 
         <p class="MsoNormal" style="text-indent:24pt; margin-top:8pt; text-align:justify;">Tôi cam đoan nội dung kê khai trên đơn là đúng.</p>
 
-        <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse:collapse; margin-top:16pt; font-family:'Times New Roman', serif;">
-            <tr>
-                <td width="50%" align="center" valign="top"></td>
-                <td width="50%" align="center" valign="top">
-                    <p class="MsoNormal" style="font-style:italic; font-size:11pt; text-align:center;">${dateStr}</p>
-                    <p class="MsoNormal" style="font-weight:bold; font-size:11.5pt; text-align:center;">Người viết đơn <sup>(4)</sup></p>
-                    <p class="MsoNormal" style="font-size:10pt; font-style:italic; text-align:center;">(Ký và ghi rõ họ tên, đóng dấu nếu có)</p>
-                    <div style="height:60pt;"></div>
-                    <p class="MsoNormal" style="font-weight:bold; font-size:12pt; text-align:center;">${cleanName !== 'Mau_Don' ? cccdHoten : ''}</p>
+        <table class="sign-table" border="0" cellspacing="0" cellpadding="0" style="border:none !important; border-collapse:collapse; width:100%; margin-top:16pt; font-family:'Times New Roman', serif;">
+            <tr style="border:none !important;">
+                <td width="45%" style="border:none !important; background:none !important;"></td>
+                <td width="55%" align="center" valign="top" style="border:none !important; background:none !important;">
+                    <p class="MsoNormal" style="font-style:italic; font-size:11pt; text-align:center; margin:0;">${dateStr}</p>
+                    <p class="MsoNormal" style="font-weight:bold; font-size:11.5pt; text-align:center; margin:3pt 0 0 0;">Người viết đơn <sup>(4)</sup></p>
+                    <p class="MsoNormal" style="font-size:10pt; font-style:italic; text-align:center; margin:0 0 45pt 0;">(Ký và ghi rõ họ tên, đóng dấu nếu có)</p>
+                    <p class="MsoNormal" style="font-weight:bold; font-size:12pt; text-align:center; margin:0;">${cleanName !== 'Mau_Don' ? cccdHoten : ''}</p>
                 </td>
             </tr>
         </table>
@@ -2057,17 +2054,17 @@ function exportToWord() {
         <p class="MsoNormal">.................................................................................................................................................................</p>
         <p class="MsoNormal">.................................................................................................................................................................</p>
 
-        <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse:collapse; margin-top:16pt; font-family:'Times New Roman', serif;">
-            <tr>
-                <td width="50%" align="center" valign="top">
-                    <p class="MsoNormal" style="font-style:italic; font-size:10pt; text-align:center;">Ngày ……. tháng …… năm …...</p>
-                    <p class="MsoNormal" style="font-weight:bold; font-size:11pt; text-align:center;">NGƯỜI KIỂM TRA</p>
-                    <p class="MsoNormal" style="font-size:10pt; font-style:italic; text-align:center;">(Ký, ghi rõ họ tên, chức vụ)</p>
+        <table class="sign-table" border="0" cellspacing="0" cellpadding="0" style="border:none !important; border-collapse:collapse; width:100%; margin-top:16pt; font-family:'Times New Roman', serif;">
+            <tr style="border:none !important;">
+                <td width="50%" align="center" valign="top" style="border:none !important; background:none !important;">
+                    <p class="MsoNormal" style="font-style:italic; font-size:10pt; text-align:center; margin:0;">Ngày ……. tháng …… năm …...</p>
+                    <p class="MsoNormal" style="font-weight:bold; font-size:11pt; text-align:center; margin:3pt 0 0 0;">NGƯỜI KIỂM TRA</p>
+                    <p class="MsoNormal" style="font-size:10pt; font-style:italic; text-align:center; margin:0;">(Ký, ghi rõ họ tên, chức vụ)</p>
                 </td>
-                <td width="50%" align="center" valign="top">
-                    <p class="MsoNormal" style="font-style:italic; font-size:10pt; text-align:center;">Ngày ……. tháng …… năm …...</p>
-                    <p class="MsoNormal" style="font-weight:bold; font-size:11pt; text-align:center;">VĂN PHÒNG ĐĂNG KÝ ĐẤT ĐAI/CHI NHÁNH</p>
-                    <p class="MsoNormal" style="font-size:10pt; font-style:italic; text-align:center;">(Ký, ghi rõ họ tên, chức vụ, đóng dấu)</p>
+                <td width="50%" align="center" valign="top" style="border:none !important; background:none !important;">
+                    <p class="MsoNormal" style="font-style:italic; font-size:10pt; text-align:center; margin:0;">Ngày ……. tháng …… năm …...</p>
+                    <p class="MsoNormal" style="font-weight:bold; font-size:11pt; text-align:center; margin:3pt 0 0 0;">VĂN PHÒNG ĐĂNG KÝ ĐẤT ĐAI/CHI NHÁNH</p>
+                    <p class="MsoNormal" style="font-size:10pt; font-style:italic; text-align:center; margin:0;">(Ký, ghi rõ họ tên, chức vụ, đóng dấu)</p>
                 </td>
             </tr>
         </table>
@@ -2091,7 +2088,7 @@ function exportToWord() {
                 tableRows.push(cells);
                 continue;
             } else if (inTable) {
-                bodyHtml += `<table border="1" cellspacing="0" cellpadding="4" style="border-collapse:collapse; width:100%; font-size:10pt; text-align:center; font-family:'Times New Roman', serif; border:1px solid #000; margin:8pt 0;">`;
+                bodyHtml += `<table class="data-table" border="1" cellspacing="0" cellpadding="4" style="border-collapse:collapse; width:100%; font-size:10pt; text-align:center; font-family:'Times New Roman', serif; border:1px solid #000; margin:8pt 0;">`;
                 tableRows.forEach((row, rIdx) => {
                     const isHeader = (rIdx === 0 || row.some(c => c.startsWith('[')));
                     const bg = isHeader ? 'background:#f2f2f2; font-weight:bold;' : '';
@@ -2162,15 +2159,27 @@ function exportToWord() {
                 font-size: 12pt;
                 font-family: 'Times New Roman', Times, serif;
             }
-            table {
+            table.data-table {
                 border-collapse: collapse;
                 width: 100%;
                 margin: 8pt 0;
                 font-family: 'Times New Roman', Times, serif;
             }
-            td, th {
+            table.data-table td, table.data-table th {
                 border: 1px solid #000;
                 padding: 4pt 6pt;
+            }
+            table.sign-table {
+                border: none !important;
+                border-collapse: collapse;
+                width: 100%;
+                margin-top: 16pt;
+                font-family: 'Times New Roman', Times, serif;
+            }
+            table.sign-table td {
+                border: none !important;
+                padding: 0 !important;
+                background: none !important;
             }
         </style>
     </head>
@@ -2194,7 +2203,7 @@ function exportToWord() {
         a.click();
         document.body.removeChild(a);
         window.URL.revokeObjectURL(downloadUrl);
-        console.log("✅ Đã xuất file Word chuẩn xác 100%:", filename);
+        console.log("✅ Đã xuất file Word chuẩn xác không viền chữ ký:", filename);
     } catch (err) {
         alert("Lỗi xuất file Word: " + err.message);
     }
