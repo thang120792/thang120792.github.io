@@ -540,67 +540,81 @@ function updateLiveA4Form() {
     const formType = document.getElementById('selectFormType')?.value || 'mau_25_qd2604';
     
     // Blank fallbacks
-    const cccdHoten = (document.getElementById('cccd_hoten')?.value || '').trim() || '...................................................';
-    const cccdSo = (document.getElementById('cccd_so')?.value || '').trim() || '........................';
-    const cccdNgaySinh = (document.getElementById('cccd_ngaysinh')?.value || '').trim() || '...../...../..........';
-    const cccdNgayCap = (document.getElementById('cccd_ngaycap')?.value || '').trim() || '...../...../..........';
-    const cccdThuongtru = (document.getElementById('cccd_thuongtru')?.value || '').trim() || '...........................................................................................';
+    const cccdHoten = (document.getElementById('cccd_hoten')?.value || '').trim();
+    const cccdSo = (document.getElementById('cccd_so')?.value || '').trim();
+    const cccdNgaySinh = (document.getElementById('cccd_ngaysinh')?.value || '').trim();
+    const cccdNgayCap = (document.getElementById('cccd_ngaycap')?.value || '').trim();
+    const cccdThuongtru = (document.getElementById('cccd_thuongtru')?.value || '').trim();
     
-    const landSophathanh = (document.getElementById('land_sophathanh')?.value || '').trim() || '........................';
-    const landSovaoso = (document.getElementById('land_sovaoso')?.value || '').trim() || '........................';
-    const landNgayCap = (document.getElementById('land_ngaycap')?.value || '').trim() || '...../...../..........';
-    const landNoiCap = (document.getElementById('land_noicap')?.value || '').trim() || 'Chi nhánh VPĐKĐĐ';
-    const landThua = (document.getElementById('land_thua')?.value || '').trim() || '........';
-    const landTobando = (document.getElementById('land_tobando')?.value || '').trim() || '........';
-    const landDiachi = (document.getElementById('land_diachi')?.value || '').trim() || '...........................................................................................';
-    const landDientich = (document.getElementById('land_dientich')?.value || '').trim() || '........';
-    const landMucdich = (document.getElementById('land_mucdich')?.value || '').trim() || '...................................................';
+    const landSophathanh = (document.getElementById('land_sophathanh')?.value || '').trim();
+    const landSovaoso = (document.getElementById('land_sovaoso')?.value || '').trim();
+    const landNgayCap = (document.getElementById('land_ngaycap')?.value || '').trim();
+    const landNoiCap = (document.getElementById('land_noicap')?.value || '').trim();
+    const landThua = (document.getElementById('land_thua')?.value || '').trim();
+    const landTobando = (document.getElementById('land_tobando')?.value || '').trim();
+    const landDiachi = (document.getElementById('land_diachi')?.value || '').trim();
+    const landDientich = (document.getElementById('land_dientich')?.value || '').trim();
+    const landMucdich = (document.getElementById('land_mucdich')?.value || '').trim();
+
+    // Điền dấu chấm nếu không có giá trị
+    const valHoten = cccdHoten || '.....................................................................................................................';
+    const valSo = cccdSo || '......................................................................................';
+    const valNgaySinh = cccdNgaySinh || '....................';
+    const valThuongtru = cccdThuongtru || '..........................................................................................................................';
+    const valThua = landThua || '......................';
+    const valTobando = landTobando || '......................';
+    const valDiachi = landDiachi || '.........................................................................................................................';
+    const valDientich = landDientich || '……………';
+    const valMucdich = landMucdich || '…………………………';
+    const valSophathanh = landSophathanh || '................................';
+    const valSovaoso = landSovaoso || '................................';
+    const valNgayCap = landNgayCap || '……../ ……../………..';
 
     const recipientStr = getDynamicRecipient(formType, landDiachi, cccdThuongtru);
     const dateYear = new Date().getFullYear();
-    const dateStr = `ngày ..... tháng ..... năm ${dateYear}`;
+    const dateStr = `..... ngày .... tháng... năm ${dateYear}`;
 
     let fullDoc = "";
 
     if (formType === 'mau_25_qd2604') {
-        // MẪU SỐ 25 (TRANG 49-51 PLIV_signed.pdf)
+        // MẪU SỐ 25 CHUẨN 100% THEO media_1788077058155.png VÀ PLIV_signed.pdf TRANG 49-51
         fullDoc = `Mẫu số 25. Đơn đăng ký đất đai, tài sản gắn liền với đất
 CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
 Độc lập - Tự do - Hạnh phúc
----------------
-ĐƠN ĐĂNG KÝ ĐẤT ĐAI, TÀI SẢN GẮN LIỀN VỚI ĐẤT
+----------------
 
+ĐƠN ĐĂNG KÝ ĐẤT ĐAI, TÀI SẢN GẮN LIỀN VỚI ĐẤT
 Kính gửi: ${recipientStr} (1)
 
 1. Người sử dụng đất, chủ sở hữu tài sản gắn liền với đất, người quản lý đất:
 (Trường hợp nhiều người cùng sử dụng đất, cùng sở hữu tài sản thì kê khai tên người cùng sử dụng đất, cùng sở hữu tài sản đó theo Mẫu số 25a)
-a) Họ và tên (2): ${cccdHoten}                     Năm sinh: ${cccdNgaySinh}
-b) Giấy tờ nhân thân/pháp nhân (3): ${cccdSo} ; Cấp ngày: ${cccdNgayCap} ; Nơi cấp: Cục Cảnh sát QLHC về TTXH
+a) Họ và tên (2): ${valHoten}
+b) Giấy tờ nhân thân/pháp nhân (3): ${valSo}
 c) Mã số thuế (nếu có): .........................................................................................................
-d) Địa chỉ (4): ${cccdThuongtru}
+d) Địa chỉ (4): ${valThuongtru}
 đ) Điện thoại liên hệ (nếu có): ……………….. Hộp thư điện tử (nếu có): .........................
 
 2. Thửa đất đăng ký (người sử dụng đất là tổ chức thì không phải kê khai mục này):
 (Trường hợp đăng ký nhiều thửa đất nông nghiệp mà không đề nghị cấp Giấy chứng nhận hoặc đề nghị cấp chung một Giấy chứng nhận cho nhiều thửa đất nông nghiệp thì không kê khai các nội dung tại Mục này mà chỉ ghi tổng số thửa và kê khai từng thửa đất theo Mẫu số 25b)
-a) Thửa đất số (4a): ${landThua} ; Tờ bản đồ số (4b): ${landTobando}
-b) Địa chỉ (5): ${landDiachi}
-c) Diện tích (6): ${landDientich} m²; sử dụng chung: ....... m²; sử dụng riêng: ${landDientich} m²
-d) Sử dụng vào mục đích (7): ${landMucdich}, từ thời điểm: ....................
-đ) Thời hạn đề nghị được sử dụng đất (8): Ổn định lâu dài
-e) Nguồn gốc sử dụng đất (9): Sử dụng đất ổn định, không có tranh chấp
-g) Có quyền hoặc hạn chế quyền đối với thửa đất liền kề số ……, tờ bản đồ số ……, của ……, nội dung về quyền đối với thửa đất liền kề (10): Không.
+a) Thửa đất số(4a): ${valThua} ; Tờ bản đồ số(4b): ${valTobando}
+b) Địa chỉ (5): ${valDiachi}
+c) Diện tích (6): ${valDientich} m2; sử dụng chung: …….…..m2; sử dụng riêng: ${valDientich} m2
+d) Sử dụng vào mục đích(7): ${valMucdich}, từ thời điểm: ...................................
+đ) Thời hạn đề nghị được sử dụng đất(8): Lâu dài
+e) Nguồn gốc sử dụng đất(9): Sử dụng đất ổn định, không có tranh chấp
+g) Có quyền hoặc hạn chế quyền đối với thửa đất liền kề số …………, tờ bản đồ số ………, của ……..……, nội dung về quyền đối với thửa đất liền kề ............................. (10).
 
 3. Nhà ở, công trình xây dựng (người sử dụng đất là tổ chức thì không phải kê khai mục này):
 (Chỉ kê khai nếu có nhu cầu đăng ký hoặc chứng nhận quyền sở hữu tài sản; Trường hợp có nhiều nhà ở, công trình xây dựng khác trên cùng 01 thửa đất thì chỉ kê khai các thông tin chung và tổng diện tích của các nhà ở, công trình xây dựng; đồng thời lập danh sách nhà ở, công trình theo Mẫu số 25c)
 a) Loại nhà ở, công trình xây dựng (11): ................................................................................
-b) Diện tích xây dựng (12): …………… m²
-c) Diện tích sàn xây dựng/diện tích sử dụng (13): …………….. m²
-d) Sở hữu chung (14): …………… m², sở hữu riêng (14): ……………….. m²
-đ) Số tầng: …….. tầng; trong đó, số tầng nổi: ……… tầng, số tầng hầm: ………. tầng
-e) Nguồn gốc (15): Tự xây dựng
-g) Năm hoàn thành xây dựng (16): ....................
-h) Thời hạn sở hữu đến (17): ..............................................................................
-i) Cam kết chịu trách nhiệm về nhà ở, công trình xây dựng (18): □
+b) Diện tích xây dựng(12): …………… m2.
+c) Diện tích sàn xây dựng/diện tích sử dụng (13): ……………..m2.
+d) Sở hữu chung(14): …………… m2, sở hữu riêng(14): ……………….. m2.
+đ) Số tầng: …….. tầng; trong đó, số tầng nổi: ……… tầng, số tầng hầm: ……….tầng.
+e) Nguồn gốc (15): ..................................................................................................................
+g) Năm hoàn thành xây dựng(16): ..........................................................................................
+h) Thời hạn sở hữu đến (17): ..................................................................................................
+i) Cam kết chịu trách nhiệm về nhà ở, công trình xây dựng(18): □
 
 4. Đề nghị của người sử dụng đất, chủ sở hữu tài sản gắn liền với đất: (Đánh dấu vào ô lựa chọn)
 a) Đề nghị đăng ký đất đai, tài sản gắn liền với đất [x]
@@ -611,25 +625,27 @@ d) Đề nghị khác (nếu có): .............................................
 5. Thông tin về đối tượng được miễn tiền sử dụng đất, tiền thuê đất (nếu có)(19): 
 ...............................................................................................................................................
 
-6. Những giấy tờ nộp kèm theo (20):
-(1) Bản trích đo địa chính thửa đất số ${landThua};
-(2) Bản sao Thẻ Căn cước công dân số ${cccdSo};
-(3) Các giấy tờ chứng minh quyền sử dụng đất theo quy định của Luật Đất đai 2024.
+6. Những giấy tờ nộp kèm theo(20):
+(1) ..........................................................................................................................................
+(2) ..........................................................................................................................................
+(3) ..........................................................................................................................................
 
 Tôi/chúng tôi xin cam đoan nội dung kê khai trên đơn là đúng sự thật, nếu sai tôi/chúng tôi hoàn toàn chịu trách nhiệm trước pháp luật.
 
-                                                                  ..., ${dateStr}
+                                                                  ${dateStr}
                                                       Người sử dụng đất/Người kê khai
                                                    (Ký, ghi rõ họ tên hoặc đóng dấu (nếu có))
 
 
-                                                              ${cccdHoten !== '...................................................' ? cccdHoten : ''}
+                                                              ${cccdHoten}
 
 Hướng dẫn kê khai đơn: “Lưu ý: xem kỹ hướng dẫn viết Đơn trước khi kê khai; không tẩy xóa, sửa chữa trên Đơn”
 (1) Đối với hộ gia đình, cá nhân, cộng đồng dân cư thì ghi: “Ủy ban nhân dân/Chủ tịch UBND xã/phường/đặc khu …”; đối với tổ chức, người gốc Việt Nam định cư nước ngoài thì ghi: “Sở Nông nghiệp và Môi trường …” .
 (2) Cá nhân: Ghi họ và tên bằng chữ in hoa, năm sinh theo giấy tờ nhân thân. Người gốc Việt Nam định cư ở nước ngoài: Ghi họ tên, năm sinh, quốc tịch. Cộng đồng dân cư: Ghi tên của cộng đồng dân cư. Tổ chức: Ghi theo quyết định thành lập hoặc giấy đăng ký kinh doanh.
 (3) Cá nhân: Ghi số định danh cá nhân hoặc số, ngày cấp và nơi cấp hộ chiếu. Tổ chức: Ghi số, ngày ký, cơ quan ký văn bản theo quyết định thành lập hoặc giấy đăng ký kinh doanh.
-(4) Cá nhân: Ghi địa chỉ nơi đăng ký thường trú.
+(4) Cá nhân: Ghi địa chỉ nơi đăng ký thường trú. Người gốc Việt Nam định cư ở nước ngoài: Ghi địa chỉ đăng ký thường trú ở Việt Nam (nếu có). Cộng đồng dân cư: Ghi địa chỉ nơi sinh hoạt chung của cộng đồng. Tổ chức: Ghi địa chỉ trụ sở chính theo quyết định thành lập hoặc giấy đăng ký kinh doanh.
+(4a), (4b): Ghi đối với trường hợp người sử dụng đất có thông tin; trường hợp không có thông tin thì không phải kê khai nội dung này, cơ quan giải quyết thủ tục xác định thông tin này trong quá trình giải quyết thủ tục.
+(5) Ghi số nhà, tên đường, phố (nếu có); tên điểm dân cư (tổ dân phố, thôn, xóm, làng, ấp, bản, bon, buôn, phum, sóc, điểm dân cư tương tự) hoặc tên khu vực, xứ đồng (đối với thửa đất ngoài khu dân cư); tên đơn vị hành chính các cấp xã, tỉnh nơi có thửa đất.
 (6) Ghi diện tích của thửa đất bằng số Ả Rập, được làm tròn số đến một chữ số thập phân.
 (7) Ghi mục đích chính đang sử dụng. Từ thời điểm ghi ngày ... tháng ... năm ...
 (8) Ghi “đến ngày …/…/…” hoặc “Lâu dài” hoặc ghi bằng dấu “-/-” nếu không xác định được thời hạn.
@@ -645,39 +661,39 @@ CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
 Kính gửi: ${recipientStr} (1)
 
 1. Người sử dụng đất, chủ sở hữu tài sản gắn liền với đất, người quản lý đất:
-a) Tên (2): ${cccdHoten}
-b) Giấy tờ nhân thân/pháp nhân (2): CCCD số ${cccdSo} cấp ngày ${cccdNgayCap} tại Cục Cảnh sát QLHC về TTXH
-c) Địa chỉ (2): ${cccdThuongtru}
+a) Tên(2): ${valHoten}
+b) Giấy tờ nhân thân/pháp nhân(2): ${valSo}
+c) Địa chỉ(2): ${valThuongtru}
 d) Điện thoại liên hệ (nếu có): …………… Hộp thư điện tử (nếu có): ...........
 (Trường hợp có nhiều đồng sử dụng, sở hữu thì kê khai thông tin một người đại diện; đồng thời lập danh sách theo bảng 01 kèm theo)
 
 2. Giấy chứng nhận đã cấp (3)
-2.1. Số vào sổ cấp Giấy chứng nhận: ${landSovaoso};
-2.2. Số phát hành Giấy chứng nhận (Số seri): ${landSophathanh};
-2.3. Ngày cấp Giấy chứng nhận: ${landNgayCap};
+2.1. Số vào sổ cấp Giấy chứng nhận: ${valSovaoso};
+2.2. Số phát hành Giấy chứng nhận (Số seri): ${valSophathanh};
+2.3. Ngày cấp Giấy chứng nhận: ${valNgayCap};
 
-3. Nội dung biến động (4):
-Đăng ký biến động quyền sử dụng đất đối với thửa đất số ${landThua}, tờ bản đồ số ${landTobando} tại ${landDiachi} do nhận chuyển nhượng / tặng cho / thừa kế / cấp đổi / đính chính thông tin theo quy định.
+3. Nội dung biến động(4):
+.................................................................................................................................
+.................................................................................................................................
 
 4. Thông tin về đối tượng được miễn, giảm nghĩa vụ tài chính về đất đai (nếu có)(5):
 .................................................................................................................................
 
-5. Giấy tờ liên quan đến nội dung biến động nộp kèm theo đơn này gồm có (6):
-(1) Giấy chứng nhận đã cấp số phát hành ${landSophathanh};
-(2) Hợp đồng chuyển quyền sử dụng đất được công chứng/chứng thực;
-(3) Bản sao Thẻ CCCD và các tờ khai nghĩa vụ tài chính liên quan.
-
+5. Giấy tờ liên quan đến nội dung biến động nộp kèm theo đơn này gồm có(6):
+(1) Giấy chứng nhận đã cấp;
+(2) ..........................................................................................................................
+(3) ..........................................................................................................................
 [x] Có nhu cầu cấp mới Giấy chứng nhận (7)
 [ ] Không có nhu cầu cấp mới Giấy chứng nhận
 
 Cam đoan nội dung kê khai trên đơn là đúng sự thật và chịu trách nhiệm trước pháp luật.
 
-                                                                  ..., ${dateStr}
+                                                                  ${dateStr}
                                                                   Người viết đơn
                                                        (Ký, ghi rõ họ tên và đóng dấu nếu có)
 
 
-                                                              ${cccdHoten !== '...................................................' ? cccdHoten : ''}
+                                                              ${cccdHoten}
 
 Hướng dẫn kê khai đơn:
 (1) Đối với hộ gia đình, cá nhân, cộng đồng dân cư, người gốc Việt Nam định cư ở nước ngoài thực hiện các thủ tục hành chính thuộc thẩm quyền giải quyết của Văn phòng Đăng ký đất đai/Chi nhánh Văn phòng Đăng ký đất đai thì ghi: “Văn phòng đăng ký đất đai/Chi nhánh Văn phòng đăng ký đất đai……” nơi có đất; đối với tổ chức trong nước, tổ chức tôn giáo, tổ chức tôn giáo trực thuộc, tổ chức kinh tế có vốn đầu tư nước ngoài, tổ chức nước ngoài có chức năng ngoại giao và tổ chức nước ngoài, cá nhân nước ngoài thì ghi “Văn phòng đăng ký đất đai Thanh Hóa”.
@@ -702,43 +718,41 @@ I. KÊ KHAI CỦA NGƯỜI SỬ DỤNG ĐẤT
 (Xem kỹ hướng dẫn ở cuối đơn này trước khi viết đơn; không tẩy xoá, sửa chữa nội dung đã viết)
 
 1. Người sử dụng đất (1):
-a) Tên: ${cccdHoten}
-b) Giấy tờ nhân thân/pháp nhân số (2): ${cccdSo}
-c) Địa chỉ: ${cccdThuongtru}
+a) Tên: ${valHoten}
+b) Giấy tờ nhân thân/pháp nhân số (2): ${valSo}
+c) Địa chỉ: ${valThuongtru}
 d) Điện thoại liên hệ (nếu có): …………… Hộp thư điện tử (nếu có): ...............
 
 2. Đề nghị tách thửa đất, hợp thửa đất (3) như sau:
-a) Tách thửa đất số ${landThua}, tờ bản đồ số: ${landTobando}, diện tích: ${landDientich} m²; loại đất: ${landMucdich}; địa chỉ thửa đất: ${landDiachi}; Giấy chứng nhận: số vào sổ cấp GCN: ${landSovaoso}, ngày cấp GCN: ${landNgayCap}, thành ……… thửa:
-Thửa thứ nhất: diện tích: …..…… m²; loại đất: ${landMucdich}
-Thửa thứ hai: diện tích: ……..… m²; loại đất: ${landMucdich}
+a) Tách thửa đất số ${valThua}, tờ bản đồ số: ${valTobando}, diện tích: ${valDientich} m2; loại đất: ${valMucdich}; địa chỉ thửa đất: ${valDiachi}; Giấy chứng nhận: số vào sổ cấp GCN: ${valSovaoso}, ngày cấp GCN: ${valNgayCap}, thành ……… thửa:
+Thửa thứ nhất: diện tích: …..……m2; loại đất: ${valMucdich}
+Thửa thứ hai: diện tích: ……..…m2; loại đất: ${valMucdich}
 (Liệt kê các thửa đất tách thửa): ......................................................................................................................
 
-b) Hợp thửa đất số .……....., tờ bản đồ số: ………...…, diện tích: ……...…… m²; loại đất: …………, địa chỉ thửa đất: ..........................................................; Giấy chứng nhận: số vào sổ cấp GCN: ….. ……...…, ngày cấp GCN: ..........................., với: Thửa đất số: ……..., tờ bản đồ số: …....…, diện tích: ……..…… m²; loại đất: ……………..., địa chỉ thửa đất: ...................; Giấy chứng nhận: số vào sổ cấp GCN: ….…, ngày cấp GCN: .....................
+b) Hợp thửa đất số .……....., tờ bản đồ số: ………...…, diện tích: ……...……m2; loại đất: …………, địa chỉ thửa đất: ..........................................................; Giấy chứng nhận: số vào sổ cấp GCN: ….. ……...…, ngày cấp GCN: ..........................., với: Thửa đất số: ……..., tờ bản đồ số: …....…, diện tích: ……..……m2; loại đất: ……………..., địa chỉ thửa đất: ...................; Giấy chứng nhận: số vào sổ cấp GCN: ….…, ngày cấp GCN: .....................
 (liệt kê các thửa đất cần hợp): .........................................................................................................................
-Thành thửa đất mới: Diện tích: ……… m²; loại đất: ……………………..…...
+Thành thửa đất mới: Diện tích: ………m2; loại đất: ……………………..…...
 (liệt kê các thửa đất sau hợp thửa): ....................................................................................................................
 
 c) Tách đồng thời với hợp thửa đất:
 ........................................................................................................................................................
 (Mô tả chi tiết việc tách, hợp thửa): ....................................................................................................................
 
-3. Lý do tách, hợp thửa đất: Phân chia quyền sử dụng đất / tặng cho / chuyển nhượng theo quy định.
-
+3. Lý do tách, hợp thửa đất: .............................................................................................
 4. Giấy tờ nộp kèm theo đơn này gồm có:
-- Giấy chứng nhận số phát hành ${landSophathanh} và Bản vẽ tách thửa đất, hợp thửa đất các thửa đất nêu trên;
-- Bản sao CCCD của người sử dụng đất.
-
-5. Đề nghị cấp Giấy chứng nhận: Có đề nghị cấp Giấy chứng nhận cho các thửa đất mới sau khi tách thửa.
+- Giấy chứng nhận và Bản vẽ tách thửa đất, hợp thửa đất các thửa đất nêu trên
+- ……………………………………………………………….……………………………...
+5. Đề nghị cấp Giấy chứng nhận: Có đề nghị cấp Giấy chứng nhận
 (ghi có hoặc không thay đổi người sử dụng đất)
 
 Tôi cam đoan nội dung kê khai trên đơn là đúng.
 
-                                                                  ……, ${dateStr}
+                                                                  ${dateStr}
                                                                   Người viết đơn (4)
                                                        (Ký và ghi rõ họ tên, đóng dấu nếu có)
 
 
-                                                              ${cccdHoten !== '...................................................' ? cccdHoten : ''}
+                                                              ${cccdHoten}
 
 II. Ý KIẾN CỦA VĂN PHÒNG ĐĂNG KÝ ĐẤT ĐAI/CHI NHÁNH VĂN PHÒNG ĐĂNG KÝ ĐẤT ĐAI (5)
 .................................................................................................................................................................
@@ -750,8 +764,8 @@ Ngày ……. tháng …… năm …...                              Ngày …�
                                                               (Ký, ghi rõ họ tên, chức vụ, đóng dấu)
 
 Hướng dẫn viết đơn:
-(1) Ghi tên người sử dụng đất theo Giấy chứng nhận.
-(2) Ghi số định danh cá nhân hoặc số, ngày cấp và nơi cấp hộ chiếu.
+(1) Ghi tên người sử dụng đất theo Giấy chứng nhận. Trường hợp các thửa đất gốc thuộc nhiều người sử dụng đất khác nhau thì ghi đầy đủ người sử dụng đất của các thửa đất gốc đó.
+(2) Ghi số định danh cá nhân hoặc số, ngày cấp và nơi cấp hộ chiếu. Đối với tổ chức thì ghi số, ngày ký, cơ quan ký văn bản theo quyết định thành lập hoặc giấy đăng ký kinh doanh hoặc giấy phép đầu tư.
 (3) Ghi thông tin thửa đất theo Giấy chứng nhận.
 (4) Người sử dụng đất của các thửa đất gốc cùng ký vào Đơn.
 (5) Văn phòng đăng ký đất đai/Chi nhánh Văn phòng đăng ký đất đai ghi rõ “Đủ điều kiện tách thửa đất, hợp thửa đất như bản vẽ gửi kèm” và số thứ tự thửa đất, tờ bản đồ dự kiến sau khi tách thửa đất, hợp thửa đất.`;
@@ -765,25 +779,26 @@ CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
 ĐƠN ĐỀ NGHỊ (1)
 Kính gửi: Cơ quan, người có thẩm quyền (2): ${recipientStr}
 
-1. Người đề nghị (3): ${cccdHoten}
-2. Địa chỉ/trụ sở chính: ${cccdThuongtru}
-3. Thông tin liên hệ (điện thoại, fax, email...): Điện thoại: .................... Email: ....................
-4. Địa điểm thửa đất/khu đất/khu rừng: ${landDiachi} (Thửa số: ${landThua}, Tờ bản đồ: ${landTobando})
-5. Diện tích đất (m²): ${landDientich} m²
-6. Diện tích đất chuyên trồng lúa phải nộp tiền theo quy định (m²) (nếu có): ....................
-7. Diện tích rừng (m²) (nếu có): ....................
-8. Để sử dụng vào mục đích (4): ${landMucdich}
-9. Hình thức sử dụng đất (5): Cho thuê đất thu tiền thuê đất hằng năm [x] / Giao đất có thu tiền sử dụng đất [ ]
+1. Người đề nghị (3): ${valHoten}
+2. Địa chỉ/trụ sở chính: ${valThuongtru}
+3. Thông tin liên hệ (điện thoại, fax, email...): ........................................................................
+4. Địa điểm thửa đất/khu đất/khu rừng (tại xã/phường..., tỉnh/thành phố ...): ${valDiachi}
+5. Diện tích đất (m2): ${valDientich}
+6. Diện tích đất chuyên trồng lúa phải nộp tiền theo quy định của pháp luật về đất trồng lúa (m2) (nếu có): ....................
+7. Diện tích rừng (m2) (nếu có): ....................
+8. Để sử dụng vào mục đích (4): ${valMucdich}
+9. Hình thức sử dụng đất (5): Cho thuê đất thu tiền thuê đất hằng năm [x]
 10. Thời hạn sử dụng đất: 50 năm
 11. Xác định trường hợp được miễn tiền sử dụng đất, tiền thuê đất theo quy định (nếu có)(6): .....................................................
-12. Cam kết sử dụng đất, sử dụng rừng đúng mục đích, chấp hành quy định của pháp luật về đất đai, pháp luật về lâm nghiệp; nộp đầy đủ nghĩa vụ tài chính đúng hạn.
+12. Cam kết sử dụng đất, sử dụng rừng đúng mục đích, chấp hành quy định của pháp luật về đất đai, pháp luật về lâm nghiệp, pháp luật về đất trồng lúa và pháp luật khác có liên quan; nộp tiền sử dụng đất, tiền thuê đất, tiền để nhà nước bổ sung diện tích đất chuyên trồng lúa bị mất hoặc tăng hiệu quả sử dụng đất trồng lúa (nếu có), các nghĩa vụ tài chính khác theo quy định của pháp luật (nếu có) đầy đủ, đúng hạn.
+Các cam kết khác (nếu có): ...............................................................................................
 13. Tài liệu gửi kèm (nếu có)(7): Trích đo địa chính, Dự án đầu tư.
 
                                                                   Người làm đơn (8)
                                                        (Ký và ghi rõ họ tên, đóng dấu nếu có)
 
 
-                                                              ${cccdHoten !== '...................................................' ? cccdHoten : ''}`;
+                                                              ${cccdHoten}`;
     } else if (formType === 'mau_09a_qd2604') {
         // MẪU SỐ 09A (TRANG 17 PLIV_signed.pdf)
         fullDoc = `Mẫu số 09a. Đơn đề nghị chuyển mục đích sử dụng đất
@@ -794,28 +809,30 @@ CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
 ĐƠN ĐỀ NGHỊ CHUYỂN MỤC ĐÍCH SỬ DỤNG ĐẤT
 Kính gửi: Cơ quan, người có thẩm quyền (9): ${recipientStr}
 
-1. Người đề nghị chuyển mục đích sử dụng đất (10): ${cccdHoten}
-2. Địa chỉ/trụ sở chính: ${cccdThuongtru}
-3. Thông tin liên hệ (điện thoại, fax, email...): Điện thoại: .................... Email: ....................
+1. Người đề nghị chuyển mục đích sử dụng đất (10): ${valHoten}
+2. Địa chỉ/trụ sở chính: ${valThuongtru}
+3. Thông tin liên hệ (điện thoại, fax, email...): ..................................................................
 4. Thông tin thửa đất/khu đất:
-- Địa điểm thửa đất/khu đất: ${landDiachi} (Thửa đất số: ${landThua}, Tờ bản đồ số: ${landTobando})
-- Diện tích và mục đích sử dụng hiện tại (11): ${landDientich} m², Loại đất: ${landMucdich}
+- Địa điểm thửa đất/khu đất (tại xã/phường..., tỉnh/thành phố ...): ${valDiachi}
+- Diện tích và mục đích sử dụng hiện tại (11): ${valDientich} m2, Loại đất: ${valMucdich}
 - Thời hạn sử dụng đất: Lâu dài
 - Hình thức sử dụng đất (12): Giao đất có thu tiền sử dụng đất / Công nhận QSDĐ
-- Số, ngày tháng năm ban hành văn bản của cấp có thẩm quyền: Giấy chứng nhận QSDĐ số ${landSophathanh} cấp ngày ${landNgayCap}.
+- Số, ngày tháng năm ban hành văn bản của cấp có thẩm quyền về thửa đất/khu đất: Giấy chứng nhận QSDĐ số ${valSophathanh} cấp ngày ${valNgayCap}.
 5. Nội dung đề nghị chuyển mục đích sử dụng đất:
-- Diện tích và mục đích sử dụng đất đề nghị chuyển: Chuyển ${landDientich} m² sang Đất ở tại nông thôn (ONT) / Đất ở tại đô thị (ODT).
+- Diện tích và mục đích sử dụng đất đề nghị chuyển: Chuyển ${valDientich} m2 sang Đất ở tại nông thôn (ONT) / Đất ở tại đô thị (ODT).
+- Diện tích đất chuyên trồng lúa phải nộp tiền theo quy định (m2) (nếu có): ..........................................................
 - Thời hạn sử dụng đất: Ổn định lâu dài
 - Hình thức sử dụng đất (13): Giao đất có thu tiền sử dụng đất.
 6. Xác định trường hợp được miễn tiền sử dụng đất, tiền thuê đất theo quy định (nếu có)(14): .....................................................
-7. Cam kết sử dụng đất đúng mục đích, chấp hành quy định của pháp luật về đất đai; nộp tiền sử dụng đất đầy đủ, đúng hạn.
-8. Tài liệu gửi kèm (nếu có) (15): Bản gốc Giấy chứng nhận QSDĐ số ${landSophathanh}, Bản sao Thẻ CCCD.
+7. Cam kết sử dụng đất đúng mục đích, chấp hành quy định của pháp luật về đất đai, pháp luật về đất trồng lúa; nộp tiền sử dụng đất, tiền thuê đất, tiền để nhà nước bổ sung diện tích đất chuyên trồng lúa bị mất hoặc tăng hiệu quả sử dụng đất trồng lúa (nếu có), các nghĩa vụ tài chính khác theo quy định của pháp luật (nếu có) đầy đủ, đúng hạn.
+Các cam kết khác (nếu có): ...............................................................................................
+8. Tài liệu gửi kèm (nếu có) (15): Bản gốc Giấy chứng nhận QSDĐ số ${valSophathanh}, Bản sao Thẻ CCCD.
 
                                                                   Người làm đơn (16)
                                                        (Ký và ghi rõ họ tên, đóng dấu nếu có)
 
 
-                                                              ${cccdHoten !== '...................................................' ? cccdHoten : ''}`;
+                                                              ${cccdHoten}`;
     } else if (formType === 'mau_10_qd2604') {
         // MẪU SỐ 10 (TRANG 19 PLIV_signed.pdf)
         fullDoc = `Mẫu số 10. Đơn đề nghị giao đất; cho thuê đất đối với trường hợp giao đất, cho thuê đất thông qua đấu giá quyền sử dụng đất
@@ -826,12 +843,12 @@ CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
 ĐƠN ĐỀ NGHỊ (20)
 Kính gửi: Cơ quan, người có thẩm quyền (21): ${recipientStr}
 
-1. Người đề nghị (22): ${cccdHoten}
-2. Địa chỉ/trụ sở chính: ${cccdThuongtru}
+1. Người đề nghị (22): ${valHoten}
+2. Địa chỉ/trụ sở chính: ${valThuongtru}
 3. Thông tin liên hệ (điện thoại, fax, email...): .........................................................................................
-4. Địa điểm thửa đất/khu đất/khu rừng: ${landDiachi} (Thửa số: ${landThua}, Tờ bản đồ: ${landTobando})
-5. Diện tích đất (m²): ${landDientich} m²
-6. Để sử dụng vào mục đích (23): ${landMucdich}
+4. Địa điểm thửa đất/khu đất/khu rừng: ${valDiachi}
+5. Diện tích đất (m2): ${valDientich}
+6. Để sử dụng vào mục đích (23): ${valMucdich}
 7. Hình thức sử dụng đất (24): Giao đất có thu tiền sử dụng đất / Cho thuê đất thu tiền một lần
 8. Thời hạn sử dụng đất: Ổn định lâu dài / 50 năm
 9. Cam kết sử dụng đất đúng mục đích, nộp tiền trúng đấu giá quyền sử dụng đất đầy đủ, đúng hạn.
@@ -841,7 +858,7 @@ Kính gửi: Cơ quan, người có thẩm quyền (21): ${recipientStr}
                                                        (Ký và ghi rõ họ tên, đóng dấu nếu có)
 
 
-                                                              ${cccdHoten !== '...................................................' ? cccdHoten : ''}`;
+                                                              ${cccdHoten}`;
     } else if (formType === 'mau_11_qd2604') {
         // MẪU SỐ 11 (TRANG 20 PLIV_signed.pdf)
         fullDoc = `Mẫu số 11. Văn bản đề nghị miễn, giảm tiền thuê đất, tiền sử dụng đất
@@ -852,11 +869,11 @@ CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
 VĂN BẢN ĐỀ NGHỊ MIỄN, GIẢM TIỀN SỬ DỤNG ĐẤT, TIỀN THUÊ ĐẤT
 Kính gửi: Cơ quan, người có thẩm quyền (27): ${recipientStr}
 
-1. Người đề nghị (28): ${cccdHoten}
-2. Địa chỉ/trụ sở chính: ${cccdThuongtru}
+1. Người đề nghị (28): ${valHoten}
+2. Địa chỉ/trụ sở chính: ${valThuongtru}
 3. Thông tin liên hệ: .................................................................................................................
-4. Địa điểm thửa đất: ${landDiachi} (Thửa số: ${landThua}, Tờ bản đồ: ${landTobando})
-5. Mục đích sử dụng đất (29): ${landMucdich}
+4. Địa điểm thửa đất: ${valDiachi}
+5. Mục đích sử dụng đất (29): ${valMucdich}
 6. Hình thức sử dụng đất (30): Giao đất có thu tiền sử dụng đất / Thuê đất
 7. Thời hạn sử dụng đất: Ổn định lâu dài
 8. Miễn tiền sử dụng đất, tiền thuê đất: Đối tượng, lý do miễn: .....................................................
@@ -868,7 +885,7 @@ Kính gửi: Cơ quan, người có thẩm quyền (27): ${recipientStr}
                                                        (Ký và ghi rõ họ tên, đóng dấu nếu có)
 
 
-                                                              ${cccdHoten !== '...................................................' ? cccdHoten : ''}`;
+                                                              ${cccdHoten}`;
     } else if (formType === 'mau_15_qd2604') {
         // MẪU SỐ 15 (TRANG 27-30 PLIV_signed.pdf)
         fullDoc = `Mẫu số 15. Phiếu chuyển thông tin để xác định nghĩa vụ tài chính về đất đai
@@ -890,18 +907,18 @@ I. THÔNG TIN VỀ HỒ SƠ THỦ TỤC
 
 II. THÔNG TIN VỀ NGƯỜI SỬ DỤNG ĐẤT, CHỦ SỞ HỮU TÀI SẢN GẮN LIỀN VỚI ĐẤT
 1. THÔNG TIN CHUNG VỀ NGƯỜI SỬ DỤNG ĐẤT / NGƯỜI NHẬN CHUYỂN QUYỀN:
-1. Tên (4): ${cccdHoten}
-2. Địa chỉ (5): ${cccdThuongtru}
-3. Mã số thuế / Số định danh cá nhân (6): ${cccdSo} ; Ngày sinh: ${cccdNgaySinh}
+1. Tên (4): ${valHoten}
+2. Địa chỉ (5): ${valThuongtru}
+3. Mã số thuế / Số định danh cá nhân (6): ${valSo} ; Ngày sinh: ${valNgaySinh}
 
 III. THÔNG TIN VỀ ĐẤT
-1. Thửa đất số (8): ${landThua} ; Tờ bản đồ số: ${landTobando}
-2. Địa chỉ tại: ${landDiachi}
-3. Diện tích thửa đất: ${landDientich} m² (Sử dụng riêng: ${landDientich} m²)
+1. Thửa đất số (8): ${valThua} ; Tờ bản đồ số: ${valTobando}
+2. Địa chỉ tại: ${valDiachi}
+3. Diện tích thửa đất: ${valDientich} m2 (Sử dụng riêng: ${valDientich} m2)
 4. Nguồn gốc sử dụng đất: Sử dụng đất ổn định, nhận chuyển nhượng / Cấp GCN lần đầu
-5. Mục đích sử dụng đất (9): ${landMucdich}
+5. Mục đích sử dụng đất (9): ${valMucdich}
 6. Thời hạn sử dụng đất: Ổn định lâu dài [x]
-7. Giấy tờ về quyền sử dụng đất (11): GCN QSDĐ số ${landSophathanh} cấp ngày ${landNgayCap}.
+7. Giấy tờ về quyền sử dụng đất (11): GCN QSDĐ số ${valSophathanh} cấp ngày ${valNgayCap}.
 
                                                                   THỦ TRƯỞNG ĐƠN VỊ
                                                               (Ký, ghi rõ họ tên, đóng dấu)`;
@@ -915,15 +932,15 @@ CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
 ĐƠN ĐỀ NGHỊ CHUYỂN HÌNH THỨC SỬ DỤNG ĐẤT
 Kính gửi: Cơ quan, người có thẩm quyền (56): ${recipientStr}
 
-1. Người đề nghị (57): ${cccdHoten}
-2. Địa chỉ/trụ sở chính: ${cccdThuongtru}
+1. Người đề nghị (57): ${valHoten}
+2. Địa chỉ/trụ sở chính: ${valThuongtru}
 3. Thông tin liên hệ: .................................................................................................................
 4. Thông tin thửa đất/khu đất:
-- Địa điểm: ${landDiachi} (Thửa đất số: ${landThua}, Tờ bản đồ số: ${landTobando})
-- Diện tích: ${landDientich} m², Mục đích hiện tại: ${landMucdich}
+- Địa điểm: ${valDiachi}
+- Diện tích: ${valDientich} m2, Mục đích hiện tại: ${valMucdich}
 - Hình thức sử dụng đất hiện tại (59): Thuê đất trả tiền hằng năm
 5. Nội dung đề nghị chuyển hình thức sử dụng đất:
-- Diện tích (m²): ${landDientich} m²
+- Diện tích (m2): ${valDientich}
 - Chuyển từ hình thức: Thuê đất trả tiền hằng năm sang Thuê đất trả tiền một lần cho cả thời gian thuê (hoặc Giao đất có thu tiền).
 6. Cam kết sử dụng đất đúng mục đích và nộp đầy đủ nghĩa vụ tài chính đúng hạn.
 
@@ -931,7 +948,7 @@ Kính gửi: Cơ quan, người có thẩm quyền (56): ${recipientStr}
                                                        (Ký và ghi rõ họ tên, đóng dấu nếu có)
 
 
-                                                              ${cccdHoten !== '...................................................' ? cccdHoten : ''}`;
+                                                              ${cccdHoten}`;
     } else if (formType === 'mau_17_qd2604') {
         // MẪU SỐ 17 (TRANG 35 PLIV_signed.pdf)
         fullDoc = `Mẫu số 17. Đơn đề nghị gia hạn sử dụng đất
@@ -943,14 +960,14 @@ ____________________________________
 ĐƠN ĐỀ NGHỊ GIA HẠN SỬ DỤNG ĐẤT
 Kính gửi: Cơ quan, người có thẩm quyền (1): ${recipientStr}
 
-1. Người đề nghị (2): ${cccdHoten}
-2. Địa chỉ/trụ sở chính: ${cccdThuongtru}
+1. Người đề nghị (2): ${valHoten}
+2. Địa chỉ/trụ sở chính: ${valThuongtru}
 3. Thông tin về thửa đất/khu đất:
-a) Thửa đất số: ${landThua} ; 4.2. Tờ bản đồ số: ${landTobando}
-b) Diện tích đất (m²): ${landDientich} m²
-c) Mục đích sử dụng đất (3): ${landMucdich}
-d) Địa điểm: ${landDiachi}
-g) GCN đã cấp: Số phát hành: ${landSophathanh} ; Số vào sổ: ${landSovaoso}, ngày cấp: ${landNgayCap}.
+a) Thửa đất số: ${valThua} ; 4.2. Tờ bản đồ số: ${valTobando}
+b) Diện tích đất (m2): ${valDientich}
+c) Mục đích sử dụng đất (3): ${valMucdich}
+d) Địa điểm: ${valDiachi}
+g) GCN đã cấp: Số phát hành: ${valSophathanh} ; Số vào sổ: ${valSovaoso}, ngày cấp: ${valNgayCap}.
 5. Nội dung đề nghị gia hạn: Thời gian gia hạn: .......... năm (đến ngày ...../...../..........)
 Lý do gia hạn: Tiếp tục sử dụng đất đúng mục đích, phục vụ sản xuất kinh doanh / đời sống ổn định.
 
@@ -958,7 +975,7 @@ Lý do gia hạn: Tiếp tục sử dụng đất đúng mục đích, phục v�
                                                        (Ký và ghi rõ họ tên, đóng dấu nếu có)
 
 
-                                                              ${cccdHoten !== '...................................................' ? cccdHoten : ''}`;
+                                                              ${cccdHoten}`;
     } else if (formType === 'mau_18_qd2604') {
         // MẪU SỐ 18 (TRANG 36 PLIV_signed.pdf)
         fullDoc = `Mẫu số 18. Đơn đề nghị điều chỉnh thời hạn sử dụng đất của dự án đầu tư
@@ -971,17 +988,17 @@ CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
 Điều chỉnh thời hạn sử dụng đất của dự án đầu tư
 Kính gửi: Cơ quan, người có thẩm quyền (1): ${recipientStr}
 
-1. Người sử dụng đất (2): ${cccdHoten}
-2. Địa chỉ/trụ sở chính: ${cccdThuongtru}
-3. Thông tin về thửa đất đang sử dụng: Thửa số: ${landThua} ; Tờ bản đồ: ${landTobando} ; Diện tích: ${landDientich} m² tại ${landDiachi}.
-4. GCN đã cấp: Số phát hành: ${landSophathanh} ; Ngày cấp: ${landNgayCap}.
+1. Người sử dụng đất (2): ${valHoten}
+2. Địa chỉ/trụ sở chính: ${valThuongtru}
+3. Thông tin về thửa đất đang sử dụng: Thửa số: ${valThua} ; Tờ bản đồ: ${valTobando} ; Diện tích: ${valDientich} m2 tại ${valDiachi}.
+4. GCN đã cấp: Số phát hành: ${valSophathanh} ; Ngày cấp: ${valNgayCap}.
 5. Nội dung xin điều chỉnh thời hạn sử dụng đất: Phù hợp theo Quyết định điều chỉnh tiến độ dự án đầu tư.
 
                                                                   Người làm đơn
                                                        (Ký và ghi rõ họ tên, đóng dấu nếu có)
 
 
-                                                              ${cccdHoten !== '...................................................' ? cccdHoten : ''}`;
+                                                              ${cccdHoten}`;
     } else if (formType === 'mau_23_qd2604') {
         // MẪU SỐ 23 (TRANG 45-46 PLIV_signed.pdf)
         fullDoc = `Mẫu số 23. Đơn đề nghị điều chỉnh quyết định giao đất, cho thuê đất, cho phép chuyển mục đích sử dụng đất
@@ -993,16 +1010,16 @@ _______________________________________________
 ĐƠN ĐỀ NGHỊ ĐIỀU CHỈNH QUYẾT ĐỊNH (109)
 Kính gửi: Cơ quan, người có thẩm quyền (110): ${recipientStr}
 
-1. Người đề nghị (111): ${cccdHoten}
-2. Địa chỉ/trụ sở chính: ${cccdThuongtru}
-3. Thông tin thửa đất: Thửa số ${landThua}, Tờ bản đồ ${landTobando}, Diện tích: ${landDientich} m² tại ${landDiachi}.
+1. Người đề nghị (111): ${valHoten}
+2. Địa chỉ/trụ sở chính: ${valThuongtru}
+3. Thông tin thửa đất: Thửa số ${valThua}, Tờ bản đồ ${valTobando}, Diện tích: ${valDientich} m2 tại ${valDiachi}.
 4. Lý do đề nghị điều chỉnh: Điều chỉnh ranh giới, diện tích thửa đất / sửa chữa thông tin sai sót kỹ thuật theo kết quả đo đạc địa chính mới nhất.
 
                                                                   Người làm đơn
                                                        (Ký và ghi rõ họ tên, đóng dấu nếu có)
 
 
-                                                              ${cccdHoten !== '...................................................' ? cccdHoten : ''}`;
+                                                              ${cccdHoten}`;
     } else if (formType === 'mau_33_qd2604') {
         // MẪU SỐ 33 (TRANG 76 PLIV_signed.pdf)
         fullDoc = `Mẫu số 33. Đơn đề nghị sử dụng đất kết hợp đa mục đích
@@ -1014,16 +1031,16 @@ _____________________________________
 ĐƠN ĐỀ NGHỊ SỬ DỤNG ĐẤT KẾT HỢP ĐA MỤC ĐÍCH
 Kính gửi: Cơ quan, người có thẩm quyền (1): ${recipientStr}
 
-1. Người sử dụng đất (2): ${cccdHoten}
-2. Địa chỉ/trụ sở chính: ${cccdThuongtru}
-3. Thông tin về thửa đất: Thửa đất số: ${landThua} ; Tờ bản đồ số: ${landTobando} ; Diện tích: ${landDientich} m² tại ${landDiachi}.
+1. Người sử dụng đất (2): ${valHoten}
+2. Địa chỉ/trụ sở chính: ${valThuongtru}
+3. Thông tin về thửa đất: Thửa đất số: ${valThua} ; Tờ bản đồ số: ${valTobando} ; Diện tích: ${valDientich} m2 tại ${valDiachi}.
 4. Nội dung đề nghị sử dụng đất kết hợp: Sử dụng đất nông nghiệp kết hợp mục đích thương mại, dịch vụ, du lịch sinh thái (Điều 218 Luật Đất đai 2024).
 
                                                                   Người làm đơn
                                                        (Ký và ghi rõ họ tên, đóng dấu nếu có)
 
 
-                                                              ${cccdHoten !== '...................................................' ? cccdHoten : ''}`;
+                                                              ${cccdHoten}`;
     } else if (formType === 'mau_33a_qd2604') {
         // MẪU SỐ 33A (TRANG 77 PLIV_signed.pdf)
         fullDoc = `Mẫu số 33a. Đơn đề nghị gia hạn phương án sử dụng đất kết hợp đa mục đích
@@ -1035,16 +1052,16 @@ _____________________________________
 ĐƠN ĐỀ NGHỊ GIA HẠN PHƯƠNG ÁN SỬ DỤNG ĐẤT KẾT HỢP ĐA MỤC ĐÍCH
 Kính gửi: Cơ quan, người có thẩm quyền (1): ${recipientStr}
 
-1. Người sử dụng đất (2): ${cccdHoten}
-2. Địa chỉ/trụ sở chính: ${cccdThuongtru}
-3. Thông tin thửa đất: Thửa đất số: ${landThua} ; Tờ bản đồ số: ${landTobando} ; Diện tích: ${landDientich} m² tại ${landDiachi}.
+1. Người sử dụng đất (2): ${valHoten}
+2. Địa chỉ/trụ sở chính: ${valThuongtru}
+3. Thông tin thửa đất: Thửa đất số: ${valThua} ; Tờ bản đồ số: ${valTobando} ; Diện tích: ${valDientich} m2 tại ${valDiachi}.
 4. Nội dung đề nghị: Gia hạn thời gian thực hiện phương án sử dụng đất đa mục đích đã được phê duyệt.
 
                                                                   Người làm đơn
                                                        (Ký và ghi rõ họ tên, đóng dấu nếu có)
 
 
-                                                              ${cccdHoten !== '...................................................' ? cccdHoten : ''}`;
+                                                              ${cccdHoten}`;
     } else if (formType === 'mau_37_qd2604') {
         // MẪU SỐ 37 (TRANG 86-88 PLIV_signed.pdf)
         fullDoc = `Mẫu số 37. Hợp đồng thuê đất
@@ -1061,8 +1078,8 @@ Căn cứ Quyết định cho thuê đất của Ủy ban nhân dân cấp có t
 
 Hôm nay, ngày... tháng... năm... tại ........................................................................................, chúng tôi gồm:
 I. BÊN CHO THUÊ ĐẤT: Cơ quan có thẩm quyền tỉnh Thanh Hóa.
-II. BÊN THUÊ ĐẤT: ${cccdHoten}, CCCD/MST: ${cccdSo}, Địa chỉ: ${cccdThuongtru}.
-III. ĐIỀU KHOẢN HỢP ĐỒNG: Cho thuê thửa đất số ${landThua}, Tờ bản đồ ${landTobando}, Diện tích: ${landDientich} m² tại ${landDiachi}.
+II. BÊN THUÊ ĐẤT: ${valHoten}, CCCD/MST: ${valSo}, Địa chỉ: ${valThuongtru}.
+III. ĐIỀU KHOẢN HỢP ĐỒNG: Cho thuê thửa đất số ${valThua}, Tờ bản đồ ${valTobando}, Diện tích: ${valDientich} m2 tại ${valDiachi}.
 
             BÊN THUÊ ĐẤT                                              BÊN CHO THUÊ ĐẤT
 (Ký và ghi rõ họ tên, đóng dấu nếu có)                     (Ký và ghi rõ họ tên, đóng dấu)`;
@@ -1092,7 +1109,7 @@ I. THÔNG TIN NGƯỜI CHUYỂN NHƯỢNG, NHẬN THỪA KẾ, QUÀ TẶNG
 +-----+----------------------+---------------------+---------------+---------------------------------+------------+-------+--------------------+
 | [04.1]|[04.2]              | [04.3]              | [04.4]        | [04.5] | [04.6] | [04.7]        | [04.8]     | [04.9]| [04.10]            |
 +-----+----------------------+---------------------+---------------+---------------------------------+------------+-------+--------------------+
-|  1  | ${cccdHoten.padEnd(20)} | ${cccdSo.padEnd(19)} | ${cccdNgaySinh.padEnd(13)} |                                 |            |       | 100%               |
+|  1  | ${valHoten.padEnd(20)} | ${valSo.padEnd(19)} | ${valNgaySinh.padEnd(13)} |                                 |            |       | 100%               |
 +-----+----------------------+---------------------+---------------+---------------------------------+------------+-------+--------------------+
 
 II. THÔNG TIN NGƯỜI NHẬN CHUYỂN NHƯỢNG, NHẬN THỪA KẾ, QUÀ TẶNG
@@ -1113,18 +1130,18 @@ III. LOẠI BẤT ĐỘNG SẢN CHUYỂN NHƯỢNG, NHẬN THỪA KẾ, QUÀ T�
 IV. ĐẶC ĐIỂM BẤT ĐỘNG SẢN CHUYỂN NHƯỢNG, NHẬN THỪA KẾ, QUÀ TẶNG:
 [16] Giấy tờ về quyền sử dụng đất:
 [16.1] Loại giấy tờ: Giấy chứng nhận quyền sử dụng đất
-[16.2] Số: ${landSophathanh} ; [16.3] Nơi cấp: ${landNoiCap} ; [16.4] Ngày cấp: ${landNgayCap}
+[16.2] Số: ${valSophathanh} ; [16.3] Nơi cấp: Chi nhánh VPĐKĐĐ ; [16.4] Ngày cấp: ${valNgayCap}
 [18] Hợp đồng chuyển nhượng trao đổi bất động sản: Số .................... Nơi lập: VP Công chứng .................... Ngày lập: ...../...../..........
 [20] Thông tin về đất:
-[20.1] Thửa đất số: ${landThua} ; [20.2] Tờ bản đồ số: ${landTobando}
-[20.3] Địa chỉ: ${landDiachi}
+[20.1] Thửa đất số: ${valThua} ; [20.2] Tờ bản đồ số: ${valTobando}
+[20.3] Địa chỉ: ${valDiachi}
 [20.6] Loại đất, vị trí thửa đất:
 +-----+--------------------+--------------------+---------+----------------------+------------------+------------------+
-| STT | Đường              | Đoạn đường         | Vị trí  | Loại đất             | Hệ số (nếu có)   | Diện tích (m²)   |
+| STT | Đường              | Đoạn đường         | Vị trí  | Loại đất             | Hệ số (nếu có)   | Diện tích (m2)   |
 +-----+--------------------+--------------------+---------+----------------------+------------------+------------------+
 | (1) | (2)                | (3)                | (4)     | (5)                  | (6)              | (7)              |
 +-----+--------------------+--------------------+---------+----------------------+------------------+------------------+
-|  1  |                    |                    |         | ${landMucdich.padEnd(20)} |                  | ${landDientich.padEnd(16)} |
+|  1  |                    |                    |         | ${valMucdich.padEnd(20)} |                  | ${valDientich.padEnd(16)} |
 +-----+--------------------+--------------------+---------+----------------------+------------------+------------------+
 [20.7] Nguồn gốc đất: Nhận chuyển nhượng / Cấp Giấy chứng nhận lần đầu
 [20.8] Thời hạn sử dụng đất: - Ổn định lâu dài [x]   - Có thời hạn: ..... năm
@@ -1136,7 +1153,7 @@ V. THU NHẬP TỪ CHUYỂN NHƯỢNG BẤT ĐỘNG SẢN / THỪA KẾ / QUÀ T
 
 VI. HỒ SƠ KÈM THEO GỒM:
 - Hợp đồng chuyển nhượng quyền sử dụng đất, tài sản gắn liền với đất;
-- Bản sao Giấy chứng nhận quyền sử dụng đất số ${landSophathanh};
+- Bản sao Giấy chứng nhận quyền sử dụng đất số ${valSophathanh};
 - Bản sao Thẻ Căn cước công dân của các bên tham gia giao dịch.
 
 Tôi cam đoan những nội dung kê khai là đúng và chịu trách nhiệm trước pháp luật về những nội dung đã khai./.
@@ -1165,12 +1182,12 @@ Chứng chỉ NV thuế số: ...................                     (Ký, ghi 
    [02] Lần đầu: [x]                       [03] Bổ sung lần thứ:……
 
 1. Người nộp thuế:      
-[04] Họ và tên: ${cccdHoten}
-[05] Ngày, tháng, năm sinh: ${cccdNgaySinh}
+[04] Họ và tên: ${valHoten}
+[05] Ngày, tháng, năm sinh: ${valNgaySinh}
 [06] Mã số thuế: .....................................................................................................................
-[07] Số định danh cá nhân/Số hộ chiếu: ${cccdSo}
-[08] Địa chỉ cư trú: ${cccdThuongtru}
-[09] Địa chỉ nhận thông báo thuế: ${cccdThuongtru}
+[07] Số định danh cá nhân/Số hộ chiếu: ${valSo}
+[08] Địa chỉ cư trú: ${valThuongtru}
+[09] Địa chỉ nhận thông báo thuế: ${valThuongtru}
 [10] Điện thoại: ......................................................................................................................
 
 3. Thửa đất chịu thuế: 
@@ -1178,18 +1195,18 @@ Chứng chỉ NV thuế số: ...................                     (Ký, ghi 
 +-----+----------------------+---------------------+---------------------------------+--------------------+
 | STT |      Họ và tên       | Mã số thuế          | Số định danh cá nhân/Hộ chiếu   | Tỷ lệ              |
 +-----+----------------------+---------------------+---------------------------------+--------------------+
-|  1  | ${cccdHoten.padEnd(20)} |                     | ${cccdSo.padEnd(31)} | 100%               |
+|  1  | ${valHoten.padEnd(20)} |                     | ${valSo.padEnd(31)} | 100%               |
 +-----+----------------------+---------------------+---------------------------------+--------------------+
 [15] Nguồn gốc thửa đất: Sử dụng đất ổn định, nhận chuyển nhượng / cấp Giấy chứng nhận lần đầu
-[16] Địa chỉ thửa đất: ${landDiachi}
+[16] Địa chỉ thửa đất: ${valDiachi}
 [17] Là thửa đất duy nhất: [x]
-[18] Đăng ký kê khai tổng hợp tại: ${landDiachi}
+[18] Đăng ký kê khai tổng hợp tại: ${valDiachi}
 [19] Đã có giấy chứng nhận: [x]
-[19.1] Số giấy chứng nhận: ${landSophathanh}            [19.2] Ngày cấp: ${landNgayCap}
-[19.3] Thửa đất số: ${landThua}                         [19.4] Tờ bản đồ số: ${landTobando}
-[19.5] Diện tích: ${landDientich} m²                    [19.6] Loại đất/ Mục đích sử dụng: ${landMucdich}
-[20] Tổng diện tích thực tế sử dụng cho mục đích phi nông nghiệp: ${landDientich} m²
-[20.1] Diện tích đất sử dụng đúng mục đích: ${landDientich} m²
+[19.1] Số giấy chứng nhận: ${valSophathanh}            [19.2] Ngày cấp: ${valNgayCap}
+[19.3] Thửa đất số: ${valThua}                         [19.4] Tờ bản đồ số: ${valTobando}
+[19.5] Diện tích: ${valDientich} m2                    [19.6] Loại đất/ Mục đích sử dụng: ${valMucdich}
+[20] Tổng diện tích thực tế sử dụng cho mục đích phi nông nghiệp: ${valDientich} m2
+[20.1] Diện tích đất sử dụng đúng mục đích: ${valDientich} m2
 
 Tôi cam đoan số liệu khai trên là đúng và chịu trách nhiệm trước pháp luật về số liệu đã khai./.
 
@@ -1197,46 +1214,6 @@ NGƯỜI TRỰC TIẾP THỰC HIỆN                                     ${dateS
 DỊCH VỤ LÀM THỦ TỤC VỀ THUẾ                                  NGƯỜI NỘP THUẾ hoặc
 Họ và tên: ..............................                     ĐẠI DIỆN HỢP PHÁP CỦA NGƯỜI NỘP THUẾ
 Chứng chỉ NV thuế số: ...................                     (Ký, ghi rõ họ tên; chức vụ và đóng dấu)`;
-    } else if (formType === 'tk_phi_nong_nghiep_to_chuc') {
-        // MẪU 02/TK-SDDPNN (TRANG 94-96 PLIV_signed.pdf)
-        fullDoc = `                                                  +-----------------------------------------------------------+
-                                                  | Mẫu số: 02/TK-SDDPNN                                      |
-                                                  | (Kèm theo Thông tư số 89/2026/TT-BTC                      |
-                                                  | ngày 30 tháng 6 năm 2026 của Bộ trưởng                     |
-                                                  | Bộ Tài chính)                                             |
-                                                  +-----------------------------------------------------------+
-
-                                 CỘNG HOÀ XÃ HỘI CHỦ NGHĨA VIỆT NAM
-                                      Độc lập - Tự do - Hạnh phúc
-                                             ---------------
-
-                                TỜ KHAI THUẾ SỬ DỤNG ĐẤT PHI NÔNG NGHIỆP
-                                        (Áp dụng đối với tổ chức)
-
-   [01] Kỳ tính thuế: Năm ${dateYear}
-   [02] Lần đầu: [x]                       [03] Bổ sung lần thứ:……
-
-1. Người nộp thuế:
-[04] Tên người nộp thuế: ${cccdHoten}
-[05] Mã số thuế: ${cccdSo}
-[06] Địa chỉ trụ sở: ${cccdThuongtru}
-
-3. Thửa đất chịu thuế:
-[10] Thông tin người sử dụng đất: ${cccdHoten}
-[11] Nguồn gốc thửa đất: Nhà nước giao đất có thu tiền sử dụng đất / thuê đất
-[12] Địa chỉ thửa đất: ${landDiachi}
-[13] Đã có giấy chứng nhận: [x]
-[13.1] Số GCN: ${landSophathanh}            [13.2] Ngày cấp: ${landNgayCap}
-[13.3] Thửa đất số: ${landThua}             [13.4] Tờ bản đồ số: ${landTobando}
-[13.5] Diện tích: ${landDientich} m²        [13.6] Loại đất/Mục đích: ${landMucdich}
-[17] Diện tích đất thực tế sử dụng: ${landDientich} m²
-[20] Số thuế phải nộp: ................................................... đồng
-
-Tôi cam đoan số liệu khai trên là đúng và chịu trách nhiệm trước pháp luật về số liệu đã khai./.
-
-                                                                  ${dateStr}
-                                                                  NGƯỜI NỘP THUẾ
-                                                              (Ký, ghi rõ họ tên, đóng dấu)`;
     } else if (formType === 'tk_le_phi_truoc_ba') {
         // MẪU 01/LPTB (TRANG 89-90 PLIV_signed.pdf)
         fullDoc = `                                                  +-----------------------------------------------------------+
@@ -1256,59 +1233,21 @@ Tôi cam đoan số liệu khai trên là đúng và chịu trách nhiệm trư�
 [01] Kỳ tính thuế: Theo từng lần phát sinh ngày ..... tháng ..... năm ${dateYear}
 [02] Lần đầu: [x]              [03] Bổ sung lần thứ:……
 
-[04] Người nộp thuế: ${cccdHoten}
-[05] Ngày, tháng, năm sinh: ${cccdNgaySinh}
+[04] Người nộp thuế: ${valHoten}
+[05] Ngày, tháng, năm sinh: ${valNgaySinh}
 [06] Mã số thuế: ......................................................................................................................
-[07] Số định danh cá nhân/Số hộ chiếu: ${cccdSo}
-[08] Địa chỉ: ${cccdThuongtru}
+[07] Số định danh cá nhân/Số hộ chiếu: ${valSo}
+[08] Địa chỉ: ${valThuongtru}
 [09] Xã/phường/đặc khu: .................................. [10] Tỉnh/Thành phố: Thanh Hóa
 
 ĐẶC ĐIỂM NHÀ ĐẤT:
 1. Đất:
-1.1. Thửa đất số (Số hiệu thửa đất): ${landThua} ; Tờ bản đồ số: ${landTobando}
-1.2. Địa chỉ thửa đất: ${landDiachi}
-1.4. Mục đích sử dụng đất: ${landMucdich}
-1.5. Diện tích (m²): ${landDientich} m²
+1.1. Thửa đất số (Số hiệu thửa đất): ${valThua} ; Tờ bản đồ số: ${valTobando}
+1.2. Địa chỉ thửa đất: ${valDiachi}
+1.4. Mục đích sử dụng đất: ${valMucdich}
+1.5. Diện tích (m2): ${valDientich} m2
 1.6. Nguồn gốc nhà đất: Nhận chuyển nhượng / Cấp Giấy chứng nhận lần đầu
-- Giấy chứng nhận quyền sử dụng đất số phát hành: ${landSophathanh} ; Số vào sổ: ${landSovaoso} do ${landNoiCap} cấp ngày ${landNgayCap}.
-
-Tôi cam đoan số liệu khai trên là đúng và chịu trách nhiệm trước pháp luật về số liệu đã khai./.
-
-                                                                  ${dateStr}
-                                                                  NGƯỜI NỘP THUẾ
-                                                              (Ký, ghi rõ họ tên, đóng dấu)`;
-    } else if (formType === 'tk_tndn') {
-        // MẪU 02/TNDN (TRANG 97-98 PLIV_signed.pdf)
-        fullDoc = `                                                  +-----------------------------------------------------------+
-                                                  | Mẫu số: 02/TNDN                                           |
-                                                  | (Kèm theo Thông tư số 89/2026/TT-BTC                      |
-                                                  | ngày 30 tháng 6 năm 2026 của Bộ trưởng                     |
-                                                  | Bộ Tài chính)                                             |
-                                                  +-----------------------------------------------------------+
-
-                                 CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
-                                      Độc lập - Tự do - Hạnh phúc
-                                             ---------------
-
-                               TỜ KHAI THUẾ THU NHẬP DOANH NGHIỆP
-            (Áp dụng đối với hoạt động chuyển nhượng bất động sản, tài sản khác theo từng lần phát sinh)
-
-   [x] Bất động sản                                   [ ] Tài sản khác
-
-[01] Kỳ tính thuế: Từng lần phát sinh ngày ..... tháng ..... năm ${dateYear}
-[02] Lần đầu: [x]                                    [03] Bổ sung lần thứ:……
-
-1. Bên chuyển nhượng: ${cccdHoten}, MST: ${cccdSo}
-2. Bên nhận chuyển nhượng: ............................................................................................
-3. Địa chỉ BĐS chuyển nhượng: ${landDiachi} (Thửa số: ${landThua}, Tờ bản đồ: ${landTobando})
-
-STT    Chỉ tiêu                                              Mã chỉ tiêu    Số tiền (VNĐ)
-(1)    (2)                                                   (3)            (4)
-1      Doanh thu từ hoạt động chuyển nhượng                  [16]           ....................
-2      Chi phí từ hoạt động chuyển nhượng                    [17]           ....................
-3      Thu nhập từ hoạt động chuyển nhượng ([24]=[16]-[17])  [24]           ....................
-4      Thuế suất thuế TNDN                                   [25]           20%
-5      Thuế TNDN phải nộp ([26]=[24] x [25])                 [26]           ....................
+- Giấy chứng nhận quyền sử dụng đất số phát hành: ${valSophathanh} ; Số vào sổ: ${valSovaoso} do Chi nhánh VPĐKĐĐ cấp ngày ${valNgayCap}.
 
 Tôi cam đoan số liệu khai trên là đúng và chịu trách nhiệm trước pháp luật về số liệu đã khai./.
 
@@ -1326,9 +1265,7 @@ Tôi cam đoan số liệu khai trên là đúng và chịu trách nhiệm trư�
     if (qrcodeDiv) {
         qrcodeDiv.innerHTML = '';
         try {
-            const cleanName = cccdHoten.includes('.') ? '' : cccdHoten;
-            const cleanCccd = cccdSo.includes('.') ? '' : cccdSo;
-            const qrText = `PLIV QĐ 2604/QĐ-VP THANH HOA | MAU: ${formType} | HO TEN: ${cleanName} | CCCD: ${cleanCccd} | THUA: ${landThua} | TBD: ${landTobando}`;
+            const qrText = `PLIV QĐ 2604/QĐ-VP THANH HOA | MAU: ${formType} | HO TEN: ${cccdHoten} | CCCD: ${cccdSo} | THUA: ${landThua} | TBD: ${landTobando}`;
             new QRCode(qrcodeDiv, {
                 text: qrText.substring(0, 150),
                 width: 90,
@@ -1341,6 +1278,9 @@ Tôi cam đoan số liệu khai trên là đúng và chịu trách nhiệm trư�
     }
 }
 
+// ============================================================
+// XUẤT FILE WORD GIỮ NGUYÊN 100% NỘI DUNG VĂN BẢN VÀ THỂ THỨC (KHÔNG CÓ BẢNG Ô THỪA)
+// ============================================================
 function exportToWord() {
     const formType = document.getElementById('selectFormType')?.value || 'mau_25_qd2604';
     const formOutputEl = document.getElementById('formOutputText');
@@ -1356,7 +1296,7 @@ function exportToWord() {
         return;
     }
 
-    // Chuyển đổi nội dung rawText từ textarea thành HTML chuẩn Word, giữ nguyên 100% câu chữ, bố cục, bảng biểu và hướng dẫn
+    // Chuyển đổi chính xác nội dung rawText từ textarea thành HTML chuẩn thể thức Word
     const lines = rawText.split('\n');
     let bodyHtml = "";
     let inTable = false;
@@ -1366,11 +1306,12 @@ function exportToWord() {
         let line = lines[i];
         let trimmed = line.trim();
 
-        // Xử lý bảng biểu ASCII dạng +-----+----+ hoặc | col | col |
+        // Bỏ qua đường kẻ ngang của bảng ASCII
         if (trimmed.startsWith('+--') || trimmed.startsWith('|--')) {
-            continue; // Bỏ qua đường kẻ ngang của ASCII table
+            continue;
         }
 
+        // Xử lý các dòng bảng dữ liệu ASCII (| ... | ... |)
         if (trimmed.startsWith('|') && trimmed.endsWith('|')) {
             if (!inTable) {
                 inTable = true;
@@ -1380,8 +1321,8 @@ function exportToWord() {
             tableRows.push(cells);
             continue;
         } else if (inTable) {
-            // Đóng bảng và render HTML table
-            bodyHtml += `<table border="1" cellspacing="0" cellpadding="4" style="border-collapse:collapse; width:100%; font-size:10.5pt; text-align:center; font-family:'Times New Roman', serif; border:1px solid #000; margin:8px 0;">`;
+            // Đóng bảng và chèn table HTML
+            bodyHtml += `<table border="1" cellspacing="0" cellpadding="4" style="border-collapse:collapse; width:100%; font-size:10pt; text-align:center; font-family:'Times New Roman', serif; border:1px solid #000; margin:8px 0;">`;
             tableRows.forEach((row, rIdx) => {
                 const isHeader = (rIdx === 0 || row.some(c => c.startsWith('[')));
                 const bg = isHeader ? 'background:#f2f2f2; font-weight:bold;' : '';
@@ -1396,18 +1337,18 @@ function exportToWord() {
             tableRows = [];
         }
 
-        // Xử lý dòng trống
+        // Dòng trống
         if (!trimmed) {
             bodyHtml += `<p style="margin:2px 0; font-size:6pt;">&nbsp;</p>`;
             continue;
         }
 
-        // Xử lý Quốc hiệu Tiêu ngữ & Tiêu đề đơn
+        // Xử lý Quốc hiệu Tiêu ngữ & Tiêu đề
         if (trimmed.includes('CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM') || trimmed.includes('CỘNG HOÀ XÃ HỘI CHỦ NGHĨA VIỆT NAM')) {
-            bodyHtml += `<div style="text-align:center; font-family:'Times New Roman', serif; font-size:12pt; font-weight:bold; margin-top:6px;">${trimmed}</div>`;
+            bodyHtml += `<div style="text-align:center; font-family:'Times New Roman', serif; font-size:12pt; font-weight:bold; margin-top:4px;">${trimmed}</div>`;
         } else if (trimmed.includes('Độc lập - Tự do - Hạnh phúc') || trimmed.includes('Độc lập – Tự do – Hạnh phúc')) {
             bodyHtml += `<div style="text-align:center; font-family:'Times New Roman', serif; font-size:12pt; font-weight:bold; margin-bottom:10px;"><u>${trimmed}</u></div>`;
-        } else if (trimmed.startsWith('ĐƠN ') || trimmed.startsWith('TỜ KHAI ') || trimmed.startsWith('VĂN BẢN ĐỀ NGHỊ') || trimmed.startsWith('HỢP ĐỒNG ') || trimmed.startsWith('BÁO CÁO') || trimmed.startsWith('PHIẾU THÔNG TIN') || trimmed.startsWith('QUYẾT ĐỊNH') || trimmed.startsWith('KẾ HOẠCH') || trimmed.startsWith('THÔNG BÁO')) {
+        } else if (trimmed.startsWith('ĐƠN ') || trimmed.startsWith('TỜ KHAI ') || trimmed.startsWith('VĂN BẢN ĐỀ NGHỊ') || trimmed.startsWith('HỢP ĐỒNG ') || trimmed.startsWith('BÁO CÁO') || trimmed.startsWith('PHIẾU THÔNG TIN') || trimmed.startsWith('QUYẾT ĐỊNH')) {
             bodyHtml += `<div style="text-align:center; font-family:'Times New Roman', serif; font-size:13.5pt; font-weight:bold; margin:12px 0 4px 0; text-transform:uppercase;">${trimmed}</div>`;
         } else if (trimmed.startsWith('Kính gửi:')) {
             bodyHtml += `<div style="text-align:center; font-family:'Times New Roman', serif; font-size:12pt; font-weight:bold; margin:8px 0 12px 0;">${trimmed}</div>`;
@@ -1418,7 +1359,7 @@ function exportToWord() {
         } else if (trimmed.startsWith('Hướng dẫn kê khai') || trimmed.startsWith('Hướng dẫn viết đơn')) {
             bodyHtml += `<hr style="margin-top:20px; border:0; border-top:1px dashed #666;"><p style="font-size:10pt; font-style:italic; font-weight:bold; margin:6px 0;">${trimmed}</p>`;
         } else if (trimmed.startsWith('(1)') || trimmed.startsWith('(2)') || trimmed.startsWith('(3)') || trimmed.startsWith('(4)') || trimmed.startsWith('(5)') || trimmed.startsWith('(6)') || trimmed.startsWith('(7)') || trimmed.startsWith('(8)') || trimmed.startsWith('(9)') || trimmed.startsWith('(10)') || trimmed.startsWith('(11)') || trimmed.startsWith('(12)') || trimmed.startsWith('(13)') || trimmed.startsWith('(14)') || trimmed.startsWith('(15)') || trimmed.startsWith('(16)') || trimmed.startsWith('(17)') || trimmed.startsWith('(18)') || trimmed.startsWith('(19)') || trimmed.startsWith('(20)')) {
-            // Đoạn hướng dẫn chú thích ở chân đơn
+            // Chú thích chân đơn
             bodyHtml += `<p style="font-size:9.5pt; line-height:1.25; margin:2px 0; text-align:justify;">${trimmed}</p>`;
         } else if (trimmed.includes('Người viết đơn') || trimmed.includes('Người sử dụng đất') || trimmed.includes('Người làm đơn') || trimmed.includes('NGƯỜI NỘP THUẾ') || trimmed.includes('BÊN THUÊ ĐẤT') || trimmed.includes('THỦ TRƯỞNG ĐƠN VỊ')) {
             // Khối chữ ký
@@ -1435,14 +1376,14 @@ function exportToWord() {
                 </tr>
             </table>`;
         } else {
-            // Đoạn văn bình thường: In đậm các tiêu đề mục (1., 2., a), b), I., II., [01], [02]...)
+            // Định dạng in đậm các đầu mục 1., 2., a), b), đ), e)...
             let formattedLine = trimmed.replace(/^([0-9]+\.|\b[a-đ]\)|\b[I|V|X]+\.|\b\[[0-9a-zA-Z.]+\])/g, '<b>$1</b>');
             bodyHtml += `<p style="margin:3px 0; text-align:justify;">${formattedLine}</p>`;
         }
     }
 
     if (inTable) {
-        bodyHtml += `<table border="1" cellspacing="0" cellpadding="4" style="border-collapse:collapse; width:100%; font-size:10.5pt; text-align:center; font-family:'Times New Roman', serif; border:1px solid #000; margin:8px 0;">`;
+        bodyHtml += `<table border="1" cellspacing="0" cellpadding="4" style="border-collapse:collapse; width:100%; font-size:10pt; text-align:center; font-family:'Times New Roman', serif; border:1px solid #000; margin:8px 0;">`;
         tableRows.forEach((row, rIdx) => {
             const isHeader = (rIdx === 0 || row.some(c => c.startsWith('[')));
             const bg = isHeader ? 'background:#f2f2f2; font-weight:bold;' : '';
