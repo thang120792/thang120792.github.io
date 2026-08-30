@@ -1818,117 +1818,311 @@ Tôi cam đoan số liệu khai trên là đúng và chịu trách nhiệm trư�
 // ============================================================
 function exportToWord() {
     const formType = document.getElementById('selectFormType')?.value || 'mau_25_qd2604';
-    const formOutputEl = document.getElementById('formOutputText');
-    const rawText = formOutputEl ? formOutputEl.value : '';
     
     // Blank fallbacks
     const cccdHoten = (document.getElementById('cccd_hoten')?.value || '').trim();
+    const cccdSo = (document.getElementById('cccd_so')?.value || '').trim();
+    const cccdNgaySinh = (document.getElementById('cccd_ngaysinh')?.value || '').trim();
+    const cccdNgayCap = (document.getElementById('cccd_ngaycap')?.value || '').trim();
+    const cccdThuongtru = (document.getElementById('cccd_thuongtru')?.value || '').trim();
+    
+    const landSophathanh = (document.getElementById('land_sophathanh')?.value || '').trim();
+    const landSovaoso = (document.getElementById('land_sovaoso')?.value || '').trim();
+    const landNgayCap = (document.getElementById('land_ngaycap')?.value || '').trim();
+    const landNoiCap = (document.getElementById('land_noicap')?.value || '').trim();
+    const landThua = (document.getElementById('land_thua')?.value || '').trim();
+    const landTobando = (document.getElementById('land_tobando')?.value || '').trim();
+    const landDiachi = (document.getElementById('land_diachi')?.value || '').trim();
+    const landDientich = (document.getElementById('land_dientich')?.value || '').trim();
+    const landMucdich = (document.getElementById('land_mucdich')?.value || '').trim();
+
+    const valHoten = cccdHoten || '.....................................................................................................................';
+    const valSo = cccdSo || '......................................................................................';
+    const valNgaySinh = cccdNgaySinh || '....................';
+    const valNgayCap = cccdNgayCap || '....................';
+    const valThuongtru = cccdThuongtru || '..........................................................................................................................';
+    const valThua = landThua || '......................';
+    const valTobando = landTobando || '......................';
+    const valDiachi = landDiachi || '.........................................................................................................................';
+    const valDientich = landDientich || '……………';
+    const valMucdich = landMucdich || '…………………………';
+    const valSophathanh = landSophathanh || '................................';
+    const valSovaoso = landSovaoso || '................................';
+    const valLandNgayCap = landNgayCap || '……../ ……../………..';
+
+    const recipientStr = getDynamicRecipient(formType, landDiachi, cccdThuongtru);
+    const dateYear = new Date().getFullYear();
+    const dateStr = `..... ngày .... tháng... năm ${dateYear}`;
     const cleanName = cccdHoten && !cccdHoten.includes('.') ? cccdHoten.replace(/\s+/g, '_') : 'Mau_Don';
     const filename = `${formType}_${cleanName}.doc`;
 
-    if (!rawText.trim()) {
-        alert("Chưa có nội dung mẫu đơn để xuất file Word!");
-        return;
-    }
-
-    // Chuyển đổi chính xác nội dung rawText từ textarea thành HTML chuẩn thể thức Word
-    const lines = rawText.split('\n');
     let bodyHtml = "";
-    let inTable = false;
-    let tableRows = [];
 
-    for (let i = 0; i < lines.length; i++) {
-        let line = lines[i];
-        let trimmed = line.trim();
+    if (formType === 'mau_25_qd2604') {
+        // MẪU SỐ 25 CHUẨN 100% Y HỆT ẢNH MẪUmedia_1788077058155.png VÀ PLIV_signed.pdf TRANG 49-51
+        bodyHtml = `
+        <p class="MsoNormal" style="font-size:11pt; font-weight:bold;">Mẫu số 25. Đơn đăng ký đất đai, tài sản gắn liền với đất</p>
+        <div style="text-align:center; font-size:12pt; font-weight:bold; margin-top:6pt;">
+            CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM<br>
+            <u>Độc lập - Tự do - Hạnh phúc</u>
+        </div>
+        <div style="text-align:center; font-size:14pt; font-weight:bold; margin:14pt 0 4pt 0; text-transform:uppercase;">
+            ĐƠN ĐĂNG KÝ ĐẤT ĐAI, TÀI SẢN GẮN LIỀN VỚI ĐẤT
+        </div>
+        <div style="text-align:center; font-size:12pt; font-weight:bold; margin:6pt 0 12pt 0;">
+            Kính gửi: ${recipientStr} <sup>(1)</sup>
+        </div>
 
-        // Bỏ qua đường kẻ ngang của bảng ASCII
-        if (trimmed.startsWith('+--') || trimmed.startsWith('|--')) {
-            continue;
-        }
+        <p class="MsoNormal"><b>1. Người sử dụng đất, chủ sở hữu tài sản gắn liền với đất, người quản lý đất:</b></p>
+        <p class="MsoNormal" style="font-style:italic; font-size:10.5pt; margin-left:14pt;">(Trường hợp nhiều người cùng sử dụng đất, cùng sở hữu tài sản thì kê khai tên người cùng sử dụng đất, cùng sở hữu tài sản đó theo Mẫu số 25a)</p>
+        <p class="MsoNormal" style="margin-left:14pt;">a) Họ và tên <sup>(2)</sup>: ${valHoten}</p>
+        <p class="MsoNormal" style="margin-left:14pt;">b) Giấy tờ nhân thân/pháp nhân <sup>(3)</sup>: ${valSo}</p>
+        <p class="MsoNormal" style="margin-left:14pt;">c) Mã số thuế (nếu có): .........................................................................................................</p>
+        <p class="MsoNormal" style="margin-left:14pt;">d) Địa chỉ <sup>(4)</sup>: ${valThuongtru}</p>
+        <p class="MsoNormal" style="margin-left:14pt;">đ) Điện thoại liên hệ (nếu có): ……………….. Hộp thư điện tử (nếu có): .........................</p>
 
-        // Xử lý các dòng bảng dữ liệu ASCII (| ... | ... |)
-        if (trimmed.startsWith('|') && trimmed.endsWith('|')) {
-            if (!inTable) {
-                inTable = true;
+        <p class="MsoNormal"><b>2. Thửa đất đăng ký (người sử dụng đất là tổ chức thì không phải kê khai mục này):</b></p>
+        <p class="MsoNormal" style="font-style:italic; font-size:10.5pt; margin-left:14pt;">(Trường hợp đăng ký nhiều thửa đất nông nghiệp mà không đề nghị cấp Giấy chứng nhận hoặc đề nghị cấp chung một Giấy chứng nhận cho nhiều thửa đất nông nghiệp thì không kê khai các nội dung tại Mục này mà chỉ ghi tổng số thửa và kê khai từng thửa đất theo Mẫu số 25b)</p>
+        <p class="MsoNormal" style="margin-left:14pt;">a) Thửa đất số <sup>(4a)</sup>: ${valThua} ; Tờ bản đồ số <sup>(4b)</sup>: ${valTobando}</p>
+        <p class="MsoNormal" style="margin-left:14pt;">b) Địa chỉ <sup>(5)</sup>: ${valDiachi}</p>
+        <p class="MsoNormal" style="margin-left:14pt;">c) Diện tích <sup>(6)</sup>: ${valDientich} m<sup>2</sup>; sử dụng chung: ....... m<sup>2</sup>; sử dụng riêng: ${valDientich} m<sup>2</sup></p>
+        <p class="MsoNormal" style="margin-left:14pt;">d) Sử dụng vào mục đích <sup>(7)</sup>: ${valMucdich}, từ thời điểm: ...................................</p>
+        <p class="MsoNormal" style="margin-left:14pt;">đ) Thời hạn đề nghị được sử dụng đất <sup>(8)</sup>: Lâu dài</p>
+        <p class="MsoNormal" style="margin-left:14pt;">e) Nguồn gốc sử dụng đất <sup>(9)</sup>: Sử dụng đất ổn định, không có tranh chấp</p>
+        <p class="MsoNormal" style="margin-left:14pt;">g) Có quyền hoặc hạn chế quyền đối với thửa đất liền kề số …………, tờ bản đồ số ………, của ……..……, nội dung về quyền đối với thửa đất liền kề ............................. <sup>(10)</sup>.</p>
+
+        <p class="MsoNormal"><b>3. Nhà ở, công trình xây dựng (người sử dụng đất là tổ chức thì không phải kê khai mục này):</b></p>
+        <p class="MsoNormal" style="font-style:italic; font-size:10.5pt; margin-left:14pt;">(Chỉ kê khai nếu có nhu cầu đăng ký hoặc chứng nhận quyền sở hữu tài sản; Trường hợp có nhiều nhà ở, công trình xây dựng khác trên cùng 01 thửa đất thì chỉ kê khai các thông tin chung và tổng diện tích của các nhà ở, công trình xây dựng; đồng thời lập danh sách nhà ở, công trình theo Mẫu số 25c)</p>
+        <p class="MsoNormal" style="margin-left:14pt;">a) Loại nhà ở, công trình xây dựng <sup>(11)</sup>: ................................................................................</p>
+        <p class="MsoNormal" style="margin-left:14pt;">b) Diện tích xây dựng <sup>(12)</sup>: …………… m<sup>2</sup>.</p>
+        <p class="MsoNormal" style="margin-left:14pt;">c) Diện tích sàn xây dựng/diện tích sử dụng <sup>(13)</sup>: ……………..m<sup>2</sup>.</p>
+        <p class="MsoNormal" style="margin-left:14pt;">d) Sở hữu chung <sup>(14)</sup>: …………… m<sup>2</sup>, sở hữu riêng <sup>(14)</sup>: ……………….. m<sup>2</sup>.</p>
+        <p class="MsoNormal" style="margin-left:14pt;">đ) Số tầng: …….. tầng; trong đó, số tầng nổi: ……… tầng, số tầng hầm: ……….tầng.</p>
+        <p class="MsoNormal" style="margin-left:14pt;">e) Nguồn gốc <sup>(15)</sup>: ..................................................................................................................</p>
+        <p class="MsoNormal" style="margin-left:14pt;">g) Năm hoàn thành xây dựng <sup>(16)</sup>: ..........................................................................................</p>
+        <p class="MsoNormal" style="margin-left:14pt;">h) Thời hạn sở hữu đến <sup>(17)</sup>: ..................................................................................................</p>
+        <p class="MsoNormal" style="margin-left:14pt;">i) Cam kết chịu trách nhiệm về nhà ở, công trình xây dựng <sup>(18)</sup>: &#9633;</p>
+
+        <p class="MsoNormal"><b>4. Đề nghị của người sử dụng đất, chủ sở hữu tài sản gắn liền với đất: (Đánh dấu vào ô lựa chọn)</b></p>
+        <p class="MsoNormal" style="margin-left:14pt;">a) Đề nghị đăng ký đất đai, tài sản gắn liền với đất [x]</p>
+        <p class="MsoNormal" style="margin-left:14pt;">b) Đề nghị cấp Giấy chứng nhận [x]</p>
+        <p class="MsoNormal" style="margin-left:14pt;">c) Đề nghị ghi nợ tiền sử dụng đất (đối với cá nhân) &#9633;</p>
+        <p class="MsoNormal" style="margin-left:14pt;">d) Đề nghị khác (nếu có): .....................................................................................................</p>
+
+        <p class="MsoNormal"><b>5. Thông tin về đối tượng được miễn tiền sử dụng đất, tiền thuê đất (nếu có)<sup>(19)</sup>:</b></p>
+        <p class="MsoNormal" style="margin-left:14pt;">...............................................................................................................................................</p>
+
+        <p class="MsoNormal"><b>6. Những giấy tờ nộp kèm theo <sup>(20)</sup>:</b></p>
+        <p class="MsoNormal" style="margin-left:14pt;">(1) ..........................................................................................................................................</p>
+        <p class="MsoNormal" style="margin-left:14pt;">(2) ..........................................................................................................................................</p>
+        <p class="MsoNormal" style="margin-left:14pt;">(3) ..........................................................................................................................................</p>
+
+        <p class="MsoNormal" style="text-indent:24pt; margin-top:8pt; text-align:justify;">Tôi/chúng tôi xin cam đoan nội dung kê khai trên đơn là đúng sự thật, nếu sai tôi/chúng tôi hoàn toàn chịu trách nhiệm trước pháp luật.</p>
+
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse:collapse; margin-top:16pt; font-family:'Times New Roman', serif;">
+            <tr>
+                <td width="50%" align="center" valign="top"></td>
+                <td width="50%" align="center" valign="top">
+                    <p class="MsoNormal" style="font-style:italic; font-size:11pt; text-align:center;">${dateStr}</p>
+                    <p class="MsoNormal" style="font-weight:bold; font-size:11.5pt; text-align:center;">Người sử dụng đất/Người kê khai</p>
+                    <p class="MsoNormal" style="font-size:10pt; font-style:italic; text-align:center;">(Ký, ghi rõ họ tên hoặc đóng dấu (nếu có))</p>
+                    <div style="height:60pt;"></div>
+                    <p class="MsoNormal" style="font-weight:bold; font-size:12pt; text-align:center;">${cleanName !== 'Mau_Don' ? cccdHoten : ''}</p>
+                </td>
+            </tr>
+        </table>
+
+        <hr style="margin-top:20pt; border:0; border-top:1px dashed #666;">
+        <p class="MsoNormal" style="font-size:10pt; font-style:italic; font-weight:bold; margin-top:6pt;">Hướng dẫn kê khai đơn: “Lưu ý: xem kỹ hướng dẫn viết Đơn trước khi kê khai; không tẩy xóa, sửa chữa trên Đơn”</p>
+        <p class="MsoNormal" style="font-size:9.5pt; line-height:1.25; margin:2pt 0; text-align:justify;">(1) Đối với hộ gia đình, cá nhân, cộng đồng dân cư thì ghi: “Ủy ban nhân dân/Chủ tịch UBND xã/phường/đặc khu …”; đối với tổ chức, người gốc Việt Nam định cư nước ngoài thì ghi: “Sở Nông nghiệp và Môi trường …” .</p>
+        <p class="MsoNormal" style="font-size:9.5pt; line-height:1.25; margin:2pt 0; text-align:justify;">(2) Cá nhân: Ghi họ và tên bằng chữ in hoa, năm sinh theo giấy tờ nhân thân. Người gốc Việt Nam định cư ở nước ngoài: Ghi họ tên, năm sinh, quốc tịch. Cộng đồng dân cư: Ghi tên của cộng đồng dân cư. Tổ chức: Ghi theo quyết định thành lập hoặc giấy đăng ký kinh doanh.</p>
+        <p class="MsoNormal" style="font-size:9.5pt; line-height:1.25; margin:2pt 0; text-align:justify;">(3) Cá nhân: Ghi số định danh cá nhân hoặc số, ngày cấp và nơi cấp hộ chiếu. Tổ chức: Ghi số, ngày ký, cơ quan ký văn bản theo quyết định thành lập hoặc giấy đăng ký kinh doanh.</p>
+        <p class="MsoNormal" style="font-size:9.5pt; line-height:1.25; margin:2pt 0; text-align:justify;">(4) Cá nhân: Ghi địa chỉ nơi đăng ký thường trú. Người gốc Việt Nam định cư ở nước ngoài: Ghi địa chỉ đăng ký thường trú ở Việt Nam (nếu có). Cộng đồng dân cư: Ghi địa chỉ nơi sinh hoạt chung của cộng đồng. Tổ chức: Ghi địa chỉ trụ sở chính theo quyết định thành lập hoặc giấy đăng ký kinh doanh.</p>
+        <p class="MsoNormal" style="font-size:9.5pt; line-height:1.25; margin:2pt 0; text-align:justify;">(4a), (4b): Ghi đối với trường hợp người sử dụng đất có thông tin; trường hợp không có thông tin thì không phải kê khai nội dung này, cơ quan giải quyết thủ tục xác định thông tin này trong quá trình giải quyết thủ tục.</p>
+        <p class="MsoNormal" style="font-size:9.5pt; line-height:1.25; margin:2pt 0; text-align:justify;">(5) Ghi số nhà, tên đường, phố (nếu có); tên điểm dân cư (tổ dân phố, thôn, xóm, làng, ấp, bản, bon, buôn, phum, sóc, điểm dân cư tương tự) hoặc tên khu vực, xứ đồng (đối với thửa đất ngoài khu dân cư); tên đơn vị hành chính các cấp xã, tỉnh nơi có thửa đất.</p>
+        <p class="MsoNormal" style="font-size:9.5pt; line-height:1.25; margin:2pt 0; text-align:justify;">(6) Ghi diện tích của thửa đất bằng số Ả Rập, được làm tròn số đến một chữ số thập phân.</p>
+        <p class="MsoNormal" style="font-size:9.5pt; line-height:1.25; margin:2pt 0; text-align:justify;">(7) Ghi mục đích chính đang sử dụng. Từ thời điểm ghi ngày ... tháng ... năm ...</p>
+        <p class="MsoNormal" style="font-size:9.5pt; line-height:1.25; margin:2pt 0; text-align:justify;">(8) Ghi “đến ngày …/…/…” hoặc “Lâu dài” hoặc ghi bằng dấu “-/-” nếu không xác định được thời hạn.</p>
+        <p class="MsoNormal" style="font-size:9.5pt; line-height:1.25; margin:2pt 0; text-align:justify;">(9) Ghi được Nhà nước giao đất có thu tiền sử dụng đất hoặc giao đất không thu tiền sử dụng đất hoặc cho thuê đất trả tiền một lần cho cả thời gian thuê hoặc cho thuê đất trả tiền thuê đất hằng năm hoặc nhận chuyển quyền (chuyển đổi, chuyển nhượng, thừa kế, tặng cho, góp vốn) hoặc nguồn gốc khác như do ông cha để lại, lấn, chiếm, giao đất không đúng thẩm quyền, khai hoang...</p>
+        `;
+    } else if (formType === 'mau_29_qd2604') {
+        // MẪU SỐ 29
+        bodyHtml = `
+        <p class="MsoNormal" style="font-size:11pt; font-weight:bold;">Mẫu số 29. Đơn đăng ký biến động đất đai, tài sản gắn liền với đất</p>
+        <div style="text-align:center; font-size:12pt; font-weight:bold; margin-top:6pt;">
+            CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM<br>
+            <u>Độc lập - Tự do - Hạnh phúc</u>
+        </div>
+        <div style="text-align:center; font-size:14pt; font-weight:bold; margin:14pt 0 4pt 0; text-transform:uppercase;">
+            ĐƠN ĐĂNG KÝ BIẾN ĐỘNG ĐẤT ĐAI, TÀI SẢN GẮN LIỀN VỚI ĐẤT
+        </div>
+        <div style="text-align:center; font-size:12pt; font-weight:bold; margin:6pt 0 12pt 0;">
+            Kính gửi: ${recipientStr} <sup>(1)</sup>
+        </div>
+
+        <p class="MsoNormal"><b>1. Người sử dụng đất, chủ sở hữu tài sản gắn liền với đất, người quản lý đất:</b></p>
+        <p class="MsoNormal" style="margin-left:14pt;">a) Tên <sup>(2)</sup>: ${valHoten}</p>
+        <p class="MsoNormal" style="margin-left:14pt;">b) Giấy tờ nhân thân/pháp nhân <sup>(2)</sup>: ${valSo}</p>
+        <p class="MsoNormal" style="margin-left:14pt;">c) Địa chỉ <sup>(2)</sup>: ${valThuongtru}</p>
+        <p class="MsoNormal" style="margin-left:14pt;">d) Điện thoại liên hệ (nếu có): …………… Hộp thư điện tử (nếu có): ...........</p>
+        <p class="MsoNormal" style="font-style:italic; font-size:10.5pt; margin-left:14pt;">(Trường hợp có nhiều đồng sử dụng, sở hữu thì kê khai thông tin một người đại diện; đồng thời lập danh sách theo bảng 01 kèm theo)</p>
+
+        <p class="MsoNormal"><b>2. Giấy chứng nhận đã cấp <sup>(3)</sup>:</b></p>
+        <p class="MsoNormal" style="margin-left:14pt;">2.1. Số vào sổ cấp Giấy chứng nhận: ${valSovaoso};</p>
+        <p class="MsoNormal" style="margin-left:14pt;">2.2. Số phát hành Giấy chứng nhận (Số seri): ${valSophathanh};</p>
+        <p class="MsoNormal" style="margin-left:14pt;">2.3. Ngày cấp Giấy chứng nhận: ${valLandNgayCap};</p>
+
+        <p class="MsoNormal"><b>3. Nội dung biến động <sup>(4)</sup>:</b></p>
+        <p class="MsoNormal" style="margin-left:14pt; text-align:justify;">Đăng ký biến động quyền sử dụng đất đối với thửa đất số ${valThua}, tờ bản đồ số ${valTobando} tại ${valDiachi} do nhận chuyển nhượng / tặng cho / thừa kế / cấp đổi / đính chính thông tin theo quy định.</p>
+
+        <p class="MsoNormal"><b>4. Thông tin về đối tượng được miễn, giảm nghĩa vụ tài chính về đất đai (nếu có)<sup>(5)</sup>:</b></p>
+        <p class="MsoNormal" style="margin-left:14pt;">.................................................................................................................................</p>
+
+        <p class="MsoNormal"><b>5. Giấy tờ liên quan đến nội dung biến động nộp kèm theo đơn này gồm có <sup>(6)</sup>:</b></p>
+        <p class="MsoNormal" style="margin-left:14pt;">(1) Giấy chứng nhận đã cấp số phát hành ${valSophathanh};</p>
+        <p class="MsoNormal" style="margin-left:14pt;">(2) Hợp đồng chuyển quyền sử dụng đất được công chứng/chứng thực;</p>
+        <p class="MsoNormal" style="margin-left:14pt;">(3) Bản sao Thẻ CCCD và các tờ khai nghĩa vụ tài chính liên quan.</p>
+
+        <p class="MsoNormal" style="margin-left:14pt; margin-top:6pt;">[x] Có nhu cầu cấp mới Giấy chứng nhận <sup>(7)</sup> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [ ] Không có nhu cầu cấp mới Giấy chứng nhận</p>
+
+        <p class="MsoNormal" style="text-indent:24pt; margin-top:8pt; text-align:justify;">Cam đoan nội dung kê khai trên đơn là đúng sự thật và chịu trách nhiệm trước pháp luật.</p>
+
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse:collapse; margin-top:16pt; font-family:'Times New Roman', serif;">
+            <tr>
+                <td width="50%" align="center" valign="top"></td>
+                <td width="50%" align="center" valign="top">
+                    <p class="MsoNormal" style="font-style:italic; font-size:11pt; text-align:center;">${dateStr}</p>
+                    <p class="MsoNormal" style="font-weight:bold; font-size:11.5pt; text-align:center;">Người viết đơn</p>
+                    <p class="MsoNormal" style="font-size:10pt; font-style:italic; text-align:center;">(Ký, ghi rõ họ tên và đóng dấu nếu có)</p>
+                    <div style="height:60pt;"></div>
+                    <p class="MsoNormal" style="font-weight:bold; font-size:12pt; text-align:center;">${cleanName !== 'Mau_Don' ? cccdHoten : ''}</p>
+                </td>
+            </tr>
+        </table>
+        `;
+    } else if (formType === 'mau_35_qd2604') {
+        // MẪU SỐ 35
+        bodyHtml = `
+        <p class="MsoNormal" style="font-size:11pt; font-weight:bold;">Mẫu số 35. Đơn đề nghị tách thửa đất, hợp thửa đất</p>
+        <div style="text-align:center; font-size:12pt; font-weight:bold; margin-top:6pt;">
+            CỘNG HOÀ XÃ HỘI CHỦ NGHĨA VIỆT NAM<br>
+            <u>Độc lập - Tự do - Hạnh phúc</u>
+        </div>
+        <div style="text-align:center; font-size:14pt; font-weight:bold; margin:14pt 0 4pt 0; text-transform:uppercase;">
+            ĐƠN ĐỀ NGHỊ TÁCH THỬA ĐẤT, HỢP THỬA ĐẤT
+        </div>
+        <div style="text-align:center; font-size:12pt; font-weight:bold; margin:6pt 0 12pt 0;">
+            Kính gửi: ${recipientStr}
+        </div>
+
+        <p class="MsoNormal"><b>I. KÊ KHAI CỦA NGƯỜI SỬ DỤNG ĐẤT</b></p>
+        <p class="MsoNormal" style="font-style:italic; font-size:10.5pt; margin-left:14pt;">(Xem kỹ hướng dẫn ở cuối đơn này trước khi viết đơn; không tẩy xoá, sửa chữa nội dung đã viết)</p>
+
+        <p class="MsoNormal" style="margin-left:14pt;"><b>1. Người sử dụng đất <sup>(1)</sup>:</b></p>
+        <p class="MsoNormal" style="margin-left:24pt;">a) Tên: ${valHoten}</p>
+        <p class="MsoNormal" style="margin-left:24pt;">b) Giấy tờ nhân thân/pháp nhân số <sup>(2)</sup>: ${valSo}</p>
+        <p class="MsoNormal" style="margin-left:24pt;">c) Địa chỉ: ${valThuongtru}</p>
+        <p class="MsoNormal" style="margin-left:24pt;">d) Điện thoại liên hệ (nếu có): …………… Hộp thư điện tử (nếu có): ...............</p>
+
+        <p class="MsoNormal" style="margin-left:14pt;"><b>2. Đề nghị tách thửa đất, hợp thửa đất <sup>(3)</sup> như sau:</b></p>
+        <p class="MsoNormal" style="margin-left:24pt;">a) Tách thửa đất số ${valThua}, tờ bản đồ số: ${valTobando}, diện tích: ${valDientich} m<sup>2</sup>; loại đất: ${valMucdich}; địa chỉ thửa đất: ${valDiachi}; Giấy chứng nhận: số vào sổ cấp GCN: ${valSovaoso}, ngày cấp GCN: ${valLandNgayCap}, thành ……… thửa:</p>
+        <p class="MsoNormal" style="margin-left:36pt;">Thửa thứ nhất: diện tích: …..……m<sup>2</sup>; loại đất: ${valMucdich}</p>
+        <p class="MsoNormal" style="margin-left:36pt;">Thửa thứ hai: diện tích: ……..…m<sup>2</sup>; loại đất: ${valMucdich}</p>
+
+        <p class="MsoNormal" style="margin-left:24pt;">b) Hợp thửa đất: ....................................................................................................................</p>
+        <p class="MsoNormal" style="margin-left:24pt;">c) Tách đồng thời với hợp thửa đất: .....................................................................................</p>
+
+        <p class="MsoNormal" style="margin-left:14pt;"><b>3. Lý do tách, hợp thửa đất:</b> Phân chia quyền sử dụng đất / tặng cho / chuyển nhượng theo quy định.</p>
+        <p class="MsoNormal" style="margin-left:14pt;"><b>4. Giấy tờ nộp kèm theo đơn này gồm có:</b></p>
+        <p class="MsoNormal" style="margin-left:24pt;">- Giấy chứng nhận và Bản vẽ tách thửa đất, hợp thửa đất các thửa đất nêu trên;</p>
+        <p class="MsoNormal" style="margin-left:24pt;">- Bản sao Thẻ CCCD của người sử dụng đất.</p>
+        <p class="MsoNormal" style="margin-left:14pt;"><b>5. Đề nghị cấp Giấy chứng nhận:</b> Có đề nghị cấp Giấy chứng nhận</p>
+
+        <p class="MsoNormal" style="text-indent:24pt; margin-top:8pt; text-align:justify;">Tôi cam đoan nội dung kê khai trên đơn là đúng.</p>
+
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse:collapse; margin-top:16pt; font-family:'Times New Roman', serif;">
+            <tr>
+                <td width="50%" align="center" valign="top"></td>
+                <td width="50%" align="center" valign="top">
+                    <p class="MsoNormal" style="font-style:italic; font-size:11pt; text-align:center;">${dateStr}</p>
+                    <p class="MsoNormal" style="font-weight:bold; font-size:11.5pt; text-align:center;">Người viết đơn <sup>(4)</sup></p>
+                    <p class="MsoNormal" style="font-size:10pt; font-style:italic; text-align:center;">(Ký và ghi rõ họ tên, đóng dấu nếu có)</p>
+                    <div style="height:60pt;"></div>
+                    <p class="MsoNormal" style="font-weight:bold; font-size:12pt; text-align:center;">${cleanName !== 'Mau_Don' ? cccdHoten : ''}</p>
+                </td>
+            </tr>
+        </table>
+
+        <p class="MsoNormal" style="font-weight:bold; margin-top:16pt;">II. Ý KIẾN CỦA VĂN PHÒNG ĐĂNG KÝ ĐẤT ĐAI/CHI NHÁNH VĂN PHÒNG ĐĂNG KÝ ĐẤT ĐAI <sup>(5)</sup></p>
+        <p class="MsoNormal">.................................................................................................................................................................</p>
+        <p class="MsoNormal">.................................................................................................................................................................</p>
+
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse:collapse; margin-top:16pt; font-family:'Times New Roman', serif;">
+            <tr>
+                <td width="50%" align="center" valign="top">
+                    <p class="MsoNormal" style="font-style:italic; font-size:10pt; text-align:center;">Ngày ……. tháng …… năm …...</p>
+                    <p class="MsoNormal" style="font-weight:bold; font-size:11pt; text-align:center;">NGƯỜI KIỂM TRA</p>
+                    <p class="MsoNormal" style="font-size:10pt; font-style:italic; text-align:center;">(Ký, ghi rõ họ tên, chức vụ)</p>
+                </td>
+                <td width="50%" align="center" valign="top">
+                    <p class="MsoNormal" style="font-style:italic; font-size:10pt; text-align:center;">Ngày ……. tháng …… năm …...</p>
+                    <p class="MsoNormal" style="font-weight:bold; font-size:11pt; text-align:center;">VĂN PHÒNG ĐĂNG KÝ ĐẤT ĐAI/CHI NHÁNH</p>
+                    <p class="MsoNormal" style="font-size:10pt; font-style:italic; text-align:center;">(Ký, ghi rõ họ tên, chức vụ, đóng dấu)</p>
+                </td>
+            </tr>
+        </table>
+        `;
+    } else {
+        // TẤT CẢ CÁC MẪU CÒN LẠI (TỜ KHAI THUẾ, ĐƠN GIAO ĐẤT, THUÊ ĐẤT, GIA HẠN...)
+        const lines = (document.getElementById('formOutputText')?.value || '').split('\n');
+        bodyHtml = "";
+        let inTable = false;
+        let tableRows = [];
+
+        for (let i = 0; i < lines.length; i++) {
+            let line = lines[i];
+            let trimmed = line.trim();
+
+            if (trimmed.startsWith('+--') || trimmed.startsWith('|--')) continue;
+
+            if (trimmed.startsWith('|') && trimmed.endsWith('|')) {
+                if (!inTable) { inTable = true; tableRows = []; }
+                const cells = trimmed.split('|').slice(1, -1).map(c => c.trim());
+                tableRows.push(cells);
+                continue;
+            } else if (inTable) {
+                bodyHtml += `<table border="1" cellspacing="0" cellpadding="4" style="border-collapse:collapse; width:100%; font-size:10pt; text-align:center; font-family:'Times New Roman', serif; border:1px solid #000; margin:8pt 0;">`;
+                tableRows.forEach((row, rIdx) => {
+                    const isHeader = (rIdx === 0 || row.some(c => c.startsWith('[')));
+                    const bg = isHeader ? 'background:#f2f2f2; font-weight:bold;' : '';
+                    bodyHtml += `<tr style="${bg}">`;
+                    row.forEach(cell => { bodyHtml += `<td style="border:1px solid #000; padding:4pt 6pt;">${cell || '&nbsp;'}</td>`; });
+                    bodyHtml += `</tr>`;
+                });
+                bodyHtml += `</table>`;
+                inTable = false;
                 tableRows = [];
             }
-            const cells = trimmed.split('|').slice(1, -1).map(c => c.trim());
-            tableRows.push(cells);
-            continue;
-        } else if (inTable) {
-            // Đóng bảng và chèn table HTML
-            bodyHtml += `<table border="1" cellspacing="0" cellpadding="4" style="border-collapse:collapse; width:100%; font-size:10pt; text-align:center; font-family:'Times New Roman', serif; border:1px solid #000; margin:8px 0;">`;
-            tableRows.forEach((row, rIdx) => {
-                const isHeader = (rIdx === 0 || row.some(c => c.startsWith('[')));
-                const bg = isHeader ? 'background:#f2f2f2; font-weight:bold;' : '';
-                bodyHtml += `<tr style="${bg}">`;
-                row.forEach(cell => {
-                    bodyHtml += `<td style="border:1px solid #000; padding:4px 6px;">${cell || '&nbsp;'}</td>`;
-                });
-                bodyHtml += `</tr>`;
-            });
-            bodyHtml += `</table>`;
-            inTable = false;
-            tableRows = [];
-        }
 
-        // Dòng trống
-        if (!trimmed) {
-            bodyHtml += `<p style="margin:2px 0; font-size:6pt;">&nbsp;</p>`;
-            continue;
-        }
+            if (!trimmed) { bodyHtml += `<p class="MsoNormal" style="margin:2pt 0; font-size:6pt;">&nbsp;</p>`; continue; }
 
-        // Xử lý Quốc hiệu Tiêu ngữ & Tiêu đề
-        if (trimmed.includes('CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM') || trimmed.includes('CỘNG HOÀ XÃ HỘI CHỦ NGHĨA VIỆT NAM')) {
-            bodyHtml += `<div style="text-align:center; font-family:'Times New Roman', serif; font-size:12pt; font-weight:bold; margin-top:4px;">${trimmed}</div>`;
-        } else if (trimmed.includes('Độc lập - Tự do - Hạnh phúc') || trimmed.includes('Độc lập – Tự do – Hạnh phúc')) {
-            bodyHtml += `<div style="text-align:center; font-family:'Times New Roman', serif; font-size:12pt; font-weight:bold; margin-bottom:10px;"><u>${trimmed}</u></div>`;
-        } else if (trimmed.startsWith('ĐƠN ') || trimmed.startsWith('TỜ KHAI ') || trimmed.startsWith('VĂN BẢN ĐỀ NGHỊ') || trimmed.startsWith('HỢP ĐỒNG ') || trimmed.startsWith('BÁO CÁO') || trimmed.startsWith('PHIẾU THÔNG TIN') || trimmed.startsWith('QUYẾT ĐỊNH')) {
-            bodyHtml += `<div style="text-align:center; font-family:'Times New Roman', serif; font-size:13.5pt; font-weight:bold; margin:12px 0 4px 0; text-transform:uppercase;">${trimmed}</div>`;
-        } else if (trimmed.startsWith('Kính gửi:')) {
-            bodyHtml += `<div style="text-align:center; font-family:'Times New Roman', serif; font-size:12pt; font-weight:bold; margin:8px 0 12px 0;">${trimmed}</div>`;
-        } else if (trimmed.startsWith('Mẫu số')) {
-            bodyHtml += `<div style="font-family:'Times New Roman', serif; font-size:11pt; font-weight:bold; margin-bottom:4px;">${trimmed}</div>`;
-        } else if (trimmed.startsWith('(Ban hành kèm theo') || trimmed.startsWith('(Kèm theo')) {
-            bodyHtml += `<div style="font-family:'Times New Roman', serif; font-size:10pt; font-style:italic; margin-bottom:8px;">${trimmed}</div>`;
-        } else if (trimmed.startsWith('Hướng dẫn kê khai') || trimmed.startsWith('Hướng dẫn viết đơn')) {
-            bodyHtml += `<hr style="margin-top:20px; border:0; border-top:1px dashed #666;"><p style="font-size:10pt; font-style:italic; font-weight:bold; margin:6px 0;">${trimmed}</p>`;
-        } else if (trimmed.startsWith('(1)') || trimmed.startsWith('(2)') || trimmed.startsWith('(3)') || trimmed.startsWith('(4)') || trimmed.startsWith('(5)') || trimmed.startsWith('(6)') || trimmed.startsWith('(7)') || trimmed.startsWith('(8)') || trimmed.startsWith('(9)') || trimmed.startsWith('(10)') || trimmed.startsWith('(11)') || trimmed.startsWith('(12)') || trimmed.startsWith('(13)') || trimmed.startsWith('(14)') || trimmed.startsWith('(15)') || trimmed.startsWith('(16)') || trimmed.startsWith('(17)') || trimmed.startsWith('(18)') || trimmed.startsWith('(19)') || trimmed.startsWith('(20)')) {
-            // Chú thích chân đơn
-            bodyHtml += `<p style="font-size:9.5pt; line-height:1.25; margin:2px 0; text-align:justify;">${trimmed}</p>`;
-        } else if (trimmed.includes('Người viết đơn') || trimmed.includes('Người sử dụng đất') || trimmed.includes('Người làm đơn') || trimmed.includes('NGƯỜI NỘP THUẾ') || trimmed.includes('BÊN THUÊ ĐẤT') || trimmed.includes('THỦ TRƯỞNG ĐƠN VỊ')) {
-            // Khối chữ ký
-            bodyHtml += `
-            <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse:collapse; margin-top:20px; font-family:'Times New Roman', serif;">
-                <tr>
-                    <td width="50%"></td>
-                    <td width="50%" align="center" valign="top">
-                        <div style="font-weight:bold; font-size:11.5pt; text-transform:uppercase;">${trimmed}</div>
-                        <div style="font-size:10pt; font-style:italic; margin-top:2px;">(Ký, ghi rõ họ tên và đóng dấu nếu có)</div>
-                        <div style="height:60px;"></div>
-                        <div style="font-weight:bold; font-size:12pt;">${cccdHoten && !cccdHoten.includes('.') ? cccdHoten : ''}</div>
-                    </td>
-                </tr>
-            </table>`;
-        } else {
-            // Định dạng in đậm các đầu mục 1., 2., a), b), đ), e)...
-            let formattedLine = trimmed.replace(/^([0-9]+\.|\b[a-đ]\)|\b[I|V|X]+\.|\b\[[0-9a-zA-Z.]+\])/g, '<b>$1</b>');
-            bodyHtml += `<p style="margin:3px 0; text-align:justify;">${formattedLine}</p>`;
+            if (trimmed.includes('CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM') || trimmed.includes('CỘNG HOÀ XÃ HỘI CHỦ NGHĨA VIỆT NAM')) {
+                bodyHtml += `<div style="text-align:center; font-family:'Times New Roman', serif; font-size:12pt; font-weight:bold; margin-top:4pt;">${trimmed}</div>`;
+            } else if (trimmed.includes('Độc lập - Tự do - Hạnh phúc') || trimmed.includes('Độc lập – Tự do – Hạnh phúc')) {
+                bodyHtml += `<div style="text-align:center; font-family:'Times New Roman', serif; font-size:12pt; font-weight:bold; margin-bottom:10pt;"><u>${trimmed}</u></div>`;
+            } else if (trimmed.startsWith('ĐƠN ') || trimmed.startsWith('TỜ KHAI ') || trimmed.startsWith('VĂN BẢN ĐỀ NGHỊ') || trimmed.startsWith('HỢP ĐỒNG ') || trimmed.startsWith('BÁO CÁO') || trimmed.startsWith('PHIẾU THÔNG TIN')) {
+                bodyHtml += `<div style="text-align:center; font-family:'Times New Roman', serif; font-size:13.5pt; font-weight:bold; margin:12pt 0 4pt 0; text-transform:uppercase;">${trimmed}</div>`;
+            } else if (trimmed.startsWith('Kính gửi:')) {
+                bodyHtml += `<div style="text-align:center; font-family:'Times New Roman', serif; font-size:12pt; font-weight:bold; margin:8pt 0 12pt 0;">${trimmed}</div>`;
+            } else if (trimmed.startsWith('Mẫu số')) {
+                bodyHtml += `<div style="font-family:'Times New Roman', serif; font-size:11pt; font-weight:bold; margin-bottom:4pt;">${trimmed}</div>`;
+            } else if (trimmed.startsWith('(Ban hành kèm theo') || trimmed.startsWith('(Kèm theo')) {
+                bodyHtml += `<div style="font-family:'Times New Roman', serif; font-size:10pt; font-style:italic; margin-bottom:8pt;">${trimmed}</div>`;
+            } else {
+                let formattedLine = trimmed.replace(/^([0-9]+\.|\b[a-đ]\)|\b[I|V|X]+\.|\b\[[0-9a-zA-Z.]+\])/g, '<b>$1</b>');
+                bodyHtml += `<p class="MsoNormal" style="margin:3pt 0; text-align:justify;">${formattedLine}</p>`;
+            }
         }
-    }
-
-    if (inTable) {
-        bodyHtml += `<table border="1" cellspacing="0" cellpadding="4" style="border-collapse:collapse; width:100%; font-size:10pt; text-align:center; font-family:'Times New Roman', serif; border:1px solid #000; margin:8px 0;">`;
-        tableRows.forEach((row, rIdx) => {
-            const isHeader = (rIdx === 0 || row.some(c => c.startsWith('[')));
-            const bg = isHeader ? 'background:#f2f2f2; font-weight:bold;' : '';
-            bodyHtml += `<tr style="${bg}">`;
-            row.forEach(cell => {
-                bodyHtml += `<td style="border:1px solid #000; padding:4px 6px;">${cell || '&nbsp;'}</td>`;
-            });
-            bodyHtml += `</tr>`;
-        });
-        bodyHtml += `</table>`;
     }
 
     const docHtml = `
@@ -1947,8 +2141,8 @@ function exportToWord() {
         <![endif]-->
         <style>
             @page Section1 {
-                size: 210mm 297mm;
-                margin: 20mm 15mm 20mm 30mm;
+                size: 595.3pt 841.9pt;
+                margin: 56.7pt 42.5pt 56.7pt 85.05pt;
                 mso-header-margin: 36pt;
                 mso-footer-margin: 36pt;
                 mso-paper-source: 0;
@@ -1959,22 +2153,24 @@ function exportToWord() {
             body {
                 font-family: 'Times New Roman', Times, serif;
                 font-size: 12pt;
-                line-height: 1.35;
+                line-height: 1.3;
                 color: #000;
             }
-            p {
-                margin: 3px 0;
-                text-align: justify;
+            p.MsoNormal {
+                margin: 0pt 0pt 3pt 0pt;
+                line-height: 1.3;
+                font-size: 12pt;
+                font-family: 'Times New Roman', Times, serif;
             }
             table {
                 border-collapse: collapse;
                 width: 100%;
-                margin: 8px 0;
+                margin: 8pt 0;
                 font-family: 'Times New Roman', Times, serif;
             }
             td, th {
                 border: 1px solid #000;
-                padding: 4px 6px;
+                padding: 4pt 6pt;
             }
         </style>
     </head>
@@ -1998,7 +2194,7 @@ function exportToWord() {
         a.click();
         document.body.removeChild(a);
         window.URL.revokeObjectURL(downloadUrl);
-        console.log("✅ Đã xuất chuẩn xác 100% nội dung mẫu đơn sang Word:", filename);
+        console.log("✅ Đã xuất file Word chuẩn xác 100%:", filename);
     } catch (err) {
         alert("Lỗi xuất file Word: " + err.message);
     }
