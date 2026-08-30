@@ -1083,12 +1083,12 @@ III. ĐIỀU KHOẢN HỢP ĐỒNG: Cho thuê thửa đất số ${valThua}, T�
 
             BÊN THUÊ ĐẤT                                              BÊN CHO THUÊ ĐẤT
 (Ký và ghi rõ họ tên, đóng dấu nếu có)                     (Ký và ghi rõ họ tên, đóng dấu)`;
-    } else if (formType === 'tk_thue_tncn') {
-        // MẪU 03/BĐS-TNCN (TRANG 99-105 PLIV_signed.pdf)
+        } else if (formType === 'tk_thue_tncn') {
+        // TỜ KHAI THUẾ THU NHẬP CÁ NHÂN (Mẫu số 03/BĐS-TNCN - TT 89/2026/TT-BTC)
         fullDoc = `                                                  +-----------------------------------------------------------+
                                                   | Mẫu số: 03/BĐS-TNCN                                       |
                                                   | (Kèm theo Thông tư số 89/2026/TT-BTC                      |
-                                                  | ngày 30 tháng 6 năm 2026 của Bộ trưởng                     |
+                                                  | ngày 30 tháng 6 năm 2026 của Bộ trưởng                    |
                                                   | Bộ Tài chính)                                             |
                                                   +-----------------------------------------------------------+
 
@@ -1112,6 +1112,13 @@ I. THÔNG TIN NGƯỜI CHUYỂN NHƯỢNG, NHẬN THỪA KẾ, QUÀ TẶNG
 |  1  | ${valHoten.padEnd(20)} | ${valSo.padEnd(19)} | ${valNgaySinh.padEnd(13)} |                                 |            |       | 100%               |
 +-----+----------------------+---------------------+---------------+---------------------------------+------------+-------+--------------------+
 
+[05] Tổ chức, cá nhân khai, nộp thuế thay (nếu có): ...............................................
+[06] Mã số thuế (nếu có): .............................................................................................
+[07] Văn bản ủy quyền (nếu có): Số ..............ngày ..... tháng ..... năm ........................
+[08] Tên tổ chức, cá nhân cung cấp dịch vụ làm thủ tục về thuế (nếu có): ...........
+[09] Mã số thuế: ........................................................................................................... 
+[10] Hợp đồng dịch vụ làm thủ tục về thuế: Số ........................ ngày..........................
+
 II. THÔNG TIN NGƯỜI NHẬN CHUYỂN NHƯỢNG, NHẬN THỪA KẾ, QUÀ TẶNG
 +-----+----------------------+---------------------+---------------+---------------------------------+--------------------+
 | STT |      Họ và tên       | Mã số thuế/Số ĐDCN  |   Ngày sinh   | Hộ chiếu (Số | Ngày cấp | Nơi) | Tỷ lệ sở hữu (%)   |
@@ -1130,12 +1137,16 @@ III. LOẠI BẤT ĐỘNG SẢN CHUYỂN NHƯỢNG, NHẬN THỪA KẾ, QUÀ T�
 IV. ĐẶC ĐIỂM BẤT ĐỘNG SẢN CHUYỂN NHƯỢNG, NHẬN THỪA KẾ, QUÀ TẶNG:
 [16] Giấy tờ về quyền sử dụng đất:
 [16.1] Loại giấy tờ: Giấy chứng nhận quyền sử dụng đất
-[16.2] Số: ${valSophathanh} ; [16.3] Nơi cấp: Chi nhánh VPĐKĐĐ ; [16.4] Ngày cấp: ${valNgayCap}
+[16.2] Số: ${valSophathanh} ; [16.3] Nơi cấp: Chi nhánh VPĐKĐĐ ; [16.4] Ngày cấp: ${valLandNgayCap}
+[17] Hợp đồng mua bán nhà ở, công trình xây dựng hình thành trong tương lai: Số .................... Ngày .................... Tỷ lệ góp vốn: ....................
 [18] Hợp đồng chuyển nhượng trao đổi bất động sản: Số .................... Nơi lập: VP Công chứng .................... Ngày lập: ...../...../..........
+[19] Văn bản phân chia di sản thừa kế, quà tặng là bất động sản: Nơi lập .................... Ngày lập ...../...../..........
+
 [20] Thông tin về đất:
 [20.1] Thửa đất số: ${valThua} ; [20.2] Tờ bản đồ số: ${valTobando}
 [20.3] Địa chỉ: ${valDiachi}
-[20.6] Loại đất, vị trí thửa đất:
+[20.4] Xã/Phường/Đặc khu: .................................. [20.5] Tỉnh/thành phố: Thanh Hóa
+[20.6] Loại đất, vị trí thửa đất (1, 2, 3, 4…):
 +-----+--------------------+--------------------+---------+----------------------+------------------+------------------+
 | STT | Đường              | Đoạn đường         | Vị trí  | Loại đất             | Hệ số (nếu có)   | Diện tích (m2)   |
 +-----+--------------------+--------------------+---------+----------------------+------------------+------------------+
@@ -1147,9 +1158,28 @@ IV. ĐẶC ĐIỂM BẤT ĐỘNG SẢN CHUYỂN NHƯỢNG, NHẬN THỪA KẾ, Q
 [20.8] Thời hạn sử dụng đất: - Ổn định lâu dài [x]   - Có thời hạn: ..... năm
 [20.9] Giá trị đất thực tế chuyển giao (nếu có): ................................................... đồng
 
-V. THU NHẬP TỪ CHUYỂN NHƯỢNG BẤT ĐỘNG SẢN / THỪA KẾ / QUÀ TẶNG:
+[21] Thông tin về nhà ở, công trình xây dựng:
+[21.1] Nhà ở riêng lẻ: Cấp nhà: .................... Diện tích sàn xây dựng: .................... m2
+[21.4] Năm hoàn thành xây dựng: ....................
+[21.16] Nguồn gốc nhà: Tự xây dựng [x]     Chuyển nhượng [ ]
+[21.19] Giá trị nhà thực tế chuyển giao (nếu có): ................................................... đồng
+
+[22] Tài sản gắn liền với đất:
+[22.1] Loại tài sản: ............................................................................................
+[22.2] Giá trị tài sản gắn liền với đất thực tế chuyển giao (nếu có): ................... đồng
+
+V. THU NHẬP TỪ CHUYỂN NHƯỢNG BẤT ĐỘNG SẢN; TỪ NHẬN THỪA KẾ, QUÀ TẶNG LÀ BẤT ĐỘNG SẢN:
 [23] Loại thu nhập: [23.1] Thu nhập từ chuyển nhượng bất động sản [x]     [23.2] Thu nhập từ nhận thừa kế, quà tặng [ ]
 [24] Giá trị chuyển nhượng bất động sản và tài sản khác gắn liền với đất: ................................................... đồng
+[25] Giá trị bất động sản nhận thừa kế, quà tặng: ................................................... đồng
+[26] Miễn thuế thu nhập từ chuyển nhượng bất động sản, thu nhập từ nhận thừa kế, quà tặng là bất động sản:
++-----+----------------------+---------------------+-------------------------------------------------------+--------------------+
+| STT |      Họ và tên       | Mã số thuế/Số ĐDCN  | Lý do miễn thuế đối với nhà, đất ở duy nhất          | Lý do miễn khác    |
++-----+----------------------+---------------------+-------------------------------------------------------+--------------------+
+| [26.1]|[26.2]              | [26.3]              | [26.4]                                                | [26.5]             |
++-----+----------------------+---------------------+-------------------------------------------------------+--------------------+
+|  1  |                      |                     | [ ]                                                   |                    |
++-----+----------------------+---------------------+-------------------------------------------------------+--------------------+
 
 VI. HỒ SƠ KÈM THEO GỒM:
 - Hợp đồng chuyển nhượng quyền sử dụng đất, tài sản gắn liền với đất;
@@ -1159,15 +1189,23 @@ VI. HỒ SƠ KÈM THEO GỒM:
 Tôi cam đoan những nội dung kê khai là đúng và chịu trách nhiệm trước pháp luật về những nội dung đã khai./.
 
 NGƯỜI TRỰC TIẾP THỰC HIỆN                                     ${dateStr}
-DỊCH VỤ LÀM THỦ TỤC VỀ THUẾ                                  NGƯỜI NỘP THUẾ hoặc
-Họ và tên: ..............................                     ĐẠI DIỆN HỢP PHÁP CỦA NGƯỜI NỘP THUẾ
-Chứng chỉ NV thuế số: ...................                     (Ký, ghi rõ họ tên; chức vụ và đóng dấu)`;
+DỊCH VỤ LÀM THỦ TỤC VỀ THUẾ                                  NGƯỜI NỘP THUẾ hoặc 
+Họ và tên: ……………………                                   ĐẠI DIỆN HỢP PHÁP CỦA NGƯỜI NỘP THUẾ
+Chứng chỉ NV thuế số: ...................                     (Ký, ghi rõ họ tên; chức vụ và đóng dấu)
+
+Ghi chú: Hướng dẫn kê khai một số chỉ tiêu:
+- Cá nhân có thu nhập từ chuyển nhượng nhà ở, nhà ở thương mại, công trình xây dựng hình thành trong tương lai; công trình xây dựng, nhà ở đã được dự án bàn giao đưa vào sử dụng nhưng chưa cấp Giấy chứng nhận: NNT kê khai chỉ tiêu [17] và [18].
+- Cá nhân có thu nhập từ nhận thừa kế, quà tặng: NNT kê khai chỉ tiêu [17] và [19].
+- Chỉ tiêu [16.1]: Ghi tên loại giấy tờ về quyền sử dụng đất theo quy định tại Điều 137 Luật Đất đai hoặc Giấy chứng nhận đã cấp.
+- Chỉ tiêu [20.3]: Ghi số nhà, tên đường phố (nếu có); tên điểm dân cư; tên đơn vị hành chính các cấp xã, tỉnh nơi có thửa đất.
+- Chỉ tiêu [24]=[20.9]+[21.19]+[21.28]+[22.2] nếu tích vào chỉ tiêu [23.1].
+- Chỉ tiêu [25]=[20.9]+[21.19]+[21.28]+[22.2] nếu tích vào chỉ tiêu [23.2].`;
     } else if (formType === 'tk_phi_nong_nghiep') {
-        // MẪU 01/TK-SDDPNN (TRANG 91-93 PLIV_signed.pdf)
+        // TỜ KHAI THUẾ SỬ DỤNG ĐẤT PHI NÔNG NGHIỆP (Mẫu số 01/TK-SDDPNN - TT 89/2026/TT-BTC)
         fullDoc = `                                                  +-----------------------------------------------------------+
                                                   | Mẫu số: 01/TK-SDDPNN                                      |
                                                   | (Kèm theo Thông tư số 89/2026/TT-BTC                      |
-                                                  | ngày 30 tháng 6 năm 2026 của Bộ trưởng                     |
+                                                  | ngày 30 tháng 6 năm 2026 của Bộ trưởng                    |
                                                   | Bộ Tài chính)                                             |
                                                   +-----------------------------------------------------------+
 
@@ -1178,48 +1216,85 @@ Chứng chỉ NV thuế số: ...................                     (Ký, ghi 
                                 TỜ KHAI THUẾ SỬ DỤNG ĐẤT PHI NÔNG NGHIỆP
                                      (Áp dụng đối với hộ gia đình, cá nhân)
 
-   [01] Kỳ tính thuế: Năm ${dateYear}
-   [02] Lần đầu: [x]                       [03] Bổ sung lần thứ:……
+[01] Kỳ tính thuế: Năm ${dateYear}
+[02] Lần đầu: [x]                       [03] Bổ sung lần thứ:……
 
-1. Người nộp thuế:      
+1. Người nộp thuế: 
 [04] Họ và tên: ${valHoten}
 [05] Ngày, tháng, năm sinh: ${valNgaySinh}
 [06] Mã số thuế: .....................................................................................................................
 [07] Số định danh cá nhân/Số hộ chiếu: ${valSo}
-[08] Địa chỉ cư trú: ${valThuongtru}
+[08] Địa chỉ cư trú: 
+[08.1] Số nhà: ................................ [08.2] Đường/phố: .................................................
+[08.3] Tổ/thôn: ...............................[08.4] Xã/Phường/Đặc khu: ...................................
+[08.5] Tỉnh/Thành phố: Thanh Hóa
 [09] Địa chỉ nhận thông báo thuế: ${valThuongtru}
 [10] Điện thoại: ......................................................................................................................
 
+2. Tổ chức, cá nhân cung cấp dịch vụ làm thủ tục về thuế (nếu có): 
+[11] Tên tổ chức, cá nhân cung cấp dịch vụ làm thủ tục về thuế: .........................................
+[12] Mã số thuế: ....................................................................................................................
+[13] Hợp đồng dịch vụ làm thủ tục về thuế: Số: ................................ Ngày: ........................
+
 3. Thửa đất chịu thuế: 
 [14] Thông tin người sử dụng đất:
-+-----+----------------------+---------------------+---------------------------------+--------------------+
-| STT |      Họ và tên       | Mã số thuế          | Số định danh cá nhân/Hộ chiếu   | Tỷ lệ              |
-+-----+----------------------+---------------------+---------------------------------+--------------------+
-|  1  | ${valHoten.padEnd(20)} |                     | ${valSo.padEnd(31)} | 100%               |
-+-----+----------------------+---------------------+---------------------------------+--------------------+
-[15] Nguồn gốc thửa đất: Sử dụng đất ổn định, nhận chuyển nhượng / cấp Giấy chứng nhận lần đầu
++-----+----------------------------------+-------------+---------------------------------+--------------------+
+| STT |             Họ và tên            | Mã số thuế  | Số định danh cá nhân/Hộ chiếu   | Tỷ lệ              |
++-----+----------------------------------+-------------+---------------------------------+--------------------+
+|  1  | ${valHoten.padEnd(32)} |             | ${valSo.padEnd(31)} | 100%               |
++-----+----------------------------------+-------------+---------------------------------+--------------------+
+
+[15] Nguồn gốc thửa đất (đất được nhà nước giao, cho thuê; đất nhận chuyển nhượng, nhận thừa kế, nhận tặng cho, nhận góp vốn): Sử dụng đất ổn định, nhận chuyển nhượng / Cấp Giấy chứng nhận lần đầu
+Trường hợp thửa đất có nguồn gốc nhận chuyển nhượng, nhận thừa kế, nhận tặng cho, nhận góp vốn:
+[15.1] Tên tổ chức, cá nhân chuyển giao quyền sử dụng đất: ......................................
+[15.2] Mã số thuế: ...........................................................................................................
+[15.3] Số định danh cá nhân/Số hộ chiếu: ....................................................................
+[15.4] Mã phi nông nghiệp (nếu có): .............................................................................
+
 [16] Địa chỉ thửa đất: ${valDiachi}
+[16.1] Số nhà: ................................[16.2] Đường/phố: .................................................
+[16.3] Tổ/thôn: ..............................[16.4] Xã/Phường/Đặc khu: ...................................
+[16.5] Tỉnh/Thành phố: Thanh Hóa
 [17] Là thửa đất duy nhất: [x]
-[18] Đăng ký kê khai tổng hợp tại: ${valDiachi}
+[18] Đăng ký kê khai tổng hợp tại (Xã/phường/đặc khu): ....................................................
 [19] Đã có giấy chứng nhận: [x]
-[19.1] Số giấy chứng nhận: ${valSophathanh}            [19.2] Ngày cấp: ${valNgayCap}
+[19.1] Số giấy chứng nhận: ${valSophathanh}            [19.2] Ngày cấp: ${valLandNgayCap}
 [19.3] Thửa đất số: ${valThua}                         [19.4] Tờ bản đồ số: ${valTobando}
 [19.5] Diện tích: ${valDientich} m2                    [19.6] Loại đất/ Mục đích sử dụng: ${valMucdich}
+
 [20] Tổng diện tích thực tế sử dụng cho mục đích phi nông nghiệp: ${valDientich} m2
 [20.1] Diện tích đất sử dụng đúng mục đích: ${valDientich} m2
+[20.2] Diện tích đất sử dụng không đúng mục đích: ...........................................................
+[20.3] Diện tích đất chưa sử dụng theo đúng quy định: .....................................................
+[20.4] Hạn mức (nếu có): ......................................................................................................
+[20.5] Diện tích đất lấn, chiếm: ......................................................................................
+
+[21] Chưa có giấy chứng nhận: [ ]
+[21.1] Diện tích: ................. [21.2] Loại đất/ Mục đích đang sử dụng: ...........................
+[22] Thời điểm bắt đầu sử dụng đất: ..................................................................................... 
+[23] Thời điểm thay đổi thông tin của thửa đất: ....................................................................
+
+4. Đối với đất ở nhà nhiều tầng nhiều hộ ở, nhà chung cư [24] (tính trên diện tích sàn thực tế sử dụng): 
+[24.1] Loại nhà: ...................[24.2] Diện tích: ................ [24.3] Hệ số phân bổ: ..........
+
+5. Miễn, giảm thuế [25] 
+[25.1] Trường hợp miễn, giảm (ghi rõ trường hợp thuộc diện được miễn, giảm thuế như: thương binh, gia đình thương binh liệt sỹ, đối tượng chính sách, ...): ………………..
+[25.2] Kỳ tính thuế/Khoảng thời gian đề nghị miễn, giảm: ............................................
+
+<Trường hợp người nộp thuế đề nghị miễn thuế, giảm thuế, người nộp thuế nộp bản sao các giấy tờ chứng minh thuộc đối tượng được miễn thuế, giảm thuế. Cơ quan thuế căn cứ nội dung kê khai tại mục này để quyết định miễn thuế, giảm thuế theo quy định pháp luật, người nộp thuế không phải làm hồ sơ đề nghị miễn thuế, giảm thuế.>
 
 Tôi cam đoan số liệu khai trên là đúng và chịu trách nhiệm trước pháp luật về số liệu đã khai./.
 
 NGƯỜI TRỰC TIẾP THỰC HIỆN                                     ${dateStr}
-DỊCH VỤ LÀM THỦ TỤC VỀ THUẾ                                  NGƯỜI NỘP THUẾ hoặc
-Họ và tên: ..............................                     ĐẠI DIỆN HỢP PHÁP CỦA NGƯỜI NỘP THUẾ
-Chứng chỉ NV thuế số: ...................                     (Ký, ghi rõ họ tên; chức vụ và đóng dấu)`;
+DỊCH VỤ LÀM THỦ TỤC VỀ THUẾ                                  NGƯỜI NỘP THUẾ hoặc 
+Họ và tên:..............................                     ĐẠI DIỆN HỢP PHÁP CỦA NGƯỜI NỘP THUẾ
+Chứng chỉ nghiệp vụ chuyên môn về thuế số:...                (Ký, ghi rõ họ tên; chức vụ và đóng dấu)`;
     } else if (formType === 'tk_le_phi_truoc_ba') {
-        // MẪU 01/LPTB (TRANG 89-90 PLIV_signed.pdf)
+        // TỜ KHAI LỆ PHÍ TRƯỚC BẠ (Mẫu số 01/LPTB - TT 89/2026/TT-BTC)
         fullDoc = `                                                  +-----------------------------------------------------------+
                                                   | Mẫu số: 01/LPTB                                           |
                                                   | (Kèm theo Thông tư số 89/2026/TT-BTC                      |
-                                                  | ngày 30 tháng 6 năm 2026 của Bộ trưởng                     |
+                                                  | ngày 30 tháng 6 năm 2026 của Bộ trưởng                    |
                                                   | Bộ Tài chính)                                             |
                                                   +-----------------------------------------------------------+
 
@@ -1230,30 +1305,82 @@ Chứng chỉ NV thuế số: ...................                     (Ký, ghi 
                                     TỜ KHAI LỆ PHÍ TRƯỚC BẠ
                                     (Áp dụng đối với nhà, đất)
 
-[01] Kỳ tính thuế: Theo từng lần phát sinh ngày ..... tháng ..... năm ${dateYear}
+[01] Kỳ tính thuế: Theo từng lần phát sinh ngày … tháng … năm ${dateYear}
 [02] Lần đầu: [x]              [03] Bổ sung lần thứ:……
+[ ] Tổ chức, cá nhân được ủy quyền khai thay cho người nộp thuế
 
 [04] Người nộp thuế: ${valHoten}
-[05] Ngày, tháng, năm sinh: ${valNgaySinh}
+[05] Ngày, tháng, năm sinh (Đối với người nộp thuế là cá nhân, đại diện hộ gia đình): ${valNgaySinh}
 [06] Mã số thuế: ......................................................................................................................
 [07] Số định danh cá nhân/Số hộ chiếu: ${valSo}
 [08] Địa chỉ: ${valThuongtru}
 [09] Xã/phường/đặc khu: .................................. [10] Tỉnh/Thành phố: Thanh Hóa
+[11] Điện thoại: ..................... [12] Fax: .................. [13] Email: ..........................................
+[14] Tổ chức, cá nhân cung cấp dịch vụ làm thủ tục về thuế; hoặc Tổ chức, cá nhân được ủy quyền khai thay (nếu có): ......................................................................................
+[15] Mã số thuế: ......................................................................................................................
+[16] Hợp đồng dịch vụ làm thủ tục về thuế: Số:…................................. ngày …...................
 
 ĐẶC ĐIỂM NHÀ ĐẤT:
 1. Đất:
 1.1. Thửa đất số (Số hiệu thửa đất): ${valThua} ; Tờ bản đồ số: ${valTobando}
 1.2. Địa chỉ thửa đất: ${valDiachi}
+1.2.1. Số nhà: ………….…. Tòa nhà: ……….…..… Ngõ/Hẻm: ………………………….
+Đường/Phố:……………………. Thôn/xóm/ấp: ……………………………………………
+1.2.2. Xã/phường/đặc khu: …………………………………………………………………
+1.2.3. Tỉnh/thành phố: Thanh Hóa
+1.3. Vị trí thửa đất (mặt tiền đường phố hay ngõ, hẻm):…………………………………….
 1.4. Mục đích sử dụng đất: ${valMucdich}
 1.5. Diện tích (m2): ${valDientich} m2
-1.6. Nguồn gốc nhà đất: Nhận chuyển nhượng / Cấp Giấy chứng nhận lần đầu
-- Giấy chứng nhận quyền sử dụng đất số phát hành: ${valSophathanh} ; Số vào sổ: ${valSovaoso} do Chi nhánh VPĐKĐĐ cấp ngày ${valNgayCap}.
+1.6. Nguồn gốc nhà đất: (đất được Nhà nước giao, cho thuê; đất nhận chuyển nhượng; nhận thừa kế, hoặc nhận tặng cho):
+a) Tên tổ chức, cá nhân chuyển giao QSDĐ:
+- Tên tổ chức/cá nhân chuyển giao QSDĐ:………………………………………………….
+- Mã số thuế:…………………………………………………………………………………
+- Số định danh cá nhân/ Số hộ chiếu: ………………………………………………………
+- Địa chỉ người giao QSDĐ: …..............................................................................................
+b) Thời điểm làm giấy tờ chuyển giao QSDĐ ngày …..... tháng ….... năm ….....
+1.7. Giá trị đất thực tế chuyển giao (nếu có): ................................................... đồng
+
+2. Nhà:
+2.1. Thông tin về nhà ở, nhà làm việc, nhà sử dụng cho mục đích khác:
+Cấp nhà: ………………..... Loại nhà: ………………………Hạng nhà:…...................
+Trường hợp là nhà ở chung cư:
+Chủ dự án:……………… Địa chỉ dự án, công trình…………….
+Kết cấu:………………… Số tầng nổi:…………Số tầng hầm:…….
+Diện tích sở hữu chung (m2):…….. Diện tích sở hữu riêng (m2):……..
+2.2. Diện tích nhà (m2):
+Diện tích xây dựng (m2): ……………………………………………………………...……..
+Diện tích sàn xây dựng (m2): ……………………………………………………………...…
+2.3. Nguồn gốc nhà: …............................................................................................................
+a) Tự xây dựng: 
+- Năm hoàn công (hoặc năm bắt đầu sử dụng nhà): …............................................................
+b) Mua, thừa kế, tặng cho:
+- Thời điểm làm giấy tờ chuyển giao nhà: Ngày …...... tháng …..... năm ….....
+2.4. Giá trị nhà (đồng):………………………………………………………………………
+
+3. Giá trị nhà, đất thực tế nhận chuyển nhượng [ ], nhận thừa kế [ ], nhận tặng cho [ ] (đồng):
+…..............................................................................................................................................
+4. Tài sản thuộc diện được miễn lệ phí trước bạ (lý do):
+…..............................................................................................................................................
+
+5. Thông tin đồng chủ sở hữu nhà, đất (nếu có):
++-----+----------------------------------+-------------+---------------------------------+--------------------+
+| STT | Tên tổ chức/cá nhân đồng sở hữu  | Mã số thuế  | Số định danh cá nhân/Hộ chiếu   | Tỷ lệ sở hữu (%)   |
++-----+----------------------------------+-------------+---------------------------------+--------------------+
+|  1  |                                  |             |                                 |                    |
++-----+----------------------------------+-------------+---------------------------------+--------------------+
+
+6. Giấy tờ có liên quan, gồm:
+- Bản sao Giấy chứng nhận quyền sử dụng đất số ${valSophathanh};
+- Hợp đồng chuyển nhượng / tặng cho / thừa kế quyền sử dụng đất;
+- Bản sao Thẻ CCCD của người nộp thuế.
 
 Tôi cam đoan số liệu khai trên là đúng và chịu trách nhiệm trước pháp luật về số liệu đã khai./.
 
-                                                                  ${dateStr}
-                                                                  NGƯỜI NỘP THUẾ
-                                                              (Ký, ghi rõ họ tên, đóng dấu)`;
+NGƯỜI TRỰC TIẾP THỰC HIỆN                                     ${dateStr}
+DỊCH VỤ LÀM THỦ TỤC VỀ THUẾ                                  NGƯỜI NỘP THUẾ hoặc 
+Họ và tên:.................................                  ĐẠI DIỆN HỢP PHÁP CỦA NGƯỜI NỘP THUẾ
+Chứng chỉ nghiệp vụ chuyên môn về thuế số:...                (Ký, ghi rõ họ tên; chức vụ và đóng dấu)`;
+
     }
 
     const formOutput = document.getElementById('formOutputText');
