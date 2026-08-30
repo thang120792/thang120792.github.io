@@ -1398,44 +1398,259 @@ Cam đoan thông tin kê khai là chính xác.
     }
 }
 
-// EXPORT TO WORD (.DOC) FUNCTION - THI CÔNG TRỰC TIẾP TRÊN TRÌNH DUYỆT
-function exportToWord() {
-    const formOutputText = document.getElementById('formOutputText')?.value || '';
-    const a4FormContent = document.getElementById('a4FormContent')?.innerText || '';
-    const contentToExport = formOutputText || a4FormContent;
+// CHUẨN HÓA THỂ THỨC VĂN BẢN HÀNH CHÍNH NHÀ NƯỚC (THEO NGHỊ ĐỊNH 30/2020/NĐ-CP)
+function generateGovWordHtml() {
+    const formType = document.getElementById('selectFormType')?.value || 'mau_25_qd2604';
+    
+    // Thu thập dữ liệu các trường
+    const cccdHoten = (document.getElementById('cccd_hoten')?.value || '').trim() || '...................................................';
+    const cccdSo = (document.getElementById('cccd_so')?.value || '').trim() || '........................';
+    const cccdNgaySinh = (document.getElementById('cccd_ngaysinh')?.value || '').trim() || '...../...../..........';
+    const cccdNgayCap = (document.getElementById('cccd_ngaycap')?.value || '').trim() || '...../...../..........';
+    const cccdGioitinh = (document.getElementById('cccd_gioitinh')?.value || '').trim() || '............';
+    const cccdQuequan = (document.getElementById('cccd_quequan')?.value || '').trim() || '...................................................';
+    const cccdThuongtru = (document.getElementById('cccd_thuongtru')?.value || '').trim() || '...........................................................................................';
+    
+    const landSophathanh = (document.getElementById('land_sophathanh')?.value || '').trim() || '........................';
+    const landSovaoso = (document.getElementById('land_sovaoso')?.value || '').trim() || '........................';
+    const landNgayCap = (document.getElementById('land_ngaycap')?.value || '').trim() || '...../...../..........';
+    const landNoiCap = (document.getElementById('land_noicap')?.value || '').trim() || 'Chi nhánh VPĐKĐĐ';
+    const landThua = (document.getElementById('land_thua')?.value || '').trim() || '........';
+    const landTobando = (document.getElementById('land_tobando')?.value || '').trim() || '........';
+    const landDiachi = (document.getElementById('land_diachi')?.value || '').trim() || '...........................................................................................';
+    const landDientich = (document.getElementById('land_dientich')?.value || '').trim() || '........';
+    const landMucdich = (document.getElementById('land_mucdich')?.value || '').trim() || '...................................................';
 
-    if (!contentToExport.trim()) {
-        alert("Vui lòng kiểm tra nội dung đơn trước khi xuất!");
-        return;
+    const recipientStr = getDynamicRecipient(formType, landDiachi, cccdThuongtru);
+    const dateYear = new Date().getFullYear();
+    const dateStr = `Thanh Hóa, ngày ..... tháng ..... năm ${dateYear}`;
+
+    let docMauSo = "Mẫu số 25";
+    let docTitle = "ĐƠN ĐĂNG KÝ ĐẤT ĐAI, TÀI SẢN GẮN LIỀN VỚI ĐẤT";
+    let docSubTitle = "(Ban hành kèm theo Quyết định số 2604/QĐ-VP ngày 27/7/2026 của UBND tỉnh Thanh Hóa)";
+    let docBodyHtml = "";
+
+    if (formType === 'mau_18_nd151' || formType === 'mau_29_qd2604') {
+        docMauSo = "Mẫu số 29";
+        docTitle = "ĐƠN ĐĂNG KÝ BIẾN ĐỘNG ĐẤT ĐAI, TÀI SẢN GẮN LIỀN VỚI ĐẤT";
+        docSubTitle = "(Ban hành kèm theo Quyết định số 2604/QĐ-VP ngày 27/7/2026 của UBND tỉnh Thanh Hóa)";
+        docBodyHtml = `
+        <p class="section-heading"><b>I. Người sử dụng đất, chủ sở hữu tài sản gắn liền với đất:</b></p>
+        <p class="indent-p">1. Họ và tên: <b>${cccdHoten.toUpperCase()}</b> &nbsp;&nbsp;&nbsp;&nbsp; Giới tính: ${cccdGioitinh}</p>
+        <p class="indent-p">2. Giấy tờ nhân thân: Thẻ CCCD số: <b>${cccdSo}</b> ; Ngày cấp: ${cccdNgayCap} ; Nơi cấp: Cục Cảnh sát QLHC về TTXH</p>
+        <p class="indent-p">3. Nơi thường trú: ${cccdThuongtru}</p>
+        <p class="indent-p">4. Số điện thoại liên hệ: ...................................................</p>
+
+        <p class="section-heading"><b>II. Thửa đất đề nghị đăng ký biến động:</b></p>
+        <table class="gov-table">
+            <tr>
+                <th width="15%">Thửa đất số</th>
+                <th width="15%">Tờ bản đồ</th>
+                <th width="40%">Địa chỉ thửa đất</th>
+                <th width="15%">Diện tích</th>
+                <th width="15%">Mục đích</th>
+            </tr>
+            <tr>
+                <td align="center"><b>${landThua}</b></td>
+                <td align="center"><b>${landTobando}</b></td>
+                <td>${landDiachi}</td>
+                <td align="center"><b>${landDientich} m²</b></td>
+                <td>${landMucdich}</td>
+            </tr>
+        </table>
+        <p class="indent-p">- Giấy chứng nhận đã cấp số phát hành: <b>${landSophathanh}</b> ; Số vào sổ cấp GCN: <b>${landSovaoso}</b> do ${landNoiCap} cấp ngày ${landNgayCap}.</p>
+
+        <p class="section-heading"><b>III. Nội dung đề nghị biến động:</b></p>
+        <p class="indent-p">Đăng ký biến động quyền sử dụng đất (chuyển nhượng / tặng cho / cấp đổi / cấp lại / đính chính thông tin) theo quy định của Luật Đất đai 2024 và Quyết định số 2604/QĐ-VP tỉnh Thanh Hóa.</p>
+
+        <p class="section-heading"><b>IV. Giấy tờ nộp kèm theo hồ sơ:</b></p>
+        <p class="indent-p">1. Bản gốc Giấy chứng nhận quyền sử dụng đất số phát hành ${landSophathanh};</p>
+        <p class="indent-p">2. Hợp đồng chuyển quyền sử dụng đất được công chứng/chứng thực theo quy định;</p>
+        <p class="indent-p">3. Bản sao thẻ Căn cước công dân và các Tờ khai nghĩa vụ tài chính liên quan.</p>
+        `;
+    } else if (formType === 'don_tach_thua' || formType === 'mau_35_qd2604') {
+        docMauSo = "Mẫu số 35";
+        docTitle = "ĐƠN ĐỀ NGHỊ TÁCH THỬA ĐẤT, HỢP THỬA ĐẤT";
+        docSubTitle = "(Ban hành kèm theo Quyết định số 2604/QĐ-VP ngày 27/7/2026 của UBND tỉnh Thanh Hóa)";
+        docBodyHtml = `
+        <p class="section-heading"><b>1. Người làm đơn:</b></p>
+        <p class="indent-p">- Họ và tên: <b>${cccdHoten.toUpperCase()}</b></p>
+        <p class="indent-p">- Thẻ CCCD số: <b>${cccdSo}</b> ; Cấp ngày: ${cccdNgayCap}</p>
+        <p class="indent-p">- Địa chỉ thường trú: ${cccdThuongtru}</p>
+
+        <p class="section-heading"><b>2. Thông tin thửa đất đề nghị tách/hợp thửa:</b></p>
+        <p class="indent-p">- Thửa đất số: <b>${landThua}</b> ; Tờ bản đồ số: <b>${landTobando}</b></p>
+        <p class="indent-p">- Địa chỉ thửa đất: ${landDiachi}</p>
+        <p class="indent-p">- Diện tích hiện tại: <b>${landDientich} m²</b> ; Mục đích sử dụng: ${landMucdich}</p>
+        <p class="indent-p">- Giấy chứng nhận số: <b>${landSophathanh}</b> ; Số vào sổ: <b>${landSovaoso}</b></p>
+
+        <p class="section-heading"><b>3. Nội dung và lý do đề nghị:</b></p>
+        <p class="indent-p">- Đề nghị Chi nhánh Văn phòng Đăng ký đất đai thực hiện trích đo địa chính và thẩm định thủ tục tách thửa đất.</p>
+        <p class="indent-p">- Diện tích và kích thước cạnh của các thửa đất sau khi tách đảm bảo đáp ứng đầy đủ điều kiện tối thiểu theo Quyết định số 18/2026/QĐ-UBND của UBND tỉnh Thanh Hóa.</p>
+        `;
+    } else if (formType === 'tk_le_phi_truoc_ba') {
+        docMauSo = "Mẫu số 01/LPTB";
+        docTitle = "TỜ KHAI LỆ PHÍ TRƯỚC BẠ NHÀ, ĐẤT";
+        docSubTitle = "(Ban hành kèm theo Thông tư Bộ Tài chính & Quyết định số 2604/QĐ-VP tỉnh Thanh Hóa)";
+        docBodyHtml = `
+        <p class="section-heading"><b>[01] Người nộp thuế:</b> <b>${cccdHoten.toUpperCase()}</b></p>
+        <p class="indent-p">[02] Mã số thuế / CCCD số: <b>${cccdSo}</b> ; Cấp ngày: ${cccdNgayCap}</p>
+        <p class="indent-p">[03] Địa chỉ thường trú: ${cccdThuongtru}</p>
+        <p class="section-heading"><b>[04] Đặc điểm nhà, đất kê khai lệ phí trước bạ:</b></p>
+        <p class="indent-p">- Địa chỉ thửa đất: ${landDiachi}</p>
+        <p class="indent-p">- Thửa đất số: <b>${landThua}</b> ; Tờ bản đồ số: <b>${landTobando}</b></p>
+        <p class="indent-p">- Diện tích đất chịu lệ phí trước bạ: <b>${landDientich} m²</b> ; Mục đích: ${landMucdich}</p>
+        <p class="indent-p">- Giấy chứng nhận quyền sử dụng đất số: <b>${landSophathanh}</b></p>
+        `;
+    } else {
+        // Mẫu 25 cấp lần đầu
+        docMauSo = "Mẫu số 25";
+        docTitle = "ĐƠN ĐĂNG KÝ ĐẤT ĐAI, TÀI SẢN GẮN LIỀN VỚI ĐẤT";
+        docSubTitle = "(Ban hành kèm theo Quyết định số 2604/QĐ-VP ngày 27/7/2026 của UBND tỉnh Thanh Hóa)";
+        docBodyHtml = `
+        <p class="section-heading"><b>1. Người sử dụng đất, chủ sở hữu tài sản gắn liền với đất:</b></p>
+        <p class="indent-p">- Họ và tên: <b>${cccdHoten.toUpperCase()}</b> &nbsp;&nbsp;&nbsp;&nbsp; Năm sinh: ${cccdNgaySinh}</p>
+        <p class="indent-p">- Số CCCD: <b>${cccdSo}</b> ; Cấp ngày: ${cccdNgayCap} ; Nơi cấp: Cục Cảnh sát QLHC về TTXH</p>
+        <p class="indent-p">- Nơi thường trú: ${cccdThuongtru}</p>
+
+        <p class="section-heading"><b>2. Thửa đất đề nghị cấp Giấy chứng nhận:</b></p>
+        <table class="gov-table">
+            <tr>
+                <th width="15%">Thửa đất số</th>
+                <th width="15%">Tờ bản đồ</th>
+                <th width="40%">Địa chỉ thửa đất</th>
+                <th width="15%">Diện tích</th>
+                <th width="15%">Mục đích</th>
+            </tr>
+            <tr>
+                <td align="center"><b>${landThua}</b></td>
+                <td align="center"><b>${landTobando}</b></td>
+                <td>${landDiachi}</td>
+                <td align="center"><b>${landDientich} m²</b></td>
+                <td>${landMucdich}</td>
+            </tr>
+        </table>
+        <p class="indent-p">- Nguồn gốc sử dụng: Sử dụng đất ổn định, không có tranh chấp, phù hợp quy hoạch sử dụng đất.</p>
+        <p class="indent-p">- Đề nghị: Đăng ký và cấp Giấy chứng nhận quyền sử dụng đất, quyền sở hữu tài sản gắn liền với đất lần đầu theo Luật Đất đai 2024.</p>
+        `;
     }
 
+    return `
+    <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+    <head>
+        <meta charset='utf-8'>
+        <title>${docTitle}</title>
+        <!--[if gte mso 9]>
+        <xml>
+            <w:WordDocument>
+                <w:View>Print</w:View>
+                <w:Zoom>100</w:Zoom>
+                <w:DoNotOptimizeForBrowser/>
+            </w:WordDocument>
+        </xml>
+        <![endif]-->
+        <style>
+            @page Section1 {
+                size: 21.0cm 29.7cm; /* A4 chuẩn */
+                margin: 2.0cm 1.5cm 2.0cm 3.0cm; /* Căn lề chuẩn NĐ 30/2020: Trên 2cm, Dưới 2cm, Trái 3cm, Phải 1.5cm */
+                mso-header-margin: 36.0pt;
+                mso-footer-margin: 36.0pt;
+                mso-paper-source: 0;
+            }
+            div.Section1 { page: Section1; }
+            body {
+                font-family: 'Times New Roman', 'Times', serif;
+                font-size: 13.0pt;
+                line-height: 1.35;
+                color: #000000;
+                text-align: justify;
+            }
+            .header-table { width: 100%; border: none; border-collapse: collapse; margin-bottom: 8px; }
+            .header-table td { border: none; padding: 0px; vertical-align: top; }
+            .doc-code { font-size: 11pt; font-weight: bold; }
+            .national-title { font-size: 12pt; font-weight: bold; text-align: center; text-transform: uppercase; }
+            .national-motto { font-size: 13pt; font-weight: bold; text-align: center; }
+            .motto-line { width: 150px; height: 1px; background-color: #000; margin: 4px auto 0 auto; }
+            .doc-title { font-size: 14pt; font-weight: bold; text-align: center; text-transform: uppercase; margin: 18px 0 4px 0; }
+            .doc-subtitle { font-size: 11pt; font-style: italic; text-align: center; margin-bottom: 16px; }
+            .recipients-block { text-align: center; margin: 12px 0 16px 0; font-size: 13pt; }
+            .section-heading { font-size: 13pt; margin: 8px 0 4px 0; }
+            .indent-p { font-size: 13pt; margin: 4px 0; text-indent: 1.27cm; }
+            .gov-table { width: 100%; border-collapse: collapse; margin: 8px 0; font-size: 12pt; }
+            .gov-table th, .gov-table td { border: 1px solid #000; padding: 5px 8px; }
+            .gov-table th { background-color: #f2f2f2; text-align: center; font-weight: bold; }
+            .sign-table { width: 100%; border: none; border-collapse: collapse; margin-top: 25px; }
+            .sign-table td { border: none; padding: 0px; text-align: center; vertical-align: top; font-size: 13pt; }
+            .sign-title { font-weight: bold; text-transform: uppercase; }
+            .sign-note { font-style: italic; font-size: 11pt; }
+            .sign-space { height: 75px; }
+            .sign-name { font-weight: bold; font-size: 13pt; text-transform: uppercase; }
+        </style>
+    </head>
+    <body>
+        <div class="Section1">
+            <!-- PHẦN ĐẦU: QUỐC HIỆU, TIÊU NGỮ & MÃ BIỂU MẪU CHUẨN NGHỊ ĐỊNH 30/2020 -->
+            <table class="header-table">
+                <tr>
+                    <td width="40%" align="left">
+                        <div class="doc-code">${docMauSo}</div>
+                        <div style="font-size: 10pt; font-style: italic;">QĐ 2604/QĐ-VP Thanh Hóa</div>
+                    </td>
+                    <td width="60%" align="center">
+                        <div class="national-title">CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</div>
+                        <div class="national-motto">Độc lập - Tự do - Hạnh phúc</div>
+                        <div class="motto-line"></div>
+                    </td>
+                </tr>
+            </table>
+
+            <!-- TIÊU ĐỀ VĂN BẢN -->
+            <div class="doc-title">${docTitle}</div>
+            <div class="doc-subtitle">${docSubTitle}</div>
+
+            <!-- KÍNH GỬI -->
+            <div class="recipients-block">
+                <b>Kính gửi:</b> <b>${recipientStr}</b>
+            </div>
+
+            <!-- NỘI DUNG VĂN BẢN -->
+            ${docBodyHtml}
+
+            <p class="indent-p" style="margin-top: 10px;">Tôi xin cam đoan toàn bộ nội dung kê khai trên đơn là hoàn toàn đúng sự thật, thửa đất không có tranh chấp, khiếu kiện và xin chịu hoàn toàn trách nhiệm trước pháp luật.</p>
+
+            <!-- PHẦN CHỮ KÝ CHUẨN VĂN THƯ 2 CỘT -->
+            <table class="sign-table">
+                <tr>
+                    <td width="50%">
+                        <div class="sign-title">XÁC NHẬN CỦA UBND CẤP XÃ</div>
+                        <div class="sign-note">(Về hiện trạng sử dụng đất và tình trạng tranh chấp)</div>
+                        <div class="sign-space"></div>
+                        <div style="font-size: 11pt; font-style: italic;">(Ký, đóng dấu và ghi rõ họ tên)</div>
+                    </td>
+                    <td width="50%">
+                        <div style="font-style: italic; font-size: 12pt; margin-bottom: 4px;">${dateStr}</div>
+                        <div class="sign-title">NGƯỜI LÀM ĐƠN</div>
+                        <div class="sign-note">(Ký và ghi rõ họ tên)</div>
+                        <div class="sign-space"></div>
+                        <div class="sign-name">${cccdHoten !== '...................................................' ? cccdHoten : ''}</div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </body>
+    </html>
+    `;
+}
+
+// EXPORT TO WORD (.DOC) FUNCTION - THỂ THỨC CHUẨN NGHỊ ĐỊNH 30/2020/NĐ-CP
+function exportToWord() {
     const cccdHoten = document.getElementById('cccd_hoten')?.value || 'Nguoi_Nop_Don';
     const formType = document.getElementById('selectFormType')?.value || 'Don_Dat_Dai';
     const filename = `${formType}_${cccdHoten.replace(/\s+/g, '_')}.doc`;
 
     try {
-        const formattedHtml = `
-        <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
-        <head>
-            <meta charset='utf-8'>
-            <title>${formType}</title>
-            <style>
-                @page { size: A4; margin: 2cm 2cm 2cm 2cm; }
-                body { font-family: 'Times New Roman', serif; font-size: 13pt; line-height: 1.35; color: #000; }
-                h2, h3, h4 { text-align: center; text-transform: uppercase; margin: 6px 0; }
-                .center { text-align: center; }
-                .bold { font-weight: bold; }
-                .italic { font-style: italic; }
-                p { margin: 4px 0; }
-            </style>
-        </head>
-        <body>
-            ${contentToExport.replace(/\n/g, '<br>')}
-        </body>
-        </html>
-        `;
-
-        const blob = new Blob(['\ufeff', formattedHtml], {
+        const fullGovHtml = generateGovWordHtml();
+        const blob = new Blob(['\ufeff', fullGovHtml], {
             type: 'application/msword;charset=utf-8'
         });
         const downloadUrl = window.URL.createObjectURL(blob);
@@ -1447,7 +1662,7 @@ function exportToWord() {
         document.body.removeChild(a);
         window.URL.revokeObjectURL(downloadUrl);
 
-        console.log("✅ Xuất file Word thành công:", filename);
+        console.log("✅ Đã xuất file Word chuẩn thể thức Nhà nước thành công:", filename);
     } catch (err) {
         alert("Lỗi xuất file Word: " + err.message);
     }
@@ -1455,7 +1670,7 @@ function exportToWord() {
 
 function generateFormA4() {
     updateLiveA4Form();
-    alert("🎉 Đơn A4 chuẩn CSDL Obsidian Vault đã hoàn thiện kèm Mã QR! Bạn có thể in đơn hoặc chỉnh sửa trực tiếp.");
+    alert("🎉 Đơn A4 chuẩn thể thức văn bản hành chính Nhà nước (Nghị định 30/2020/NĐ-CP) đã hoàn thiện!");
 }
 
 // SETUP DRAG AND WHEEL LISTENERS FOR SUB-WINDOW VIEWER & DOM LOAD
