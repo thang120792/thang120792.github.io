@@ -2198,6 +2198,272 @@ function exportToWord() {
             </tr>
         </table>
         `;
+        } else if (formType === 'tk_le_phi_truoc_ba') {
+        // TỜ KHAI LỆ PHÍ TRƯỚC BẠ (MẪU 01/LPTB - media_1788079951664.png)
+        bodyHtml = `
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border:none !important; border-collapse:collapse; margin-bottom:10pt; font-family:'Times New Roman', serif;">
+            <tr style="border:none !important;">
+                <td width="45%" style="border:none !important;"></td>
+                <td width="55%" align="right" style="border:none !important;">
+                    <table border="1" cellspacing="0" cellpadding="4" style="border:1px solid #000; border-collapse:collapse; text-align:center; font-family:'Times New Roman', serif; font-size:10pt; width:220pt;">
+                        <tr>
+                            <td style="border:1px solid #000; padding:4pt 6pt; text-align:center;">
+                                <b>Mẫu số: 01/LPTB</b><br>
+                                <i>(Kèm theo Thông tư số 89/2026/TT-BTC<br>
+                                ngày 30 tháng 6 năm 2026 của Bộ trưởng<br>
+                                Bộ Tài chính)</i>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+
+        <div style="text-align:center; font-size:12pt; font-weight:bold; margin-top:4pt;">
+            CỘNG HOÀ XÃ HỘI CHỦ NGHĨA VIỆT NAM<br>
+            <u>Độc lập - Tự do - Hạnh phúc</u>
+        </div>
+
+        <div style="text-align:center; font-size:14pt; font-weight:bold; margin:14pt 0 4pt 0; text-transform:uppercase;">
+            TỜ KHAI LỆ PHÍ TRƯỚC BẠ
+        </div>
+        <div style="text-align:center; font-size:11pt; font-style:italic; margin-bottom:10pt;">
+            (Áp dụng đối với nhà, đất)
+        </div>
+
+        <p class="MsoNormal"><b>[01] Kỳ tính thuế:</b> Theo từng lần phát sinh ngày … tháng … năm ${dateYear}</p>
+        <p class="MsoNormal"><b>[02] Lần đầu:</b> [x] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>[03] Bổ sung lần thứ:</b> ……</p>
+        <p class="MsoNormal">&#9633; Tổ chức, cá nhân được ủy quyền khai thay cho người nộp thuế</p>
+
+        <p class="MsoNormal" style="margin-top:6pt;"><b>[04] Người nộp thuế:</b> ${valHoten}</p>
+        <p class="MsoNormal"><b>[05] Ngày, tháng, năm sinh:</b> ${valNgaySinh}</p>
+        <p class="MsoNormal"><b>[06] Mã số thuế:</b> ......................................................................................................................</p>
+        <p class="MsoNormal"><b>[07] Số định danh cá nhân/Số hộ chiếu:</b> ${valSo}</p>
+        <p class="MsoNormal"><b>[08] Địa chỉ:</b> ${valThuongtru}</p>
+        <p class="MsoNormal"><b>[09] Xã/phường/đặc khu:</b> .................................. <b>[10] Tỉnh/Thành phố:</b> Thanh Hóa</p>
+        <p class="MsoNormal"><b>[11] Điện thoại:</b> ..................... <b>[12] Fax:</b> .................. <b>[13] Email:</b> ..........................................</p>
+        <p class="MsoNormal"><b>[14] Tổ chức, cá nhân cung cấp dịch vụ làm thủ tục về thuế:</b> ......................................................................................</p>
+        <p class="MsoNormal"><b>[15] Mã số thuế:</b> ......................................................................................................................</p>
+        <p class="MsoNormal"><b>[16] Hợp đồng dịch vụ làm thủ tục về thuế:</b> Số:…................................. ngày …...................</p>
+
+        <p class="MsoNormal" style="font-weight:bold; margin-top:8pt;">ĐẶC ĐIỂM NHÀ ĐẤT:</p>
+        <p class="MsoNormal"><b>1. Đất:</b></p>
+        <p class="MsoNormal" style="margin-left:14pt;"><b>1.1. Thửa đất số:</b> ${valThua} ; <b>Tờ bản đồ số:</b> ${valTobando}</p>
+        <p class="MsoNormal" style="margin-left:14pt;"><b>1.2. Địa chỉ thửa đất:</b> ${valDiachi}</p>
+        <p class="MsoNormal" style="margin-left:14pt;"><b>1.3. Vị trí thửa đất:</b> .....................................................................................................................</p>
+        <p class="MsoNormal" style="margin-left:14pt;"><b>1.4. Mục đích sử dụng đất:</b> ${valMucdich}</p>
+        <p class="MsoNormal" style="margin-left:14pt;"><b>1.5. Diện tích:</b> ${valDientich} m<sup>2</sup></p>
+        <p class="MsoNormal" style="margin-left:14pt;"><b>1.6. Nguồn gốc nhà đất:</b> Nhận chuyển nhượng / Cấp Giấy chứng nhận lần đầu</p>
+        <p class="MsoNormal" style="margin-left:14pt;"><b>1.7. Giá trị đất thực tế chuyển giao:</b> .................................................................... đồng</p>
+
+        <p class="MsoNormal"><b>2. Nhà:</b> Cấp nhà: ............... Loại nhà: ...................... Diện tích sàn: .................... m<sup>2</sup></p>
+        <p class="MsoNormal"><b>3. Giá trị nhà, đất thực tế:</b> ......................................................................................... đồng</p>
+        <p class="MsoNormal"><b>4. Tài sản thuộc diện được miễn lệ phí trước bạ (lý do):</b> ...............................................................................................................................................</p>
+
+        <p class="MsoNormal" style="text-indent:24pt; margin-top:8pt; text-align:justify;">Tôi cam đoan số liệu khai trên là đúng và chịu trách nhiệm trước pháp luật về số liệu đã khai./.</p>
+
+        <table class="sign-table" border="0" cellspacing="0" cellpadding="0" style="border:none !important; border-collapse:collapse; width:100%; margin-top:16pt; font-family:'Times New Roman', serif;">
+            <tr style="border:none !important;">
+                <td width="45%" align="center" valign="top" style="border:none !important; background:none !important;">
+                    <p class="MsoNormal" style="font-weight:bold; font-size:10.5pt; text-align:center; margin:0;">NGƯỜI TRỰC TIẾP THỰC HIỆN<br>DỊCH VỤ LÀM THỦ TỤC VỀ THUẾ</p>
+                    <p class="MsoNormal" style="font-size:9.5pt; font-style:italic; text-align:center; margin:2pt 0 45pt 0;">(Ký, ghi rõ họ tên và chứng chỉ NV thuế)</p>
+                </td>
+                <td width="55%" align="center" valign="top" style="border:none !important; background:none !important;">
+                    <p class="MsoNormal" style="font-style:italic; font-size:11pt; text-align:center; margin:0;">${dateStr}</p>
+                    <p class="MsoNormal" style="font-weight:bold; font-size:11.5pt; text-align:center; margin:3pt 0 0 0;">NGƯỜI NỘP THUẾ</p>
+                    <p class="MsoNormal" style="font-size:10pt; font-style:italic; text-align:center; margin:0 0 45pt 0;">(Ký, ghi rõ họ tên hoặc đóng dấu (nếu có))</p>
+                    <p class="MsoNormal" style="font-weight:bold; font-size:12pt; text-align:center; margin:0;">${cleanName !== 'Mau_Don' ? cccdHoten : ''}</p>
+                </td>
+            </tr>
+        </table>
+        `;
+    } else if (formType === 'tk_phi_nong_nghiep') {
+        // TỜ KHAI THUẾ SỬ DỤNG ĐẤT PHI NÔNG NGHIỆP (MẪU 01/TK-SDDPNN)
+        bodyHtml = `
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border:none !important; border-collapse:collapse; margin-bottom:10pt; font-family:'Times New Roman', serif;">
+            <tr style="border:none !important;">
+                <td width="45%" style="border:none !important;"></td>
+                <td width="55%" align="right" style="border:none !important;">
+                    <table border="1" cellspacing="0" cellpadding="4" style="border:1px solid #000; border-collapse:collapse; text-align:center; font-family:'Times New Roman', serif; font-size:10pt; width:220pt;">
+                        <tr>
+                            <td style="border:1px solid #000; padding:4pt 6pt; text-align:center;">
+                                <b>Mẫu số: 01/TK-SDDPNN</b><br>
+                                <i>(Kèm theo Thông tư số 89/2026/TT-BTC<br>
+                                ngày 30 tháng 6 năm 2026 của Bộ trưởng<br>
+                                Bộ Tài chính)</i>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+
+        <div style="text-align:center; font-size:12pt; font-weight:bold; margin-top:4pt;">
+            CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM<br>
+            <u>Độc lập - Tự do - Hạnh phúc</u>
+        </div>
+
+        <div style="text-align:center; font-size:14pt; font-weight:bold; margin:14pt 0 4pt 0; text-transform:uppercase;">
+            TỜ KHAI THUẾ SỬ DỤNG ĐẤT PHI NÔNG NGHIỆP
+        </div>
+        <div style="text-align:center; font-size:11pt; font-style:italic; margin-bottom:10pt;">
+            (Áp dụng đối với hộ gia đình, cá nhân)
+        </div>
+
+        <p class="MsoNormal"><b>[01] Kỳ tính thuế:</b> Năm ${dateYear}</p>
+        <p class="MsoNormal"><b>[02] Lần đầu:</b> [x] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>[03] Bổ sung lần thứ:</b> ……</p>
+
+        <p class="MsoNormal" style="margin-top:6pt;"><b>1. Người nộp thuế:</b></p>
+        <p class="MsoNormal" style="margin-left:14pt;"><b>[04] Họ và tên:</b> ${valHoten}</p>
+        <p class="MsoNormal" style="margin-left:14pt;"><b>[05] Ngày, tháng, năm sinh:</b> ${valNgaySinh}</p>
+        <p class="MsoNormal" style="margin-left:14pt;"><b>[06] Mã số thuế:</b> .....................................................................................................................</p>
+        <p class="MsoNormal" style="margin-left:14pt;"><b>[07] Số định danh cá nhân/Số hộ chiếu:</b> ${valSo}</p>
+        <p class="MsoNormal" style="margin-left:14pt;"><b>[08] Địa chỉ cư trú:</b> ${valThuongtru}</p>
+        <p class="MsoNormal" style="margin-left:14pt;"><b>[09] Địa chỉ nhận thông báo thuế:</b> ${valThuongtru}</p>
+        <p class="MsoNormal" style="margin-left:14pt;"><b>[10] Điện thoại:</b> ......................................................................................................................</p>
+
+        <p class="MsoNormal" style="margin-top:6pt;"><b>3. Thửa đất chịu thuế:</b></p>
+        <table class="data-table" border="1" cellspacing="0" cellpadding="4" style="border-collapse:collapse; width:100%; font-size:10pt; text-align:center; margin:6pt 0;">
+            <tr style="background:#f2f2f2; font-weight:bold;">
+                <td style="width:10%;">STT</td>
+                <td style="width:40%;">Họ và tên</td>
+                <td style="width:20%;">Mã số thuế</td>
+                <td style="width:20%;">Số ĐDCN/Hộ chiếu</td>
+                <td style="width:10%;">Tỷ lệ</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td style="text-align:left; padding-left:6pt;">${valHoten}</td>
+                <td></td>
+                <td>${valSo}</td>
+                <td>100%</td>
+            </tr>
+        </table>
+
+        <p class="MsoNormal"><b>[15] Nguồn gốc thửa đất:</b> Sử dụng đất ổn định, nhận chuyển nhượng / Cấp Giấy chứng nhận lần đầu</p>
+        <p class="MsoNormal"><b>[16] Địa chỉ thửa đất:</b> ${valDiachi}</p>
+        <p class="MsoNormal"><b>[17] Là thửa đất duy nhất:</b> [x] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>[19] Đã có giấy chứng nhận:</b> [x]</p>
+        <p class="MsoNormal"><b>[19.1] Số giấy chứng nhận:</b> ${valSophathanh} &nbsp;&nbsp;&nbsp;&nbsp; <b>[19.2] Ngày cấp:</b> ${valLandNgayCap}</p>
+        <p class="MsoNormal"><b>[19.3] Thửa đất số:</b> ${valThua} &nbsp;&nbsp;&nbsp;&nbsp; <b>[19.4] Tờ bản đồ số:</b> ${valTobando} &nbsp;&nbsp;&nbsp;&nbsp; <b>[19.5] Diện tích:</b> ${valDientich} m<sup>2</sup></p>
+        <p class="MsoNormal"><b>[19.6] Loại đất/Mục đích sử dụng:</b> ${valMucdich}</p>
+        <p class="MsoNormal"><b>[20.1] Diện tích đất sử dụng đúng mục đích:</b> ${valDientich} m<sup>2</sup></p>
+
+        <p class="MsoNormal" style="text-indent:24pt; margin-top:8pt; text-align:justify;">Tôi cam đoan số liệu khai trên là đúng và chịu trách nhiệm trước pháp luật về số liệu đã khai./.</p>
+
+        <table class="sign-table" border="0" cellspacing="0" cellpadding="0" style="border:none !important; border-collapse:collapse; width:100%; margin-top:16pt; font-family:'Times New Roman', serif;">
+            <tr style="border:none !important;">
+                <td width="45%" align="center" valign="top" style="border:none !important; background:none !important;">
+                    <p class="MsoNormal" style="font-weight:bold; font-size:10.5pt; text-align:center; margin:0;">NGƯỜI TRỰC TIẾP THỰC HIỆN<br>DỊCH VỤ LÀM THỦ TỤC VỀ THUẾ</p>
+                    <p class="MsoNormal" style="font-size:9.5pt; font-style:italic; text-align:center; margin:2pt 0 45pt 0;">(Ký, ghi rõ họ tên và chứng chỉ NV thuế)</p>
+                </td>
+                <td width="55%" align="center" valign="top" style="border:none !important; background:none !important;">
+                    <p class="MsoNormal" style="font-style:italic; font-size:11pt; text-align:center; margin:0;">${dateStr}</p>
+                    <p class="MsoNormal" style="font-weight:bold; font-size:11.5pt; text-align:center; margin:3pt 0 0 0;">NGƯỜI NỘP THUẾ</p>
+                    <p class="MsoNormal" style="font-size:10pt; font-style:italic; text-align:center; margin:0 0 45pt 0;">(Ký, ghi rõ họ tên hoặc đóng dấu (nếu có))</p>
+                    <p class="MsoNormal" style="font-weight:bold; font-size:12pt; text-align:center; margin:0;">${cleanName !== 'Mau_Don' ? cccdHoten : ''}</p>
+                </td>
+            </tr>
+        </table>
+        `;
+    } else if (formType === 'tk_thue_tncn') {
+        // TỜ KHAI THUẾ THU NHẬP CÁ NHÂN (MẪU 03/BĐS-TNCN)
+        bodyHtml = `
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border:none !important; border-collapse:collapse; margin-bottom:10pt; font-family:'Times New Roman', serif;">
+            <tr style="border:none !important;">
+                <td width="45%" style="border:none !important;"></td>
+                <td width="55%" align="right" style="border:none !important;">
+                    <table border="1" cellspacing="0" cellpadding="4" style="border:1px solid #000; border-collapse:collapse; text-align:center; font-family:'Times New Roman', serif; font-size:10pt; width:220pt;">
+                        <tr>
+                            <td style="border:1px solid #000; padding:4pt 6pt; text-align:center;">
+                                <b>Mẫu số: 03/BĐS-TNCN</b><br>
+                                <i>(Kèm theo Thông tư số 89/2026/TT-BTC<br>
+                                ngày 30 tháng 6 năm 2026 của Bộ trưởng<br>
+                                Bộ Tài chính)</i>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+
+        <div style="text-align:center; font-size:12pt; font-weight:bold; margin-top:4pt;">
+            CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM<br>
+            <u>Độc lập - Tự do - Hạnh phúc</u>
+        </div>
+
+        <div style="text-align:center; font-size:14pt; font-weight:bold; margin:14pt 0 4pt 0; text-transform:uppercase;">
+            TỜ KHAI THUẾ THU NHẬP CÁ NHÂN
+        </div>
+        <div style="text-align:center; font-size:11pt; font-style:italic; margin-bottom:10pt;">
+            (Áp dụng đối với cá nhân có thu nhập từ chuyển nhượng bất động sản;<br>
+            thu nhập từ nhận thừa kế và nhận quà tặng là bất động sản)
+        </div>
+
+        <p class="MsoNormal"><b>[01] Kỳ tính thuế:</b> Lần phát sinh: Ngày … tháng … năm ${dateYear}</p>
+        <p class="MsoNormal"><b>[02] Lần đầu:</b> [x] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>[03.1] Bổ sung lần thứ:</b> ……</p>
+
+        <p class="MsoNormal" style="font-weight:bold; margin-top:6pt;">I. THÔNG TIN NGƯỜI CHUYỂN NHƯỢNG, NHẬN THỪA KẾ, QUÀ TẶNG</p>
+        <table class="data-table" border="1" cellspacing="0" cellpadding="4" style="border-collapse:collapse; width:100%; font-size:9.5pt; text-align:center; margin:6pt 0;">
+            <tr style="background:#f2f2f2; font-weight:bold;">
+                <td style="width:6%;">STT</td>
+                <td style="width:30%;">Họ và tên</td>
+                <td style="width:25%;">Mã số thuế/Số ĐDCN</td>
+                <td style="width:15%;">Ngày sinh</td>
+                <td style="width:14%;">Điện thoại</td>
+                <td style="width:10%;">Tỷ lệ (%)</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td style="text-align:left; padding-left:6pt;">${valHoten}</td>
+                <td>${valSo}</td>
+                <td>${valNgaySinh}</td>
+                <td></td>
+                <td>100%</td>
+            </tr>
+        </table>
+
+        <p class="MsoNormal" style="font-weight:bold; margin-top:6pt;">II. THÔNG TIN NGƯỜI NHẬN CHUYỂN NHƯỢNG, NHẬN THỪA KẾ, QUÀ TẶNG</p>
+        <table class="data-table" border="1" cellspacing="0" cellpadding="4" style="border-collapse:collapse; width:100%; font-size:9.5pt; text-align:center; margin:6pt 0;">
+            <tr style="background:#f2f2f2; font-weight:bold;">
+                <td style="width:6%;">STT</td>
+                <td style="width:34%;">Họ và tên</td>
+                <td style="width:28%;">Mã số thuế/Số ĐDCN</td>
+                <td style="width:18%;">Ngày sinh</td>
+                <td style="width:14%;">Tỷ lệ (%)</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>100%</td>
+            </tr>
+        </table>
+
+        <p class="MsoNormal"><b>[12] Loại bất động sản:</b> Quyền sử dụng đất và tài sản gắn liền trên đất [x]</p>
+        <p class="MsoNormal"><b>[16.2] Giấy chứng nhận QSDĐ số:</b> ${valSophathanh} &nbsp;&nbsp;&nbsp;&nbsp; <b>[16.4] Ngày cấp:</b> ${valLandNgayCap}</p>
+        <p class="MsoNormal"><b>[20.1] Thửa đất số:</b> ${valThua} ; <b>[20.2] Tờ bản đồ số:</b> ${valTobando} ; <b>[20.3] Địa chỉ:</b> ${valDiachi}</p>
+        <p class="MsoNormal"><b>[20.6] Loại đất:</b> ${valMucdich} ; <b>Diện tích:</b> ${valDientich} m<sup>2</sup></p>
+        <p class="MsoNormal"><b>[23.1] Thu nhập từ chuyển nhượng bất động sản:</b> [x]</p>
+
+        <p class="MsoNormal" style="text-indent:24pt; margin-top:8pt; text-align:justify;">Tôi cam đoan những nội dung kê khai là đúng và chịu trách nhiệm trước pháp luật về những nội dung đã khai./.</p>
+
+        <table class="sign-table" border="0" cellspacing="0" cellpadding="0" style="border:none !important; border-collapse:collapse; width:100%; margin-top:16pt; font-family:'Times New Roman', serif;">
+            <tr style="border:none !important;">
+                <td width="45%" align="center" valign="top" style="border:none !important; background:none !important;">
+                    <p class="MsoNormal" style="font-weight:bold; font-size:10.5pt; text-align:center; margin:0;">NGƯỜI TRỰC TIẾP THỰC HIỆN<br>DỊCH VỤ LÀM THỦ TỤC VỀ THUẾ</p>
+                    <p class="MsoNormal" style="font-size:9.5pt; font-style:italic; text-align:center; margin:2pt 0 45pt 0;">(Ký, ghi rõ họ tên và chứng chỉ NV thuế)</p>
+                </td>
+                <td width="55%" align="center" valign="top" style="border:none !important; background:none !important;">
+                    <p class="MsoNormal" style="font-style:italic; font-size:11pt; text-align:center; margin:0;">${dateStr}</p>
+                    <p class="MsoNormal" style="font-weight:bold; font-size:11.5pt; text-align:center; margin:3pt 0 0 0;">NGƯỜI NỘP THUẾ</p>
+                    <p class="MsoNormal" style="font-size:10pt; font-style:italic; text-align:center; margin:0 0 45pt 0;">(Ký, ghi rõ họ tên hoặc đóng dấu (nếu có))</p>
+                    <p class="MsoNormal" style="font-weight:bold; font-size:12pt; text-align:center; margin:0;">${cleanName !== 'Mau_Don' ? cccdHoten : ''}</p>
+                </td>
+            </tr>
+        </table>
+        `;
+    }
     } else {
         // TẤT CẢ CÁC MẪU CÒN LẠI (TỜ KHAI THUẾ, ĐƠN GIAO ĐẤT, THUÊ ĐẤT, GIA HẠN...)
         const lines = (document.getElementById('formOutputText')?.value || '').split('\n');
