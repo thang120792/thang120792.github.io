@@ -1418,8 +1418,10 @@ function exportToWord() {
         } else if (trimmed.startsWith('Hướng dẫn kê khai') || trimmed.startsWith('Hướng dẫn viết đơn')) {
             bodyHtml += `<hr style="margin-top:20px; border:0; border-top:1px dashed #666;"><p style="font-size:10pt; font-style:italic; font-weight:bold; margin:6px 0;">${trimmed}</p>`;
         } else if (trimmed.startsWith('(1)') || trimmed.startsWith('(2)') || trimmed.startsWith('(3)') || trimmed.startsWith('(4)') || trimmed.startsWith('(5)') || trimmed.startsWith('(6)') || trimmed.startsWith('(7)') || trimmed.startsWith('(8)') || trimmed.startsWith('(9)') || trimmed.startsWith('(10)') || trimmed.startsWith('(11)') || trimmed.startsWith('(12)') || trimmed.startsWith('(13)') || trimmed.startsWith('(14)') || trimmed.startsWith('(15)') || trimmed.startsWith('(16)') || trimmed.startsWith('(17)') || trimmed.startsWith('(18)') || trimmed.startsWith('(19)') || trimmed.startsWith('(20)')) {
+            // Đoạn hướng dẫn chú thích ở chân đơn
             bodyHtml += `<p style="font-size:9.5pt; line-height:1.25; margin:2px 0; text-align:justify;">${trimmed}</p>`;
         } else if (trimmed.includes('Người viết đơn') || trimmed.includes('Người sử dụng đất') || trimmed.includes('Người làm đơn') || trimmed.includes('NGƯỜI NỘP THUẾ') || trimmed.includes('BÊN THUÊ ĐẤT') || trimmed.includes('THỦ TRƯỞNG ĐƠN VỊ')) {
+            // Khối chữ ký
             bodyHtml += `
             <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse:collapse; margin-top:20px; font-family:'Times New Roman', serif;">
                 <tr>
@@ -1433,6 +1435,7 @@ function exportToWord() {
                 </tr>
             </table>`;
         } else {
+            // Đoạn văn bình thường: In đậm các tiêu đề mục (1., 2., a), b), I., II., [01], [02]...)
             let formattedLine = trimmed.replace(/^([0-9]+\.|\b[a-đ]\)|\b[I|V|X]+\.|\b\[[0-9a-zA-Z.]+\])/g, '<b>$1</b>');
             bodyHtml += `<p style="margin:3px 0; text-align:justify;">${formattedLine}</p>`;
         }
