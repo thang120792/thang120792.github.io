@@ -370,27 +370,17 @@
                                     </div>
                                 </div>
                                 <div style="display:flex; gap:10px;">
-                                    <select id="selectFormType" onchange="updateLiveA4Form()" style="background:#0f172a; color:#fff; border:1px solid rgba(255,255,255,0.2); padding:8px 12px; border-radius:6px; font-size:13px; max-width:440px;">
-                                        <option value="mau_25_qd2604">Mẫu số 25: Đơn đăng ký đất đai, tài sản gắn liền với đất (QĐ 2604/QĐ-VP)</option>
-                                        <option value="mau_29_qd2604">Mẫu số 29: Đơn đăng ký biến động đất đai, tài sản gắn liền với đất (QĐ 2604/QĐ-VP)</option>
-                                        <option value="mau_35_qd2604">Mẫu số 35: Đơn đề nghị tách thửa đất, hợp thửa đất (QĐ 2604/QĐ-VP)</option>
-                                        <option value="mau_09_qd2604">Mẫu số 09: Đơn đề nghị giao đất, cho thuê đất, giao/cho thuê rừng (QĐ 2604/QĐ-VP)</option>
-                                        <option value="mau_09a_qd2604">Mẫu số 09a: Đơn đề nghị chuyển mục đích sử dụng đất (QĐ 2604/QĐ-VP)</option>
-                                        <option value="mau_10_qd2604">Mẫu số 10: Đơn đề nghị giao/thuê đất thông qua đấu giá QSDĐ (QĐ 2604/QĐ-VP)</option>
-                                        <option value="mau_11_qd2604">Mẫu số 11: Văn bản đề nghị miễn, giảm tiền thuê đất, tiền sử dụng đất (QĐ 2604/QĐ-VP)</option>
-                                        <option value="mau_15_qd2604">Mẫu số 15: Phiếu chuyển thông tin xác định nghĩa vụ tài chính về đất đai (QĐ 2604/QĐ-VP)</option>
-                                        <option value="mau_16_qd2604">Mẫu số 16: Đơn đề nghị chuyển hình thức sử dụng đất (QĐ 2604/QĐ-VP)</option>
-                                        <option value="mau_17_qd2604">Mẫu số 17: Đơn đề nghị gia hạn sử dụng đất (QĐ 2604/QĐ-VP)</option>
-                                        <option value="mau_18_qd2604">Mẫu số 18: Đơn đề nghị điều chỉnh thời hạn sử dụng đất của dự án (QĐ 2604/QĐ-VP)</option>
-                                        <option value="mau_23_qd2604">Mẫu số 23: Đơn đề nghị điều chỉnh quyết định giao/thuê/chuyển mục đích đất (QĐ 2604/QĐ-VP)</option>
-                                        <option value="mau_33_qd2604">Mẫu số 33: Đơn đề nghị sử dụng đất kết hợp đa mục đích (QĐ 2604/QĐ-VP)</option>
-                                        <option value="mau_33a_qd2604">Mẫu số 33a: Đơn đề nghị gia hạn phương án sử dụng đất kết hợp đa mục đích (QĐ 2604/QĐ-VP)</option>
-                                        <option value="mau_37_qd2604">Mẫu số 37: Hợp đồng thuê đất (QĐ 2604/QĐ-VP)</option>
-                                        <option value="tk_thue_tncn">Mẫu số: 03/BĐS-TNCN: Tờ khai thuế thu nhập cá nhân chuyển nhượng BĐS (TT 89/2026/TT-BTC)</option>
-                                        <option value="tk_phi_nong_nghiep">Mẫu số: 01/TK-SDDPNN: Tờ khai thuế sử dụng đất phi nông nghiệp cá nhân (TT 89/2026/TT-BTC)</option>
-                                        <option value="tk_phi_nong_nghiep_to_chuc">Mẫu số: 02/TK-SDDPNN: Tờ khai thuế sử dụng đất phi nông nghiệp tổ chức (TT 89/2026/TT-BTC)</option>
-                                        <option value="tk_le_phi_truoc_ba">Mẫu số: 01/LPTB: Tờ khai lệ phí trước bạ nhà, đất (TT 89/2026/TT-BTC)</option>
-                                        <option value="tk_tndn">Mẫu số: 02/TNDN: Tờ khai thuế thu nhập doanh nghiệp chuyển nhượng BĐS (TT 89/2026/TT-BTC)</option>
+                                    <select id="selectFormType" onchange="updateLiveA4Form()" style="background:#0f172a; color:#fff; border:1px solid rgba(255,255,255,0.2); padding:8px 12px; border-radius:6px; font-size:13px; max-width:460px;">
+                                        <optgroup label="── 3 MẪU ĐƠN ĐẤT ĐAI CỐT LÕI (QĐ 2604/QĐ-VP) ──">
+                                            <option value="mau_25_qd2604">Mẫu số 25: Đơn đăng ký đất đai, tài sản gắn liền với đất</option>
+                                            <option value="mau_29_qd2604">Mẫu số 29: Đơn đăng ký biến động đất đai, tài sản gắn liền với đất</option>
+                                            <option value="mau_35_qd2604">Mẫu số 35: Đơn đề nghị tách thửa đất, hợp thửa đất</option>
+                                        </optgroup>
+                                        <optgroup label="── 3 TỜ KHAI THUẾ CHUẨN (TT 89/2026/TT-BTC) ──">
+                                            <option value="tk_thue_tncn">Mẫu số: 03/BĐS-TNCN: Tờ khai thuế thu nhập cá nhân chuyển nhượng BĐS</option>
+                                            <option value="tk_phi_nong_nghiep">Mẫu số: 01/TK-SDDPNN: Tờ khai thuế sử dụng đất phi nông nghiệp</option>
+                                            <option value="tk_le_phi_truoc_ba">Mẫu số: 01/LPTB: Tờ khai lệ phí trước bạ nhà, đất</option>
+                                        </optgroup>
                                     </select>
                                 </div>
                             </div>
