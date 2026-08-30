@@ -1398,42 +1398,56 @@ Cam đoan thông tin kê khai là chính xác.
     }
 }
 
-// EXPORT TO WORD (.DOCX) FUNCTION
-async function exportToWord() {
-    const formOutputText = document.getElementById('formOutputText')?.value;
-    if (!formOutputText) {
+// EXPORT TO WORD (.DOC) FUNCTION - THI CÔNG TRỰC TIẾP TRÊN TRÌNH DUYỆT
+function exportToWord() {
+    const formOutputText = document.getElementById('formOutputText')?.value || '';
+    const a4FormContent = document.getElementById('a4FormContent')?.innerText || '';
+    const contentToExport = formOutputText || a4FormContent;
+
+    if (!contentToExport.trim()) {
         alert("Vui lòng kiểm tra nội dung đơn trước khi xuất!");
         return;
     }
 
-    const cccdHoten = document.getElementById('cccd_hoten')?.value || 'Don_Dat_Dai';
+    const cccdHoten = document.getElementById('cccd_hoten')?.value || 'Nguoi_Nop_Don';
     const formType = document.getElementById('selectFormType')?.value || 'Don_Dat_Dai';
+    const filename = `${formType}_${cccdHoten.replace(/\s+/g, '_')}.doc`;
 
     try {
-        const response = await fetch(`${API_BASE_URL}/api/export/docx`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                title: `${formType}_${cccdHoten.replace(/\s+/g, '_')}`,
-                content: formOutputText
-            })
+        const formattedHtml = `
+        <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+        <head>
+            <meta charset='utf-8'>
+            <title>${formType}</title>
+            <style>
+                @page { size: A4; margin: 2cm 2cm 2cm 2cm; }
+                body { font-family: 'Times New Roman', serif; font-size: 13pt; line-height: 1.35; color: #000; }
+                h2, h3, h4 { text-align: center; text-transform: uppercase; margin: 6px 0; }
+                .center { text-align: center; }
+                .bold { font-weight: bold; }
+                .italic { font-style: italic; }
+                p { margin: 4px 0; }
+            </style>
+        </head>
+        <body>
+            ${contentToExport.replace(/\n/g, '<br>')}
+        </body>
+        </html>
+        `;
+
+        const blob = new Blob(['\ufeff', formattedHtml], {
+            type: 'application/msword;charset=utf-8'
         });
-
-        if (!response.ok) {
-            throw new Error("Không thể khởi tạo file Word");
-        }
-
-        const blob = await response.blob();
         const downloadUrl = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = downloadUrl;
-        a.download = `${formType}_${cccdHoten.replace(/\s+/g, '_')}.docx`;
+        a.download = filename;
         document.body.appendChild(a);
         a.click();
-        a.remove();
+        document.body.removeChild(a);
         window.URL.revokeObjectURL(downloadUrl);
 
-        alert("🎉 Đã xuất thành công file Word (.docx)! Bạn có thể mở và lưu hồ sơ.");
+        console.log("✅ Xuất file Word thành công:", filename);
     } catch (err) {
         alert("Lỗi xuất file Word: " + err.message);
     }
