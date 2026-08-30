@@ -567,7 +567,13 @@ function sendSampleQuestion(question) {
     if (isMobile() && sidebarOpen) closeSidebar();
 }
 
+// ── Global Multi-Turn Chat History & Session ──
+let chatHistory = [];
+let chatSessionId = 'user_' + Math.random().toString(36).substring(2, 9);
+
 function clearChat() {
+    chatHistory = [];
+    chatSessionId = 'user_' + Math.random().toString(36).substring(2, 9);
     const container = document.getElementById('chatMessages');
     if (!container) return;
     container.innerHTML = `
@@ -576,8 +582,7 @@ function clearChat() {
             <div class="msg-bubble">
                 <div class="msg-title">Xin chào! Tôi là <strong>Trợ lý Pháp Lý Đất Đai ThanhHoa Land AI</strong></div>
                 <p class="msg-subtitle">Phiên bản chính thức 2026</p>
-                <p>Tôi sẵn sàng tư vấn chính xác các thủ tục hành chính đất đai theo <strong>Luật Đất đai 2024</strong>, <strong>Các văn bản pháp luật mới nhất hiện hành</strong>...
-                </div>
+                <p>Tôi sẵn sàng tư vấn chính xác các thủ tục hành chính đất đai theo <strong>Luật Đất đai 2024</strong>, <strong>Các văn bản pháp luật mới nhất hiện hành</strong>...</p>
             </div>
         </div>
     `;
@@ -663,7 +668,11 @@ async function sendMessage() {
         const response = await fetchWithRetry(`${API_BASE_URL}/api/chat`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ question })
+            body: JSON.stringify({
+                question,
+                history: chatHistory.slice(-8),
+                session_id: chatSessionId
+            })
         });
 
         // Kiểm tra Content-Type trước khi parse — tránh lỗi "Unexpected token '<'"
@@ -688,6 +697,13 @@ async function sendMessage() {
             chatContainer.appendChild(blockedMsg);
             chatContainer.scrollTop = chatContainer.scrollHeight;
             return;
+        }
+
+        // Lưu câu hỏi và câu trả lời vào lịch sử hội thoại để tiếp nối ngữ cảnh
+        if (data.answer) {
+            chatHistory.push({ role: 'user', content: question });
+            chatHistory.push({ role: 'assistant', content: data.answer });
+            if (chatHistory.length > 20) chatHistory = chatHistory.slice(-20);
         }
 
         const botMsg = document.createElement('div');
