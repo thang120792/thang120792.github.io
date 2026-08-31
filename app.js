@@ -1,3 +1,445 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>ThanhHoa Land AI - Trợ Lý Ảo Pháp Lý Đất Đai</title>
+    <meta name="theme-color" content="#06080f">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="description" content="Hệ thống Trợ lý AI Pháp lý 1-1 & Tự động hóa Hồ sơ Đất đai tỉnh Thanh Hóa">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-grid"></div>
+    <div class="bg-glow bg-glow-1"></div>
+    <div class="bg-glow bg-glow-2"></div>
+
+    <div class="app-container">
+
+        <!-- ========== HEADER ========== -->
+        <header class="app-header" id="appHeader">
+            <div class="header-left">
+                <div class="gov-emblem">
+                    <i class="fa-solid fa-landmark"></i>
+                </div>
+                <div class="header-title">
+                    <div class="title-row">
+                        <h1>THANH HOA LAND AI</h1>
+                        <span class="badge-version">v2026</span>
+                        <span class="badge-ai">AI</span>
+                    </div>
+                    <p class="header-subtitle">Trợ lý AI Pháp lý Đất đai & Tự động hóa Hồ sơ - Tỉnh Thanh Hóa</p>
+                </div>
+                <!-- Mobile-expand: status chips shown inside header on small screens -->
+                <div class="header-status-mobile" id="headerStatusMobile">
+                    <span class="mobile-status-dot"></span>
+                    <span>Online</span>
+                    <span class="mobile-sep">•</span>
+                    <span>294 VBQPPL</span>
+                </div>
+            </div>
+            <div class="header-right" id="headerRight">
+                <div class="status-chip online">
+                    <span class="status-dot"></span>
+                    <span>HỆ THỐNG ONLINE</span>
+                </div>
+                <div class="status-chip data">
+                    <i class="fa-solid fa-book-bookmark"></i>
+                    <span>CSDL Luật đất đai 2024, NĐ, TT, QĐ mới nhất</span>
+                </div>
+                <div class="status-chip db">
+                    <i class="fa-solid fa-database"></i>
+                    <span>294 VBQPPL & TTHC</span>
+                </div>
+                <!-- Desktop notice -->
+                <div class="header-notice-desktop">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <span>Lưu ý: AI hỗ trợ, không thay thế cơ quan thẩm quyền</span>
+                </div>
+            </div>
+            <!-- Mobile menu toggle -->
+            <button class="mobile-menu-btn" id="mobileMenuBtn" onclick="toggleMobileMenu()">
+                <i class="fa-solid fa-ellipsis-vertical"></i>
+            </button>
+        </header>
+
+        <!-- ========== NAVIGATION ========== -->
+        <nav class="nav-tabs">
+            <button class="nav-tab active" data-tab="tab-chat" onclick="switchTab('tab-chat')">
+                <div class="tab-icon"><i class="fa-solid fa-comments"></i></div>
+                <div class="tab-text">
+                    <span class="tab-label">Phân hệ 1</span>
+                    <span class="tab-desc">Trợ lý AI Tư vấn Pháp lý 1-1</span>
+                </div>
+            </button>
+            <button class="nav-tab" data-tab="tab-ocr" onclick="switchTab('tab-ocr')">
+                <div class="tab-icon"><i class="fa-solid fa-file-contract"></i></div>
+                <div class="tab-text">
+                    <span class="tab-label">Phân hệ 2</span>
+                    <span class="tab-desc">Quét Hồ Sơ & Soạn Đơn Chuẩn (Obsidian Vault)</span>
+                </div>
+            </button>
+        </nav>
+
+        <!-- ========== MAIN CONTENT ========== -->
+        <main class="main-content">
+
+            <!-- ===== TAB 1: AI CHAT ===== -->
+            <section id="tab-chat" class="tab-content active">
+                <div class="chat-layout">
+
+                    <!-- Sidebar (desktop: left panel | mobile: toggleable drawer) -->
+                    <aside class="chat-sidebar" id="chatSidebar">
+                        <div class="sidebar-section">
+                            <div class="sidebar-header">
+                                <div class="sidebar-icon"><i class="fa-solid fa-gavel"></i></div>
+                                <div>
+                                    <h3>Chủ Đề Hỏi Đáp</h3>
+                                    <p>Truy xuất 1-1 từ CSDL Luật đất đai 2024, NĐ, TT, QĐ mới nhất</p>
+                                </div>
+                            </div>
+                            <div class="topic-list">
+                                <button class="topic-card" onclick="sendSampleQuestion('Tôi muốn tách đất rừng sản xuất tại Thanh Hóa cần những điều kiện gì?')">
+                                    <div class="topic-icon"><i class="fa-solid fa-tree"></i></div>
+                                    <div class="topic-text">Điều kiện tách đất rừng sản xuất (≥ 3.000 m²)</div>
+                                </button>
+                                <button class="topic-card" onclick="sendSampleQuestion('Diện tích tối thiểu để được phép tách thửa đất ở tại nông thôn là bao nhiêu m²?')">
+                                    <div class="topic-icon"><i class="fa-solid fa-scissors"></i></div>
+                                    <div class="topic-text">Hạn mức tách đất ở nông thôn (≥ 50 m²)</div>
+                                </button>
+                                <button class="topic-card" onclick="sendSampleQuestion('Sang tên Sổ đỏ cần mẫu đơn gì và hồ sơ gồm những giấy tờ nào?')">
+                                    <div class="topic-icon"><i class="fa-solid fa-file-signature"></i></div>
+                                    <div class="topic-text">Sang tên / Chuyển nhượng Sổ đỏ (Mẫu 09/ĐK)</div>
+                                </button>
+                                <button class="topic-card" onclick="sendSampleQuestion('Hồ sơ xin cấp Giấy chứng nhận quyền sử dụng đất lần đầu gồm những gì?')">
+                                    <div class="topic-icon"><i class="fa-solid fa-certificate"></i></div>
+                                    <div class="topic-text">Cấp Sổ đỏ lần đầu (Mẫu 04a/ĐK)</div>
+                                </button>
+                                <button class="topic-card" onclick="sendSampleQuestion('Khi làm thủ tục chuyển nhượng đất đai phải nộp thuế TNCN và lệ phí trước bạ bao nhiêu?')">
+                                    <div class="topic-icon"><i class="fa-solid fa-calculator"></i></div>
+                                    <div class="topic-text">Tính Thuế TNCN & Lệ phí trước bạ</div>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-card-header">
+                                <i class="fa-solid fa-scale-balanced"></i>
+                                <span>CSDL Tri thức Đất đai</span>
+                            </div>
+                            <ul class="info-list">
+                                <li><i class="fa-solid fa-check-circle"></i> 294 VBQPPL & 185 Địa danh</li>
+                                <li><i class="fa-solid fa-check-circle"></i> 100% Căn cứ - Zero Hallucination</li>
+                                <li><i class="fa-solid fa-check-circle"></i> Bộ nhớ phản biện AI Active</li>
+                            </ul>
+                        </div>
+                        <!-- Mobile: close drawer button -->
+                        <button class="sidebar-close-btn" onclick="toggleSidebar()">
+                            <i class="fa-solid fa-xmark"></i> Đóng
+                        </button>
+                    </aside>
+
+                    <!-- Chat Main -->
+                    <div class="chat-main">
+                        <div class="chat-topbar">
+                            <div class="bot-info">
+                                <div class="bot-avatar">
+                                    <i class="fa-solid fa-robot"></i>
+                                </div>
+                                <div class="bot-details">
+                                    <h4>Trợ lý ảo Pháp luật Đất đai</h4>
+                                    <div class="bot-status">
+                                        <span class="online-dot"></span>
+                                        <span>Sẵn sàng giải đáp 1-1</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="topbar-actions">
+                                <!-- Mobile: toggle sidebar -->
+                                <button class="btn-icon btn-sidebar-toggle" id="btnToggleSidebar" onclick="toggleSidebar()" title="Chủ đề">
+                                    <i class="fa-solid fa-bars"></i>
+                                </button>
+                                <button class="btn-icon btn-danger" onclick="clearChat()" title="Xóa hội thoại">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="chat-messages" id="chatMessages">
+                            <div class="message bot">
+                                <div class="msg-avatar"><i class="fa-solid fa-robot"></i></div>
+                                <div class="msg-bubble">
+                                    <div class="msg-title">Xin chào! Tôi là <strong>Trợ lý Pháp lý đất đai AI ThanhHoa Land AI</strong></div>
+                                    <p class="msg-subtitle">Phiên bản chính thức 2026</p>
+                                    <p>Tôi sẵn sàng tư vấn chính xác các câu hỏi liên quan đất đai cũng như thủ tục hành chính liên quan theo <strong>Luật Đất đai 2024</strong>, <strong>các văn bản pháp luật hiện hành...</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="chat-input">
+                            <div class="input-container">
+                                <i class="fa-solid fa-message input-icon"></i>
+                                <input type="text" id="userInput" placeholder="Nhập thắc mắc về đất đai ..." onkeypress="handleKeyPress(event)" autocomplete="off">
+                                <button class="btn-send" onclick="sendMessage()">
+                                    <i class="fa-solid fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 2: OCR SCAN (NÚT NHẬP MẶT 1, MẶT 2 & XUẤT FILE WORD) -->
+            <section id="tab-ocr" class="tab-content">
+                <div class="ocr-layout">
+                    <!-- Left: Upload & Blank Data Extraction Panel -->
+                    <div class="ocr-sidebar">
+                        
+                        <!-- 1. KHU VỰC QUÉT CCCD 2 MẶT -->
+                        <div class="section-card cccd-card">
+                            <div class="group-header">
+                                <i class="fa-solid fa-id-card"></i>
+                                <div>
+                                    <h3>1. QUÉT THẺ CCCD (2 MẶT RIÊNG BIỆT)</h3>
+                                    <span class="group-subtitle">Trích xuất chuẩn cấu trúc Căn cước công dân (front_side & back_side)</span>
+                                </div>
+                            </div>
+
+                            <div class="split-upload-row">
+                                <div class="upload-box-split" id="boxCccdFront">
+                                    <i class="fa-solid fa-id-card"></i>
+                                    <span>Mặt 1 (Mặt Trước)</span>
+                                    <button type="button" class="btn-select-side" onclick="document.getElementById('fileCccdFront').click()">
+                                        <i class="fa-solid fa-cloud-arrow-up"></i> Nhập Mặt 1
+                                    </button>
+                                    <small id="statusCccdFront">Chưa chọn ảnh</small>
+                                    <div id="thumbCccdFront"></div>
+                                    <input type="file" id="fileCccdFront" accept="image/*,.pdf" style="display:none;" onchange="handleFileSelectedSide(event, 'cccd', 'front')">
+                                </div>
+
+                                <div class="upload-box-split" id="boxCccdBack">
+                                    <i class="fa-solid fa-credit-card"></i>
+                                    <span>Mặt 2 (Mặt Sau)</span>
+                                    <button type="button" class="btn-select-side" onclick="document.getElementById('fileCccdBack').click()">
+                                        <i class="fa-solid fa-cloud-arrow-up"></i> Nhập Mặt 2
+                                    </button>
+                                    <small id="statusCccdBack">Chưa chọn ảnh</small>
+                                    <div id="thumbCccdBack"></div>
+                                    <input type="file" id="fileCccdBack" accept="image/*,.pdf" style="display:none;" onchange="handleFileSelectedSide(event, 'cccd', 'back')">
+                                </div>
+                            </div>
+
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label>Số CCCD (id_number)</label>
+                                    <input type="text" id="cccd_so" placeholder="Để trống..." oninput="updateLiveA4Form()">
+                                </div>
+                                <div class="form-group">
+                                    <label>Họ và tên (full_name)</label>
+                                    <input type="text" id="cccd_hoten" placeholder="Để trống..." oninput="updateLiveA4Form()">
+                                </div>
+                                <div class="form-group">
+                                    <label>Ngày sinh (date_of_birth)</label>
+                                    <input type="text" id="cccd_ngaysinh" placeholder="../../...." oninput="updateLiveA4Form()">
+                                </div>
+                                <div class="form-group">
+                                    <label>Cấp ngày (date_of_issue)</label>
+                                    <input type="text" id="cccd_ngaycap" placeholder="../../...." oninput="updateLiveA4Form()">
+                                </div>
+                                <div class="form-group">
+                                    <label>Giới tính (sex)</label>
+                                    <input type="text" id="cccd_gioitinh" placeholder="Để trống..." oninput="updateLiveA4Form()">
+                                </div>
+                                <div class="form-group full-width">
+                                    <label>Quê quán (place_of_origin)</label>
+                                    <input type="text" id="cccd_quequan" placeholder="Để trống..." oninput="updateLiveA4Form()">
+                                </div>
+                                <div class="form-group full-width">
+                                    <label>Nơi thường trú (place_of_residence)</label>
+                                    <input type="text" id="cccd_thuongtru" placeholder="Để trống..." oninput="updateLiveA4Form()">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 2. KHU VỰC QUÉT GIẤY CHỨNG NHẬN (SỔ ĐỎ) 2 MẶT -->
+                        <div class="section-card land-card">
+                            <div class="group-header">
+                                <i class="fa-solid fa-book-atlas"></i>
+                                <div>
+                                    <h3>2. QUÉT GIẤY CHỨNG NHẬN / SỔ ĐỎ (2 MẶT)</h3>
+                                    <span class="group-subtitle">Trích xuất chuẩn cấu trúc Giấy chứng nhận quyền sử dụng đất</span>
+                                </div>
+                            </div>
+
+                            <div class="split-upload-row">
+                                <div class="upload-box-split" id="boxLandFront">
+                                    <i class="fa-solid fa-book"></i>
+                                    <span>Mặt 1 (Trang Bìa)</span>
+                                    <button type="button" class="btn-select-side" onclick="document.getElementById('fileLandFront').click()">
+                                        <i class="fa-solid fa-cloud-arrow-up"></i> Nhập Mặt 1
+                                    </button>
+                                    <small id="statusLandFront">Chưa chọn ảnh</small>
+                                    <div id="thumbLandFront"></div>
+                                    <input type="file" id="fileLandFront" accept="image/*,.pdf" style="display:none;" onchange="handleFileSelectedSide(event, 'land', 'front')">
+                                </div>
+
+                                <div class="upload-box-split" id="boxLandBack">
+                                    <i class="fa-solid fa-map-location-dot"></i>
+                                    <span>Mặt 2 (Thửa Đất & Sơ Đồ)</span>
+                                    <button type="button" class="btn-select-side" onclick="document.getElementById('fileLandBack').click()">
+                                        <i class="fa-solid fa-cloud-arrow-up"></i> Nhập Mặt 2
+                                    </button>
+                                    <small id="statusLandBack">Chưa chọn ảnh</small>
+                                    <div id="thumbLandBack"></div>
+                                    <input type="file" id="fileLandBack" accept="image/*,.pdf" style="display:none;" onchange="handleFileSelectedSide(event, 'land', 'back')">
+                                </div>
+                            </div>
+
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label>Số phát hành GCN (certificate_serial_number)</label>
+                                    <input type="text" id="land_sophathanh" placeholder="Để trống..." oninput="updateLiveA4Form()">
+                                </div>
+                                <div class="form-group">
+                                    <label>Số vào sổ (registration_book_number)</label>
+                                    <input type="text" id="land_sovaoso" placeholder="Để trống..." oninput="updateLiveA4Form()">
+                                </div>
+                                <div class="form-group">
+                                    <label>Ngày cấp GCN (date_of_issue)</label>
+                                    <input type="text" id="land_ngaycap" placeholder="../../...." oninput="updateLiveA4Form()">
+                                </div>
+                                <div class="form-group">
+                                    <label>Nơi cấp GCN (place_of_issue)</label>
+                                    <input type="text" id="land_noicap" placeholder="Chi nhánh VPĐKĐĐ..." oninput="updateLiveA4Form()">
+                                </div>
+                                <div class="form-group full-width">
+                                    <label>Tên chủ sử dụng (owner_name)</label>
+                                    <input type="text" id="land_chu" placeholder="Để trống..." oninput="updateLiveA4Form()">
+                                </div>
+                                <div class="form-group">
+                                    <label>Thửa đất số (parcel_number)</label>
+                                    <input type="text" id="land_thua" placeholder="Để trống..." oninput="updateLiveA4Form()">
+                                </div>
+                                <div class="form-group">
+                                    <label>Tờ bản đồ số (map_sheet_number)</label>
+                                    <input type="text" id="land_tobando" placeholder="Để trống..." oninput="updateLiveA4Form()">
+                                </div>
+                                <div class="form-group full-width">
+                                    <label>Địa chỉ thửa đất (parcel_address)</label>
+                                    <input type="text" id="land_diachi" placeholder="Để trống..." oninput="updateLiveA4Form()">
+                                </div>
+                                <div class="form-group">
+                                    <label>Diện tích m² (area_number)</label>
+                                    <input type="text" id="land_dientich" placeholder="Để trống..." oninput="updateLiveA4Form()">
+                                </div>
+                                <div class="form-group">
+                                    <label>Thời hạn sử dụng (time_of_use)</label>
+                                    <input type="text" id="land_thoihan" placeholder="Lâu dài..." oninput="updateLiveA4Form()">
+                                </div>
+                                <div class="form-group full-width">
+                                    <label>Mục đích sử dụng đất (purpose_of_use)</label>
+                                    <input type="text" id="land_mucdich" placeholder="Để trống..." oninput="updateLiveA4Form()">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Right: Live Editable Blank Form A4 Paper & Export Buttons -->
+                    <div class="ocr-main">
+                        <div class="scanner-animation" id="scannerAnimation">
+                            <p><i class="fa-solid fa-spinner fa-spin"></i> 🔎 Đang bóc tách dữ liệu chuẩn cấu trúc & cập nhật đơn bên cạnh...</p>
+                        </div>
+
+                        <div class="section-card action-card">
+                            <div class="group-header" style="justify-content:space-between;">
+                                <div style="display:flex; align-items:center; gap:10px;">
+                                    <i class="fa-solid fa-file-pen" style="color:#38bdf8; font-size:22px;"></i>
+                                    <div>
+                                        <h3>MẪU ĐƠN CHUẨN QUYẾT ĐỊNH SỐ 2604/QĐ-VP TỈNH THANH HÓA</h3>
+                                        <span class="group-subtitle">Trích xuất đúng 100% phom mẫu chuẩn Phụ lục IV - Quyết định 2604/QĐ-VP ngày 27/7/2026</span>
+                                    </div>
+                                </div>
+                                <div style="display:flex; gap:10px;">
+                                    <select id="selectFormType" onchange="updateLiveA4Form()" style="background:#0f172a; color:#fff; border:1px solid rgba(255,255,255,0.2); padding:8px 12px; border-radius:6px; font-size:13px; max-width:460px;">
+                                        <optgroup label="── CÁC MẪU ĐƠN ĐẤT ĐAI (QĐ 2604/QĐ-VP THANH HÓA) ──">
+                                            <option value="mau_25_qd2604">Mẫu số 25: Đơn đăng ký đất đai, tài sản gắn liền với đất</option>
+                                            <option value="mau_29_qd2604">Mẫu số 29: Đơn đăng ký biến động đất đai, tài sản gắn liền với đất</option>
+                                            <option value="mau_35_qd2604">Mẫu số 35: Đơn đề nghị tách thửa đất, hợp thửa đất</option>
+                                            <option value="mau_09_qd2604">Mẫu số 09: Đơn đề nghị giao đất, cho thuê đất, giao/cho thuê rừng</option>
+                                            <option value="mau_09a_qd2604">Mẫu số 09a: Đơn đề nghị chuyển mục đích sử dụng đất</option>
+                                            <option value="mau_10_qd2604">Mẫu số 10: Đơn đề nghị giao/thuê đất thông qua đấu giá QSDĐ</option>
+                                            <option value="mau_11_qd2604">Mẫu số 11: Văn bản đề nghị miễn, giảm tiền thuê đất, tiền sử dụng đất</option>
+                                            <option value="mau_15_qd2604">Mẫu số 15: Phiếu chuyển thông tin xác định nghĩa vụ tài chính về đất đai</option>
+                                            <option value="mau_16_qd2604">Mẫu số 16: Đơn đề nghị chuyển hình thức sử dụng đất</option>
+                                            <option value="mau_17_qd2604">Mẫu số 17: Đơn đề nghị gia hạn sử dụng đất</option>
+                                            <option value="mau_18_qd2604">Mẫu số 18: Đơn đề nghị điều chỉnh thời hạn sử dụng đất của dự án</option>
+                                            <option value="mau_23_qd2604">Mẫu số 23: Đơn đề nghị điều chỉnh quyết định giao/thuê/chuyển mục đích đất</option>
+                                            <option value="mau_33_qd2604">Mẫu số 33: Đơn đề nghị sử dụng đất kết hợp đa mục đích</option>
+                                            <option value="mau_33a_qd2604">Mẫu số 33a: Đơn đề nghị gia hạn phương án sử dụng đất kết hợp đa mục đích</option>
+                                            <option value="mau_37_qd2604">Mẫu số 37: Hợp đồng thuê đất</option>
+                                        </optgroup>
+                                        <optgroup label="── 3 TỜ KHAI NGHĨA VỤ THUẾ (TT 89/2026/TT-BTC) ──">
+                                            <option value="tk_thue_tncn">Mẫu số: 03/BĐS-TNCN: Tờ khai thuế thu nhập cá nhân chuyển nhượng BĐS</option>
+                                            <option value="tk_phi_nong_nghiep">Mẫu số: 01/TK-SDDPNN: Tờ khai thuế sử dụng đất phi nông nghiệp</option>
+                                            <option value="tk_le_phi_truoc_ba">Mẫu số: 01/LPTB: Tờ khai lệ phí trước bạ nhà, đất</option>
+                                        </optgroup>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="action-buttons" style="margin-top:12px;">
+                                <button class="btn-word" onclick="exportToWord()">
+                                    <i class="fa-solid fa-file-word"></i> Xuất Hồ Sơ Ra Bản Word (.docx)
+                                </button>
+                                <button class="btn-primary" onclick="generateFormA4()">
+                                    <i class="fa-solid fa-qrcode"></i> Tạo Mã QR & In Đơn A4
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Side-by-Side Live Editable Blank A4 Document -->
+                        <div class="section-card output-card" style="flex:1; display:flex; flex-direction:column;">
+                            <div class="group-header" style="justify-content:space-between; margin-bottom:10px;">
+                                <span style="font-size:12px; color:#38bdf8; font-weight:600;"><i class="fa-solid fa-pen-to-square"></i> Văn bản mẫu đơn A4 nguyên bản Obsidian Vault (Giữ nguyên phom mẫu) - Gõ/sửa trực tiếp:</span>
+                                <div id="qrcode"></div>
+                            </div>
+
+                            <textarea id="formOutputText" class="editable-a4-paper" spellcheck="false"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- SUB-WINDOW FLOATING MODAL IMAGE VIEWER -->
+    <div id="imageViewerModal" class="viewer-modal">
+        <div class="viewer-window" id="viewerWindow">
+            <div class="viewer-header" id="viewerHeader">
+                <span class="viewer-title"><i class="fa-solid fa-magnifying-glass-plus"></i> Cửa Sổ Phụ Đối Soát Thông Tin Tài Liệu (Kéo rê & Phóng to)</span>
+                <div class="viewer-controls">
+                    <button class="v-btn" onclick="zoomImage(1.2)" title="Phóng to"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+                    <button class="v-btn" onclick="zoomImage(0.8)" title="Thu nhỏ"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
+                    <button class="v-btn" onclick="resetImageZoom()" title="Đặt lại"><i class="fa-solid fa-rotate-left"></i></button>
+                    <button class="v-btn close-btn" onclick="closeImageViewer()" title="Đóng cửa sổ"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+            </div>
+            <div class="viewer-body" id="viewerBody">
+                <img id="viewerImage" src="" alt="Ảnh tài liệu đối soát" draggable="false">
+            </div>
+        </div>
+    </div>
+
+
+    <script>
 // ============================================================
 // THANH HOA LAND AI v2026 — Application Logic
 // Mobile-First • Touch-Safe • Responsive
@@ -8,6 +450,11 @@ console.log('✅ ThanhHoa Land AI v2026 loaded');
 const API_BASE_URL = (window.location.hostname.includes('github.io') || window.location.hostname.includes('thanhhoalandai') || window.location.protocol === 'https:')
     ? 'https://bot-troly-luat-telegram.onrender.com'
     : '';
+
+// Pre-warm server in background on page load
+if (API_BASE_URL) {
+    fetch(`${API_BASE_URL}/health`).catch(() => {});
+}
 
 // ── Global State ──
 const loadedThumbnails = {
@@ -119,7 +566,13 @@ function sendSampleQuestion(question) {
     if (isMobile() && sidebarOpen) closeSidebar();
 }
 
+// ── Global Multi-Turn Chat History & Session ──
+let chatHistory = [];
+let chatSessionId = 'user_' + Math.random().toString(36).substring(2, 9);
+
 function clearChat() {
+    chatHistory = [];
+    chatSessionId = 'user_' + Math.random().toString(36).substring(2, 9);
     const container = document.getElementById('chatMessages');
     if (!container) return;
     container.innerHTML = `
@@ -128,8 +581,7 @@ function clearChat() {
             <div class="msg-bubble">
                 <div class="msg-title">Xin chào! Tôi là <strong>Trợ lý Pháp Lý Đất Đai ThanhHoa Land AI</strong></div>
                 <p class="msg-subtitle">Phiên bản chính thức 2026</p>
-                <p>Tôi sẵn sàng tư vấn chính xác các thủ tục hành chính đất đai theo <strong>Luật Đất đai 2024</strong>, <strong>Các văn bản pháp luật mới nhất hiện hành</strong>...
-                </div>
+                <p>Tôi sẵn sàng tư vấn chính xác các thủ tục hành chính đất đai theo <strong>Luật Đất đai 2024</strong>, <strong>Các văn bản pháp luật mới nhất hiện hành</strong>...</p>
             </div>
         </div>
     `;
@@ -195,11 +647,31 @@ async function sendMessage() {
     // Dismiss keyboard on mobile
     if (isMobile()) inputEl.blur();
 
+    // Auto pre-warm and retry fetch
+    async function fetchWithRetry(url, options, maxRetries = 2) {
+        for (let attempt = 1; attempt <= maxRetries; attempt++) {
+            try {
+                const res = await fetch(url, options);
+                return res;
+            } catch (e) {
+                if (attempt === maxRetries) throw e;
+                // Update indicator to let user know it's waking up
+                const spinner = typingDiv.querySelector('.msg-bubble p');
+                if (spinner) spinner.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Máy chủ AI đang khởi động lần đầu (~15s), đang thử lại lần ${attempt + 1}...`;
+                await new Promise(r => setTimeout(r, 4000));
+            }
+        }
+    }
+
     try {
-        const response = await fetch(`${API_BASE_URL}/api/chat`, {
+        const response = await fetchWithRetry(`${API_BASE_URL}/api/chat`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ question })
+            body: JSON.stringify({
+                question,
+                history: chatHistory.slice(-8),
+                session_id: chatSessionId
+            })
         });
 
         // Kiểm tra Content-Type trước khi parse — tránh lỗi "Unexpected token '<'"
@@ -219,11 +691,18 @@ async function sendMessage() {
             blockedMsg.className = 'message bot';
             blockedMsg.innerHTML = `
                 <div class="msg-avatar"><i class="fa-solid fa-robot"></i></div>
-                <div class="msg-bubble"><p style="color:#f59e0b;">\u26a0\ufe0f ${data.error || 'Yêu cầu bị từ chối. Vui lòng thử lại sau.'}</p></div>
+                <div class="msg-bubble"><p style="color:#f59e0b;">⚠️ ${data.error || 'Yêu cầu bị từ chối. Vui lòng thử lại sau.'}</p></div>
             `;
             chatContainer.appendChild(blockedMsg);
             chatContainer.scrollTop = chatContainer.scrollHeight;
             return;
+        }
+
+        // Lưu câu hỏi và câu trả lời vào lịch sử hội thoại để tiếp nối ngữ cảnh
+        if (data.answer) {
+            chatHistory.push({ role: 'user', content: question });
+            chatHistory.push({ role: 'assistant', content: data.answer });
+            if (chatHistory.length > 20) chatHistory = chatHistory.slice(-20);
         }
 
         const botMsg = document.createElement('div');
@@ -244,15 +723,61 @@ async function sendMessage() {
         const errorMsg = document.createElement('div');
         errorMsg.className = 'message bot';
         const friendlyMsg = err.message.includes('Failed to fetch')
-            ? 'Không thể kết nối máy chủ. Kiểm tra server đang chạy.'
+            ? 'Máy chủ AI đang khởi động lại. Vui lòng thử bấm gửi lại sau vài giây.'
             : err.message;
         errorMsg.innerHTML = `
             <div class="msg-avatar"><i class="fa-solid fa-robot"></i></div>
-            <div class="msg-bubble"><p style="color:var(--red);">\u26a0\ufe0f ${friendlyMsg}</p></div>
+            <div class="msg-bubble"><p style="color:var(--red);">⚠️ ${friendlyMsg}</p></div>
         `;
         chatContainer.appendChild(errorMsg);
         chatContainer.scrollTop = chatContainer.scrollHeight;
     }
+}
+
+// IMAGE COMPRESSION HELPER (Resize large photos to ~1600px for instant AI processing)
+function compressImageForOcr(file, maxWidth = 1600, quality = 0.85) {
+    return new Promise((resolve) => {
+        if (!file.type || !file.type.startsWith('image/')) {
+            return resolve(file);
+        }
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const img = new Image();
+            img.onload = () => {
+                let w = img.width;
+                let h = img.height;
+                if (w > maxWidth || h > maxWidth) {
+                    if (w > h) {
+                        h = Math.round((h * maxWidth) / w);
+                        w = maxWidth;
+                    } else {
+                        w = Math.round((w * maxWidth) / h);
+                        h = maxWidth;
+                    }
+                }
+                const canvas = document.createElement('canvas');
+                canvas.width = w;
+                canvas.height = h;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, w, h);
+                canvas.toBlob((blob) => {
+                    if (blob) {
+                        const compressedFile = new File([blob], file.name.replace(/\.[^/.]+$/, "") + ".jpg", {
+                            type: 'image/jpeg',
+                            lastModified: Date.now()
+                        });
+                        resolve(compressedFile);
+                    } else {
+                        resolve(file);
+                    }
+                }, 'image/jpeg', quality);
+            };
+            img.onerror = () => resolve(file);
+            img.src = e.target.result;
+        };
+        reader.onerror = () => resolve(file);
+        reader.readAsDataURL(file);
+    });
 }
 
 // TWO-SIDE OCR FILE SELECTION (MẶT 1 VÀ MẶT 2)
@@ -276,9 +801,10 @@ async function handleFileSelectedSide(event, docType, side) {
     const scanner = document.getElementById('scannerAnimation');
     if (scanner) scanner.style.display = 'block';
 
+    const processedFile = await compressImageForOcr(file);
     const formData = new FormData();
     formData.append('doc_type', docType);
-    formData.append('file', file);
+    formData.append('file', processedFile);
 
     try {
         const response = await fetch(`${API_BASE_URL}/api/ocr/scan`, {
@@ -1132,7 +1658,6 @@ function exportToWord() {
     let bodyHtml = "";
 
     if (formType === 'mau_25_qd2604') {
-        // MẪU SỐ 25 CHUẨN 100% Y HỆT ẢNH MẪUmedia_1788077058155.png VÀ PLIV_signed.pdf TRANG 49-51
         bodyHtml = `
         <p class="MsoNormal" style="font-size:11pt; font-weight:bold;">Mẫu số 25. Đơn đăng ký đất đai, tài sản gắn liền với đất</p>
         <div style="text-align:center; font-size:12pt; font-weight:bold; margin-top:6pt;">
@@ -1218,7 +1743,6 @@ function exportToWord() {
         <p class="MsoNormal" style="font-size:9.5pt; line-height:1.25; margin:2pt 0; text-align:justify;">(9) Ghi được Nhà nước giao đất có thu tiền sử dụng đất hoặc giao đất không thu tiền sử dụng đất hoặc cho thuê đất trả tiền một lần cho cả thời gian thuê hoặc cho thuê đất trả tiền thuê đất hằng năm hoặc nhận chuyển quyền (chuyển đổi, chuyển nhượng, thừa kế, tặng cho, góp vốn) hoặc nguồn gốc khác như do ông cha để lại, lấn, chiếm, giao đất không đúng thẩm quyền, khai hoang...</p>
         `;
     } else if (formType === 'mau_29_qd2604') {
-        // MẪU SỐ 29
         bodyHtml = `
         <p class="MsoNormal" style="font-size:11pt; font-weight:bold;">Mẫu số 29. Đơn đăng ký biến động đất đai, tài sản gắn liền với đất</p>
         <div style="text-align:center; font-size:12pt; font-weight:bold; margin-top:6pt;">
@@ -1272,7 +1796,6 @@ function exportToWord() {
         </table>
         `;
     } else if (formType === 'mau_35_qd2604') {
-        // MẪU SỐ 35
         bodyHtml = `
         <p class="MsoNormal" style="font-size:11pt; font-weight:bold;">Mẫu số 35. Đơn đề nghị tách thửa đất, hợp thửa đất</p>
         <div style="text-align:center; font-size:12pt; font-weight:bold; margin-top:6pt;">
@@ -1342,8 +1865,269 @@ function exportToWord() {
             </tr>
         </table>
         `;
+    } else if (formType === 'tk_le_phi_truoc_ba') {
+        bodyHtml = `
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border:none !important; border-collapse:collapse; margin-bottom:10pt; font-family:'Times New Roman', serif;">
+            <tr style="border:none !important;">
+                <td width="45%" style="border:none !important;"></td>
+                <td width="55%" align="right" style="border:none !important;">
+                    <table border="1" cellspacing="0" cellpadding="4" style="border:1px solid #000; border-collapse:collapse; text-align:center; font-family:'Times New Roman', serif; font-size:10pt; width:220pt;">
+                        <tr>
+                            <td style="border:1px solid #000; padding:4pt 6pt; text-align:center;">
+                                <b>Mẫu số: 01/LPTB</b><br>
+                                <i>(Kèm theo Thông tư số 89/2026/TT-BTC<br>
+                                ngày 30 tháng 6 năm 2026 của Bộ trưởng<br>
+                                Bộ Tài chính)</i>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+
+        <div style="text-align:center; font-size:12pt; font-weight:bold; margin-top:4pt;">
+            CỘNG HOÀ XÃ HỘI CHỦ NGHĨA VIỆT NAM<br>
+            <u>Độc lập - Tự do - Hạnh phúc</u>
+        </div>
+
+        <div style="text-align:center; font-size:14pt; font-weight:bold; margin:14pt 0 4pt 0; text-transform:uppercase;">
+            TỜ KHAI LỆ PHÍ TRƯỚC BẠ
+        </div>
+        <div style="text-align:center; font-size:11pt; font-style:italic; margin-bottom:10pt;">
+            (Áp dụng đối với nhà, đất)
+        </div>
+
+        <p class="MsoNormal"><b>[01] Kỳ tính thuế:</b> Theo từng lần phát sinh ngày … tháng … năm ${dateYear}</p>
+        <p class="MsoNormal"><b>[02] Lần đầu:</b> [x] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>[03] Bổ sung lần thứ:</b> ……</p>
+        <p class="MsoNormal">&#9633; Tổ chức, cá nhân được ủy quyền khai thay cho người nộp thuế</p>
+
+        <p class="MsoNormal" style="margin-top:6pt;"><b>[04] Người nộp thuế:</b> ${valHoten}</p>
+        <p class="MsoNormal"><b>[05] Ngày, tháng, năm sinh:</b> ${valNgaySinh}</p>
+        <p class="MsoNormal"><b>[06] Mã số thuế:</b> ......................................................................................................................</p>
+        <p class="MsoNormal"><b>[07] Số định danh cá nhân/Số hộ chiếu:</b> ${valSo}</p>
+        <p class="MsoNormal"><b>[08] Địa chỉ:</b> ${valThuongtru}</p>
+        <p class="MsoNormal"><b>[09] Xã/phường/đặc khu:</b> .................................. <b>[10] Tỉnh/Thành phố:</b> Thanh Hóa</p>
+        <p class="MsoNormal"><b>[11] Điện thoại:</b> ..................... <b>[12] Fax:</b> .................. <b>[13] Email:</b> ..........................................</p>
+        <p class="MsoNormal"><b>[14] Tổ chức, cá nhân cung cấp dịch vụ làm thủ tục về thuế:</b> ......................................................................................</p>
+        <p class="MsoNormal"><b>[15] Mã số thuế:</b> ......................................................................................................................</p>
+        <p class="MsoNormal"><b>[16] Hợp đồng dịch vụ làm thủ tục về thuế:</b> Số:…................................. ngày …...................</p>
+
+        <p class="MsoNormal" style="font-weight:bold; margin-top:8pt;">ĐẶC ĐIỂM NHÀ ĐẤT:</p>
+        <p class="MsoNormal"><b>1. Đất:</b></p>
+        <p class="MsoNormal" style="margin-left:14pt;"><b>1.1. Thửa đất số:</b> ${valThua} ; <b>Tờ bản đồ số:</b> ${valTobando}</p>
+        <p class="MsoNormal" style="margin-left:14pt;"><b>1.2. Địa chỉ thửa đất:</b> ${valDiachi}</p>
+        <p class="MsoNormal" style="margin-left:14pt;"><b>1.3. Vị trí thửa đất:</b> .....................................................................................................................</p>
+        <p class="MsoNormal" style="margin-left:14pt;"><b>1.4. Mục đích sử dụng đất:</b> ${valMucdich}</p>
+        <p class="MsoNormal" style="margin-left:14pt;"><b>1.5. Diện tích:</b> ${valDientich} m<sup>2</sup></p>
+        <p class="MsoNormal" style="margin-left:14pt;"><b>1.6. Nguồn gốc nhà đất:</b> Nhận chuyển nhượng / Cấp Giấy chứng nhận lần đầu</p>
+        <p class="MsoNormal" style="margin-left:14pt;"><b>1.7. Giá trị đất thực tế chuyển giao:</b> .................................................................... đồng</p>
+
+        <p class="MsoNormal"><b>2. Nhà:</b> Cấp nhà: ............... Loại nhà: ...................... Diện tích sàn: .................... m<sup>2</sup></p>
+        <p class="MsoNormal"><b>3. Giá trị nhà, đất thực tế:</b> ......................................................................................... đồng</p>
+        <p class="MsoNormal"><b>4. Tài sản thuộc diện được miễn lệ phí trước bạ (lý do):</b> ...............................................................................................................................................</p>
+
+        <p class="MsoNormal" style="text-indent:24pt; margin-top:8pt; text-align:justify;">Tôi cam đoan số liệu khai trên là đúng và chịu trách nhiệm trước pháp luật về số liệu đã khai./.</p>
+
+        <table class="sign-table" border="0" cellspacing="0" cellpadding="0" style="border:none !important; border-collapse:collapse; width:100%; margin-top:16pt; font-family:'Times New Roman', serif;">
+            <tr style="border:none !important;">
+                <td width="45%" align="center" valign="top" style="border:none !important; background:none !important;">
+                    <p class="MsoNormal" style="font-weight:bold; font-size:10.5pt; text-align:center; margin:0;">NGƯỜI TRỰC TIẾP THỰC HIỆN<br>DỊCH VỤ LÀM THỦ TỤC VỀ THUẾ</p>
+                    <p class="MsoNormal" style="font-size:9.5pt; font-style:italic; text-align:center; margin:2pt 0 45pt 0;">(Ký, ghi rõ họ tên và chứng chỉ NV thuế)</p>
+                </td>
+                <td width="55%" align="center" valign="top" style="border:none !important; background:none !important;">
+                    <p class="MsoNormal" style="font-style:italic; font-size:11pt; text-align:center; margin:0;">${dateStr}</p>
+                    <p class="MsoNormal" style="font-weight:bold; font-size:11.5pt; text-align:center; margin:3pt 0 0 0;">NGƯỜI NỘP THUẾ</p>
+                    <p class="MsoNormal" style="font-size:10pt; font-style:italic; text-align:center; margin:0 0 45pt 0;">(Ký, ghi rõ họ tên hoặc đóng dấu (nếu có))</p>
+                    <p class="MsoNormal" style="font-weight:bold; font-size:12pt; text-align:center; margin:0;">${cleanName !== 'Mau_Don' ? cccdHoten : ''}</p>
+                </td>
+            </tr>
+        </table>
+        `;
+    } else if (formType === 'tk_phi_nong_nghiep') {
+        bodyHtml = `
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border:none !important; border-collapse:collapse; margin-bottom:10pt; font-family:'Times New Roman', serif;">
+            <tr style="border:none !important;">
+                <td width="45%" style="border:none !important;"></td>
+                <td width="55%" align="right" style="border:none !important;">
+                    <table border="1" cellspacing="0" cellpadding="4" style="border:1px solid #000; border-collapse:collapse; text-align:center; font-family:'Times New Roman', serif; font-size:10pt; width:220pt;">
+                        <tr>
+                            <td style="border:1px solid #000; padding:4pt 6pt; text-align:center;">
+                                <b>Mẫu số: 01/TK-SDDPNN</b><br>
+                                <i>(Kèm theo Thông tư số 89/2026/TT-BTC<br>
+                                ngày 30 tháng 6 năm 2026 của Bộ trưởng<br>
+                                Bộ Tài chính)</i>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+
+        <div style="text-align:center; font-size:12pt; font-weight:bold; margin-top:4pt;">
+            CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM<br>
+            <u>Độc lập - Tự do - Hạnh phúc</u>
+        </div>
+
+        <div style="text-align:center; font-size:14pt; font-weight:bold; margin:14pt 0 4pt 0; text-transform:uppercase;">
+            TỜ KHAI THUẾ SỬ DỤNG ĐẤT PHI NÔNG NGHIỆP
+        </div>
+        <div style="text-align:center; font-size:11pt; font-style:italic; margin-bottom:10pt;">
+            (Áp dụng đối với hộ gia đình, cá nhân)
+        </div>
+
+        <p class="MsoNormal"><b>[01] Kỳ tính thuế:</b> Năm ${dateYear}</p>
+        <p class="MsoNormal"><b>[02] Lần đầu:</b> [x] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>[03] Bổ sung lần thứ:</b> ……</p>
+
+        <p class="MsoNormal" style="margin-top:6pt;"><b>1. Người nộp thuế:</b></p>
+        <p class="MsoNormal" style="margin-left:14pt;"><b>[04] Họ và tên:</b> ${valHoten}</p>
+        <p class="MsoNormal" style="margin-left:14pt;"><b>[05] Ngày, tháng, năm sinh:</b> ${valNgaySinh}</p>
+        <p class="MsoNormal" style="margin-left:14pt;"><b>[06] Mã số thuế:</b> .....................................................................................................................</p>
+        <p class="MsoNormal" style="margin-left:14pt;"><b>[07] Số định danh cá nhân/Số hộ chiếu:</b> ${valSo}</p>
+        <p class="MsoNormal" style="margin-left:14pt;"><b>[08] Địa chỉ cư trú:</b> ${valThuongtru}</p>
+        <p class="MsoNormal" style="margin-left:14pt;"><b>[09] Địa chỉ nhận thông báo thuế:</b> ${valThuongtru}</p>
+        <p class="MsoNormal" style="margin-left:14pt;"><b>[10] Điện thoại:</b> ......................................................................................................................</p>
+
+        <p class="MsoNormal" style="margin-top:6pt;"><b>3. Thửa đất chịu thuế:</b></p>
+        <table class="data-table" border="1" cellspacing="0" cellpadding="4" style="border-collapse:collapse; width:100%; font-size:10pt; text-align:center; margin:6pt 0;">
+            <tr style="background:#f2f2f2; font-weight:bold;">
+                <td style="width:10%;">STT</td>
+                <td style="width:40%;">Họ và tên</td>
+                <td style="width:20%;">Mã số thuế</td>
+                <td style="width:20%;">Số ĐDCN/Hộ chiếu</td>
+                <td style="width:10%;">Tỷ lệ</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td style="text-align:left; padding-left:6pt;">${valHoten}</td>
+                <td></td>
+                <td>${valSo}</td>
+                <td>100%</td>
+            </tr>
+        </table>
+
+        <p class="MsoNormal"><b>[15] Nguồn gốc thửa đất:</b> Sử dụng đất ổn định, nhận chuyển nhượng / Cấp Giấy chứng nhận lần đầu</p>
+        <p class="MsoNormal"><b>[16] Địa chỉ thửa đất:</b> ${valDiachi}</p>
+        <p class="MsoNormal"><b>[17] Là thửa đất duy nhất:</b> [x] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>[19] Đã có giấy chứng nhận:</b> [x]</p>
+        <p class="MsoNormal"><b>[19.1] Số giấy chứng nhận:</b> ${valSophathanh} &nbsp;&nbsp;&nbsp;&nbsp; <b>[19.2] Ngày cấp:</b> ${valLandNgayCap}</p>
+        <p class="MsoNormal"><b>[19.3] Thửa đất số:</b> ${valThua} &nbsp;&nbsp;&nbsp;&nbsp; <b>[19.4] Tờ bản đồ số:</b> ${valTobando} &nbsp;&nbsp;&nbsp;&nbsp; <b>[19.5] Diện tích:</b> ${valDientich} m<sup>2</sup></p>
+        <p class="MsoNormal"><b>[19.6] Loại đất/Mục đích sử dụng:</b> ${valMucdich}</p>
+        <p class="MsoNormal"><b>[20.1] Diện tích đất sử dụng đúng mục đích:</b> ${valDientich} m<sup>2</sup></p>
+
+        <p class="MsoNormal" style="text-indent:24pt; margin-top:8pt; text-align:justify;">Tôi cam đoan số liệu khai trên là đúng và chịu trách nhiệm trước pháp luật về số liệu đã khai./.</p>
+
+        <table class="sign-table" border="0" cellspacing="0" cellpadding="0" style="border:none !important; border-collapse:collapse; width:100%; margin-top:16pt; font-family:'Times New Roman', serif;">
+            <tr style="border:none !important;">
+                <td width="45%" align="center" valign="top" style="border:none !important; background:none !important;">
+                    <p class="MsoNormal" style="font-weight:bold; font-size:10.5pt; text-align:center; margin:0;">NGƯỜI TRỰC TIẾP THỰC HIỆN<br>DỊCH VỤ LÀM THỦ TỤC VỀ THUẾ</p>
+                    <p class="MsoNormal" style="font-size:9.5pt; font-style:italic; text-align:center; margin:2pt 0 45pt 0;">(Ký, ghi rõ họ tên và chứng chỉ NV thuế)</p>
+                </td>
+                <td width="55%" align="center" valign="top" style="border:none !important; background:none !important;">
+                    <p class="MsoNormal" style="font-style:italic; font-size:11pt; text-align:center; margin:0;">${dateStr}</p>
+                    <p class="MsoNormal" style="font-weight:bold; font-size:11.5pt; text-align:center; margin:3pt 0 0 0;">NGƯỜI NỘP THUẾ</p>
+                    <p class="MsoNormal" style="font-size:10pt; font-style:italic; text-align:center; margin:0 0 45pt 0;">(Ký, ghi rõ họ tên hoặc đóng dấu (nếu có))</p>
+                    <p class="MsoNormal" style="font-weight:bold; font-size:12pt; text-align:center; margin:0;">${cleanName !== 'Mau_Don' ? cccdHoten : ''}</p>
+                </td>
+            </tr>
+        </table>
+        `;
+    } else if (formType === 'tk_thue_tncn') {
+        bodyHtml = `
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border:none !important; border-collapse:collapse; margin-bottom:10pt; font-family:'Times New Roman', serif;">
+            <tr style="border:none !important;">
+                <td width="45%" style="border:none !important;"></td>
+                <td width="55%" align="right" style="border:none !important;">
+                    <table border="1" cellspacing="0" cellpadding="4" style="border:1px solid #000; border-collapse:collapse; text-align:center; font-family:'Times New Roman', serif; font-size:10pt; width:220pt;">
+                        <tr>
+                            <td style="border:1px solid #000; padding:4pt 6pt; text-align:center;">
+                                <b>Mẫu số: 03/BĐS-TNCN</b><br>
+                                <i>(Kèm theo Thông tư số 89/2026/TT-BTC<br>
+                                ngày 30 tháng 6 năm 2026 của Bộ trưởng<br>
+                                Bộ Tài chính)</i>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+
+        <div style="text-align:center; font-size:12pt; font-weight:bold; margin-top:4pt;">
+            CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM<br>
+            <u>Độc lập - Tự do - Hạnh phúc</u>
+        </div>
+
+        <div style="text-align:center; font-size:14pt; font-weight:bold; margin:14pt 0 4pt 0; text-transform:uppercase;">
+            TỜ KHAI THUẾ THU NHẬP CÁ NHÂN
+        </div>
+        <div style="text-align:center; font-size:11pt; font-style:italic; margin-bottom:10pt;">
+            (Áp dụng đối với cá nhân có thu nhập từ chuyển nhượng bất động sản;<br>
+            thu nhập từ nhận thừa kế và nhận quà tặng là bất động sản)
+        </div>
+
+        <p class="MsoNormal"><b>[01] Kỳ tính thuế:</b> Lần phát sinh: Ngày … tháng … năm ${dateYear}</p>
+        <p class="MsoNormal"><b>[02] Lần đầu:</b> [x] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>[03.1] Bổ sung lần thứ:</b> ……</p>
+
+        <p class="MsoNormal" style="font-weight:bold; margin-top:6pt;">I. THÔNG TIN NGƯỜI CHUYỂN NHƯỢNG, NHẬN THỪA KẾ, QUÀ TẶNG</p>
+        <table class="data-table" border="1" cellspacing="0" cellpadding="4" style="border-collapse:collapse; width:100%; font-size:9.5pt; text-align:center; margin:6pt 0;">
+            <tr style="background:#f2f2f2; font-weight:bold;">
+                <td style="width:6%;">STT</td>
+                <td style="width:30%;">Họ và tên</td>
+                <td style="width:25%;">Mã số thuế/Số ĐDCN</td>
+                <td style="width:15%;">Ngày sinh</td>
+                <td style="width:14%;">Điện thoại</td>
+                <td style="width:10%;">Tỷ lệ (%)</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td style="text-align:left; padding-left:6pt;">${valHoten}</td>
+                <td>${valSo}</td>
+                <td>${valNgaySinh}</td>
+                <td></td>
+                <td>100%</td>
+            </tr>
+        </table>
+
+        <p class="MsoNormal" style="font-weight:bold; margin-top:6pt;">II. THÔNG TIN NGƯỜI NHẬN CHUYỂN NHƯỢNG, NHẬN THỪA KẾ, QUÀ TẶNG</p>
+        <table class="data-table" border="1" cellspacing="0" cellpadding="4" style="border-collapse:collapse; width:100%; font-size:9.5pt; text-align:center; margin:6pt 0;">
+            <tr style="background:#f2f2f2; font-weight:bold;">
+                <td style="width:6%;">STT</td>
+                <td style="width:34%;">Họ và tên</td>
+                <td style="width:28%;">Mã số thuế/Số ĐDCN</td>
+                <td style="width:18%;">Ngày sinh</td>
+                <td style="width:14%;">Tỷ lệ (%)</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>100%</td>
+            </tr>
+        </table>
+
+        <p class="MsoNormal"><b>[12] Loại bất động sản:</b> Quyền sử dụng đất và tài sản gắn liền trên đất [x]</p>
+        <p class="MsoNormal"><b>[16.2] Giấy chứng nhận QSDĐ số:</b> ${valSophathanh} &nbsp;&nbsp;&nbsp;&nbsp; <b>[16.4] Ngày cấp:</b> ${valLandNgayCap}</p>
+        <p class="MsoNormal"><b>[20.1] Thửa đất số:</b> ${valThua} ; <b>[20.2] Tờ bản đồ số:</b> ${valTobando} ; <b>[20.3] Địa chỉ:</b> ${valDiachi}</p>
+        <p class="MsoNormal"><b>[20.6] Loại đất:</b> ${valMucdich} ; <b>Diện tích:</b> ${valDientich} m<sup>2</sup></p>
+        <p class="MsoNormal"><b>[23.1] Thu nhập từ chuyển nhượng bất động sản:</b> [x]</p>
+
+        <p class="MsoNormal" style="text-indent:24pt; margin-top:8pt; text-align:justify;">Tôi cam đoan những nội dung kê khai là đúng và chịu trách nhiệm trước pháp luật về những nội dung đã khai./.</p>
+
+        <table class="sign-table" border="0" cellspacing="0" cellpadding="0" style="border:none !important; border-collapse:collapse; width:100%; margin-top:16pt; font-family:'Times New Roman', serif;">
+            <tr style="border:none !important;">
+                <td width="45%" align="center" valign="top" style="border:none !important; background:none !important;">
+                    <p class="MsoNormal" style="font-weight:bold; font-size:10.5pt; text-align:center; margin:0;">NGƯỜI TRỰC TIẾP THỰC HIỆN<br>DỊCH VỤ LÀM THỦ TỤC VỀ THUẾ</p>
+                    <p class="MsoNormal" style="font-size:9.5pt; font-style:italic; text-align:center; margin:2pt 0 45pt 0;">(Ký, ghi rõ họ tên và chứng chỉ NV thuế)</p>
+                </td>
+                <td width="55%" align="center" valign="top" style="border:none !important; background:none !important;">
+                    <p class="MsoNormal" style="font-style:italic; font-size:11pt; text-align:center; margin:0;">${dateStr}</p>
+                    <p class="MsoNormal" style="font-weight:bold; font-size:11.5pt; text-align:center; margin:3pt 0 0 0;">NGƯỜI NỘP THUẾ</p>
+                    <p class="MsoNormal" style="font-size:10pt; font-style:italic; text-align:center; margin:0 0 45pt 0;">(Ký, ghi rõ họ tên hoặc đóng dấu (nếu có))</p>
+                    <p class="MsoNormal" style="font-weight:bold; font-size:12pt; text-align:center; margin:0;">${cleanName !== 'Mau_Don' ? cccdHoten : ''}</p>
+                </td>
+            </tr>
+        </table>
+        `;
     } else {
-        // TẤT CẢ CÁC MẪU CÒN LẠI (TỜ KHAI THUẾ, ĐƠN GIAO ĐẤT, THUÊ ĐẤT, GIA HẠN...)
         const lines = (document.getElementById('formOutputText')?.value || '').split('\n');
         bodyHtml = "";
         let inTable = false;
@@ -1476,7 +2260,7 @@ function exportToWord() {
         a.click();
         document.body.removeChild(a);
         window.URL.revokeObjectURL(downloadUrl);
-        console.log("✅ Đã xuất file Word chuẩn xác không viền chữ ký:", filename);
+        console.log("✅ Đã xuất file Word chuẩn xác 100%:", filename);
     } catch (err) {
         alert("Lỗi xuất file Word: " + err.message);
     }
@@ -1484,7 +2268,7 @@ function exportToWord() {
 
 function generateFormA4() {
     updateLiveA4Form();
-    alert("🎉 Đơn A4 chuẩn CSDL Obsidian Vault đã hoàn thiện kèm Mã QR! Bạn có thể in đơn hoặc chỉnh sửa trực tiếp.");
+    alert("🎉 Đơn A4 chuẩn mẫu CSDL Obsidian Vault đã hoàn thiện! Bạn có thể chỉnh sửa hoặc xuất file Word.");
 }
 
 // SETUP DRAG AND WHEEL LISTENERS FOR SUB-WINDOW VIEWER & DOM LOAD
@@ -1554,3 +2338,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     updateLiveA4Form();
 });
+
+</script>
+</body>
+</html>
