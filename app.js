@@ -714,7 +714,6 @@ async function requestInstantAiChat(question, history) {
     // 🌟 ƯU TIÊN 1: GOOGLE GEMINI 2.0 / 2.5 FLASH TRỰC TIẾP (3 API KEYS DỰ PHÒNG - PHẢN HỒI 0.5s - 1s)
     // =========================================================================
     const _b64dec = (s) => { try { return atob(s); } catch(e) { return s; } };
-    const _b64dec = (s) => { try { return atob(s); } catch(e) { return s; } };
     const fallbackGeminiKeys = [
         _b64dec("QVEuQWI4Uk42S1l3bjk1MElrclVkeER2UVlmaTQ0UXVVUXBfRlQtNmtHY2Z3TWVrcEd5SkE=")
     ];
