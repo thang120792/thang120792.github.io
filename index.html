@@ -1066,7 +1066,7 @@
                                 <div class="bubble-identicon"><i class="fa-solid fa-robot"></i></div>
                                 <div class="bubble-content-card">
                                     <div style="font-weight:700; font-size:15px; margin-bottom:4px; color:#fff;">Xin chào! Tôi là Trợ lý Pháp Lý Đất Đai ThanhHoa Land AI</div>
-                                    <p style="font-size:12px; color:var(--primary); margin-bottom:8px;">Phiên bản chính thức 2026 • Google Gemini 3.6 Flash</p>
+                                    <p style="font-size:12px; color:var(--primary); margin-bottom:8px;">Phiên bản 2026 • Kết nối trực tiếp 92 Nguồn Tài Liệu Pháp Lý NotebookLM</p>
                                     <p>Tôi sẵn sàng tư vấn chính xác mọi quy định về tách thửa, cấp sổ, sang tên, tính thuế phí theo <strong>Luật Đất đai 2024</strong> và các Quyết định mới nhất của UBND tỉnh Thanh Hóa.</p>
                                 </div>
                             </div>
@@ -1443,9 +1443,39 @@ Theo quy định của Luật Đất đai 2024 và Quyết định của UBND t�
         }
 
         // ── 1. GỌI TRỰC TIẾP AI GATEWAY (ZENMUX + GOOGLE + DỰ PHÒNG CHUYÊN SÂU) ──
-        async function queryDirectAiModels(question, history) {
+async function queryDirectAiModels(question, history) {
             const mathResult = checkSplittingFeasibility(question);
             if (mathResult) return { answer: mathResult, model: "Feasibility Reasoning Engine" };
+
+            // ── ƯU TIÊN HÀNG ĐẦU: TRUY VẤN NOTEBOOKLM (92 NGUỒN TÀI LIỆU ĐẤT ĐAI) ──
+            if (currentNlmUrl) {
+                try {
+                    const ctrl = new AbortController();
+                    const tId = setTimeout(() => ctrl.abort(), 120000);
+                    const nlmRes = await fetch(`${currentNlmUrl}/api/chat`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            message: question,
+                            conversation_id: window.nlmConvId || null
+                        }),
+                        signal: ctrl.signal
+                    });
+                    clearTimeout(tId);
+                    if (nlmRes.ok) {
+                        const nlmData = await nlmRes.json();
+                        if (nlmData.status === 'success' && nlmData.answer) {
+                            window.nlmConvId = nlmData.conversation_id;
+                            return {
+                                answer: nlmData.answer,
+                                model: "Google NotebookLM (92 Nguồn Tài Liệu Pháp Lý)"
+                            };
+                        }
+                    }
+                } catch (nlmErr) {
+                    console.warn("NotebookLM server chưa phản hồi, chuyển sang AI Gateway dự phòng:", nlmErr);
+                }
+            }
 
             const systemPrompt = `Bạn là Trợ lý Pháp Lý Đất Đai ThanhHoa Land AI (phiên bản chính thức 2026), chuyên gia tư vấn pháp luật đất đai tỉnh Thanh Hóa và toàn quốc.
 [QUY TẮC BẮT BUỘC]:
@@ -2088,7 +2118,104 @@ Kính gửi: ${recipientStr}
                 <div class="Section1">
                     ${bodyHtml}
                 </div>
-            </body>
+            
+    <!-- MODAL CẤU HÌNH KẾT NỐI NOTEBOOKLM -->
+    <div id="nlmModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:999999; backdrop-filter:blur(6px); align-items:center; justify-content:center;">
+        <div style="background:#0b1329; border:1px solid rgba(56,189,248,0.3); border-radius:18px; padding:24px; width:450px; max-width:90vw; color:#f8fafc; box-shadow:0 20px 40px rgba(0,0,0,0.8);">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+                <h3 style="font-size:16px; font-weight:700; color:#38bdf8; display:flex; align-items:center; gap:8px;">
+                    <i class="fa-solid fa-server"></i> Kết Nối Máy Chủ NotebookLM
+                </h3>
+                <button type="button" onclick="toggleNlmConfigModal()" style="background:transparent; border:none; color:#94a3b8; font-size:18px; cursor:pointer;">&times;</button>
+            </div>
+            <p style="font-size:13px; color:#94a3b8; margin-bottom:14px; line-height:1.5;">
+                Nhập địa chỉ máy chủ backend đang chạy NotebookLM (92 tài liệu). Nếu chạy trên máy tính hãy chạy <code>run.bat</code> hoặc dùng đường link HTTPS từ Ngrok/Pinggy khi truy cập từ xa.
+            </p>
+            <div style="margin-bottom:14px;">
+                <label style="display:block; font-size:12px; color:#38bdf8; margin-bottom:6px; font-weight:600;">ĐỊA CHỈ BACKEND URL:</label>
+                <input type="text" id="nlmServerInput" placeholder="http://localhost:8000 hoặc https://xxx.a.pinggy.link" style="width:100%; background:rgba(10,18,38,0.9); border:1px solid rgba(56,189,248,0.3); border-radius:10px; padding:10px 14px; color:#fff; font-size:13.5px; outline:none;">
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:20px;">
+                <button type="button" onclick="testAndSaveNlmUrl()" style="background:linear-gradient(135deg, #0284c7, #38bdf8); color:#030712; border:none; padding:9px 18px; border-radius:10px; font-size:13px; font-weight:700; cursor:pointer;">
+                    Kiểm Tra & Lưu
+                </button>
+                <button type="button" onclick="toggleNlmConfigModal()" style="background:rgba(255,255,255,0.08); color:#94a3b8; border:none; padding:9px 16px; border-radius:10px; font-size:13px; cursor:pointer;">
+                    Đóng
+                </button>
+            </div>
+            <div id="nlmTestStatus" style="margin-top:12px; font-size:12px; text-align:center;"></div>
+        </div>
+    </div>
+    
+<script>
+
+        // ── KẾT NỐI MÁY CHỦ NOTEBOOKLM (92 TÀI LIỆU) ──
+        let currentNlmUrl = localStorage.getItem('nlm_server_url') || (window.location.protocol === 'https:' ? '' : 'http://localhost:8000');
+
+        function toggleNlmConfigModal() {
+            const m = document.getElementById('nlmModal');
+            if (!m) return;
+            const isHidden = m.style.display === 'none' || !m.style.display;
+            m.style.display = isHidden ? 'flex' : 'none';
+            if (isHidden) {
+                const input = document.getElementById('nlmServerInput');
+                if (input) input.value = currentNlmUrl;
+                document.getElementById('nlmTestStatus').innerHTML = '';
+            }
+        }
+
+        async function testAndSaveNlmUrl() {
+            const input = document.getElementById('nlmServerInput');
+            const statusDiv = document.getElementById('nlmTestStatus');
+            const url = (input.value || '').trim().replace(/\/+$/, '');
+            if (!url) {
+                statusDiv.innerHTML = '<span style="color:#ef4444;">Vui lòng nhập URL hợp lệ!</span>';
+                return;
+            }
+
+            statusDiv.innerHTML = '<span style="color:#38bdf8;"><i class="fa-solid fa-spinner fa-spin"></i> Đang kiểm tra kết nối...</span>';
+            try {
+                const res = await fetch(`${url}/api/health`, { method: 'GET' });
+                const data = await res.json();
+                if (data.status === 'ok') {
+                    currentNlmUrl = url;
+                    localStorage.setItem('nlm_server_url', url);
+                    statusDiv.innerHTML = '<span style="color:#10b981;">✅ Kết nối thành công tới 92 tài liệu NotebookLM!</span>';
+                    setTimeout(() => { toggleNlmConfigModal(); updateNlmUiBadge(true); }, 1000);
+                } else {
+                    statusDiv.innerHTML = '<span style="color:#ef4444;">⚠️ Máy chủ phản hồi không đúng.</span>';
+                }
+            } catch (e) {
+                statusDiv.innerHTML = `<span style="color:#ef4444;">❌ Không thể kết nối: ${e.message}</span>`;
+            }
+        }
+
+        function updateNlmUiBadge(isOnline) {
+            const badge = document.getElementById('nlmStatusLabel');
+            const dot = document.getElementById('nlmStatusDot');
+            if (badge) {
+                badge.innerText = isOnline ? '92 Tài liệu NotebookLM (Đang kết nối)' : 'AI Gateway Dự phòng (ZenMux)';
+            }
+            if (dot) {
+                dot.style.background = isOnline ? '#10b981' : '#f59e0b';
+            }
+        }
+
+        // Tự động kiểm tra kết nối khi tải trang
+        window.addEventListener('DOMContentLoaded', async () => {
+            if (currentNlmUrl) {
+                try {
+                    const res = await fetch(`${currentNlmUrl}/api/health`);
+                    const data = await res.json();
+                    if (data.status === 'ok') updateNlmUiBadge(true);
+                } catch(e) {
+                    updateNlmUiBadge(false);
+                }
+            }
+        });
+    
+</script>
+</body>
             </html>`;
 
             const blob = new Blob(['\ufeff', fullWordContent], { type: 'application/msword;charset=utf-8' });
@@ -2118,5 +2245,102 @@ Kính gửi: ${recipientStr}
             }
         });
     </script>
+
+    <!-- MODAL CẤU HÌNH KẾT NỐI NOTEBOOKLM -->
+    <div id="nlmModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:999999; backdrop-filter:blur(6px); align-items:center; justify-content:center;">
+        <div style="background:#0b1329; border:1px solid rgba(56,189,248,0.3); border-radius:18px; padding:24px; width:450px; max-width:90vw; color:#f8fafc; box-shadow:0 20px 40px rgba(0,0,0,0.8);">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+                <h3 style="font-size:16px; font-weight:700; color:#38bdf8; display:flex; align-items:center; gap:8px;">
+                    <i class="fa-solid fa-server"></i> Kết Nối Máy Chủ NotebookLM
+                </h3>
+                <button type="button" onclick="toggleNlmConfigModal()" style="background:transparent; border:none; color:#94a3b8; font-size:18px; cursor:pointer;">&times;</button>
+            </div>
+            <p style="font-size:13px; color:#94a3b8; margin-bottom:14px; line-height:1.5;">
+                Nhập địa chỉ máy chủ backend đang chạy NotebookLM (92 tài liệu). Nếu chạy trên máy tính hãy chạy <code>run.bat</code> hoặc dùng đường link HTTPS từ Ngrok/Pinggy khi truy cập từ xa.
+            </p>
+            <div style="margin-bottom:14px;">
+                <label style="display:block; font-size:12px; color:#38bdf8; margin-bottom:6px; font-weight:600;">ĐỊA CHỈ BACKEND URL:</label>
+                <input type="text" id="nlmServerInput" placeholder="http://localhost:8000 hoặc https://xxx.a.pinggy.link" style="width:100%; background:rgba(10,18,38,0.9); border:1px solid rgba(56,189,248,0.3); border-radius:10px; padding:10px 14px; color:#fff; font-size:13.5px; outline:none;">
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:20px;">
+                <button type="button" onclick="testAndSaveNlmUrl()" style="background:linear-gradient(135deg, #0284c7, #38bdf8); color:#030712; border:none; padding:9px 18px; border-radius:10px; font-size:13px; font-weight:700; cursor:pointer;">
+                    Kiểm Tra & Lưu
+                </button>
+                <button type="button" onclick="toggleNlmConfigModal()" style="background:rgba(255,255,255,0.08); color:#94a3b8; border:none; padding:9px 16px; border-radius:10px; font-size:13px; cursor:pointer;">
+                    Đóng
+                </button>
+            </div>
+            <div id="nlmTestStatus" style="margin-top:12px; font-size:12px; text-align:center;"></div>
+        </div>
+    </div>
+    
+<script>
+
+        // ── KẾT NỐI MÁY CHỦ NOTEBOOKLM (92 TÀI LIỆU) ──
+        let currentNlmUrl = localStorage.getItem('nlm_server_url') || (window.location.protocol === 'https:' ? '' : 'http://localhost:8000');
+
+        function toggleNlmConfigModal() {
+            const m = document.getElementById('nlmModal');
+            if (!m) return;
+            const isHidden = m.style.display === 'none' || !m.style.display;
+            m.style.display = isHidden ? 'flex' : 'none';
+            if (isHidden) {
+                const input = document.getElementById('nlmServerInput');
+                if (input) input.value = currentNlmUrl;
+                document.getElementById('nlmTestStatus').innerHTML = '';
+            }
+        }
+
+        async function testAndSaveNlmUrl() {
+            const input = document.getElementById('nlmServerInput');
+            const statusDiv = document.getElementById('nlmTestStatus');
+            const url = (input.value || '').trim().replace(/\/+$/, '');
+            if (!url) {
+                statusDiv.innerHTML = '<span style="color:#ef4444;">Vui lòng nhập URL hợp lệ!</span>';
+                return;
+            }
+
+            statusDiv.innerHTML = '<span style="color:#38bdf8;"><i class="fa-solid fa-spinner fa-spin"></i> Đang kiểm tra kết nối...</span>';
+            try {
+                const res = await fetch(`${url}/api/health`, { method: 'GET' });
+                const data = await res.json();
+                if (data.status === 'ok') {
+                    currentNlmUrl = url;
+                    localStorage.setItem('nlm_server_url', url);
+                    statusDiv.innerHTML = '<span style="color:#10b981;">✅ Kết nối thành công tới 92 tài liệu NotebookLM!</span>';
+                    setTimeout(() => { toggleNlmConfigModal(); updateNlmUiBadge(true); }, 1000);
+                } else {
+                    statusDiv.innerHTML = '<span style="color:#ef4444;">⚠️ Máy chủ phản hồi không đúng.</span>';
+                }
+            } catch (e) {
+                statusDiv.innerHTML = `<span style="color:#ef4444;">❌ Không thể kết nối: ${e.message}</span>`;
+            }
+        }
+
+        function updateNlmUiBadge(isOnline) {
+            const badge = document.getElementById('nlmStatusLabel');
+            const dot = document.getElementById('nlmStatusDot');
+            if (badge) {
+                badge.innerText = isOnline ? '92 Tài liệu NotebookLM (Đang kết nối)' : 'AI Gateway Dự phòng (ZenMux)';
+            }
+            if (dot) {
+                dot.style.background = isOnline ? '#10b981' : '#f59e0b';
+            }
+        }
+
+        // Tự động kiểm tra kết nối khi tải trang
+        window.addEventListener('DOMContentLoaded', async () => {
+            if (currentNlmUrl) {
+                try {
+                    const res = await fetch(`${currentNlmUrl}/api/health`);
+                    const data = await res.json();
+                    if (data.status === 'ok') updateNlmUiBadge(true);
+                } catch(e) {
+                    updateNlmUiBadge(false);
+                }
+            }
+        });
+    
+</script>
 </body>
 </html>
