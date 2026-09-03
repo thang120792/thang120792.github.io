@@ -1055,9 +1055,14 @@
                                 </div>
                             </div>
                             <div>
-                                <button type="button" class="action-round-btn danger" onclick="resetChatStream()" title="Làm mới cuộc trò chuyện">
-                                    <i class="fa-solid fa-trash-can"></i>
-                                </button>
+                                <div style="display:flex; gap:8px;">
+                                    <button type="button" class="action-round-btn" onclick="toggleNlmConfigModal()" title="Cài đặt kết nối máy chủ NotebookLM">
+                                        <i class="fa-solid fa-link"></i>
+                                    </button>
+                                    <button type="button" class="action-round-btn danger" onclick="resetChatStream()" title="Làm mới cuộc trò chuyện">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
 
@@ -2129,11 +2134,11 @@ Kính gửi: ${recipientStr}
                 <button type="button" onclick="toggleNlmConfigModal()" style="background:transparent; border:none; color:#94a3b8; font-size:18px; cursor:pointer;">&times;</button>
             </div>
             <p style="font-size:13px; color:#94a3b8; margin-bottom:14px; line-height:1.5;">
-                Nhập địa chỉ máy chủ backend đang chạy NotebookLM (92 tài liệu). Nếu chạy trên máy tính hãy chạy <code>run.bat</code> hoặc dùng đường link HTTPS từ Ngrok/Pinggy khi truy cập từ xa.
+                Nhập địa chỉ máy chủ backend đang chạy NotebookLM (92 tài liệu). Khi chạy trên máy tính hãy mở <code>tunnel.bat</code> để lấy đường link HTTPS công khai dán vào đây:
             </p>
             <div style="margin-bottom:14px;">
-                <label style="display:block; font-size:12px; color:#38bdf8; margin-bottom:6px; font-weight:600;">ĐỊA CHỈ BACKEND URL:</label>
-                <input type="text" id="nlmServerInput" placeholder="http://localhost:8000 hoặc https://xxx.a.pinggy.link" style="width:100%; background:rgba(10,18,38,0.9); border:1px solid rgba(56,189,248,0.3); border-radius:10px; padding:10px 14px; color:#fff; font-size:13.5px; outline:none;">
+                <label style="display:block; font-size:12px; color:#38bdf8; margin-bottom:6px; font-weight:600;">ĐỊA CHỈ BACKEND URL (HTTPS):</label>
+                <input type="text" id="nlmServerInput" placeholder="https://xxxx.lhr.life" style="width:100%; background:rgba(10,18,38,0.9); border:1px solid rgba(56,189,248,0.3); border-radius:10px; padding:10px 14px; color:#fff; font-size:13.5px; outline:none;">
             </div>
             <div style="display:flex; justify-content:space-between; align-items:center; margin-top:20px;">
                 <button type="button" onclick="testAndSaveNlmUrl()" style="background:linear-gradient(135deg, #0284c7, #38bdf8); color:#030712; border:none; padding:9px 18px; border-radius:10px; font-size:13px; font-weight:700; cursor:pointer;">
@@ -2150,7 +2155,7 @@ Kính gửi: ${recipientStr}
 <script>
 
         // ── KẾT NỐI MÁY CHỦ NOTEBOOKLM (92 TÀI LIỆU) ──
-        let currentNlmUrl = localStorage.getItem('nlm_server_url') || (window.location.protocol === 'https:' ? '' : 'http://localhost:8000');
+        let currentNlmUrl = localStorage.getItem('nlm_server_url') || (window.location.protocol === 'https:' ? 'https://928cbb35a24937.lhr.life' : 'http://localhost:8000');
 
         function toggleNlmConfigModal() {
             const m = document.getElementById('nlmModal');
@@ -2256,11 +2261,11 @@ Kính gửi: ${recipientStr}
                 <button type="button" onclick="toggleNlmConfigModal()" style="background:transparent; border:none; color:#94a3b8; font-size:18px; cursor:pointer;">&times;</button>
             </div>
             <p style="font-size:13px; color:#94a3b8; margin-bottom:14px; line-height:1.5;">
-                Nhập địa chỉ máy chủ backend đang chạy NotebookLM (92 tài liệu). Nếu chạy trên máy tính hãy chạy <code>run.bat</code> hoặc dùng đường link HTTPS từ Ngrok/Pinggy khi truy cập từ xa.
+                Nhập địa chỉ máy chủ backend đang chạy NotebookLM (92 tài liệu). Khi chạy trên máy tính hãy mở <code>tunnel.bat</code> để lấy đường link HTTPS công khai dán vào đây:
             </p>
             <div style="margin-bottom:14px;">
-                <label style="display:block; font-size:12px; color:#38bdf8; margin-bottom:6px; font-weight:600;">ĐỊA CHỈ BACKEND URL:</label>
-                <input type="text" id="nlmServerInput" placeholder="http://localhost:8000 hoặc https://xxx.a.pinggy.link" style="width:100%; background:rgba(10,18,38,0.9); border:1px solid rgba(56,189,248,0.3); border-radius:10px; padding:10px 14px; color:#fff; font-size:13.5px; outline:none;">
+                <label style="display:block; font-size:12px; color:#38bdf8; margin-bottom:6px; font-weight:600;">ĐỊA CHỈ BACKEND URL (HTTPS):</label>
+                <input type="text" id="nlmServerInput" placeholder="https://xxxx.lhr.life" style="width:100%; background:rgba(10,18,38,0.9); border:1px solid rgba(56,189,248,0.3); border-radius:10px; padding:10px 14px; color:#fff; font-size:13.5px; outline:none;">
             </div>
             <div style="display:flex; justify-content:space-between; align-items:center; margin-top:20px;">
                 <button type="button" onclick="testAndSaveNlmUrl()" style="background:linear-gradient(135deg, #0284c7, #38bdf8); color:#030712; border:none; padding:9px 18px; border-radius:10px; font-size:13px; font-weight:700; cursor:pointer;">
@@ -2277,7 +2282,7 @@ Kính gửi: ${recipientStr}
 <script>
 
         // ── KẾT NỐI MÁY CHỦ NOTEBOOKLM (92 TÀI LIỆU) ──
-        let currentNlmUrl = localStorage.getItem('nlm_server_url') || (window.location.protocol === 'https:' ? '' : 'http://localhost:8000');
+        let currentNlmUrl = localStorage.getItem('nlm_server_url') || (window.location.protocol === 'https:' ? 'https://928cbb35a24937.lhr.life' : 'http://localhost:8000');
 
         function toggleNlmConfigModal() {
             const m = document.getElementById('nlmModal');
